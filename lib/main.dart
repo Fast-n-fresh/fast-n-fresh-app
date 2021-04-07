@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/pages/onboarding.dart';
 import 'package:natures_delicacies/pages/splash_screen.dart';
 
 void main() {
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Onboarding(),
+      home: SplashScreen(),
     );
   }
 }
