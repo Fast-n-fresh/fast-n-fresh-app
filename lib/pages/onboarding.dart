@@ -57,7 +57,7 @@ class _OnboardingState extends State<Onboarding> {
                         Text(
                           onboardingContent[i].title,
                           style: TextStyle(
-                            fontSize: 35,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

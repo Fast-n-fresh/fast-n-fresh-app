@@ -234,7 +234,7 @@ class _UserRegisterState extends State<UserRegister> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       PageTransition(
                                         child: UserLogin(),

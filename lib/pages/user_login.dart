@@ -203,7 +203,7 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                       context,
                                       PageTransition(
                                         child: UserRegister(),
