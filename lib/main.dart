@@ -12,7 +12,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Nature\'s Delicacies',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
+        accentColor: Colors.redAccent,
+        buttonColor: Color(0xFFB40284A)
       ),
       home: SplashScreen(),
     );
