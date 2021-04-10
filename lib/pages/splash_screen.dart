@@ -21,16 +21,15 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
             context,
             PageTransition(
-                child: UserLogin(),
-                type: PageTransitionType.bottomToTop,
-                childCurrent: SplashScreen()));
+              child: UserLogin(),
+              type: PageTransitionType.bottomToTop,
+            ));
       } else {
         Navigator.pushReplacement(
           context,
           PageTransition(
             child: Onboarding(),
             type: PageTransitionType.bottomToTop,
-            childCurrent: SplashScreen(),
           ),
         );
       }
@@ -40,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).accentColor,
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,

@@ -239,8 +239,7 @@ class _UserRegisterState extends State<UserRegister> {
                                       PageTransition(
                                         child: UserLogin(),
                                         type: PageTransitionType
-                                            .leftToRightJoined,
-                                        childCurrent: UserRegister(),
+                                            .bottomToTop,
                                       ));
                                 },
                                 child: Text(
