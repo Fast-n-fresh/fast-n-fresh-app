@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:natures_delicacies/models/onboarding_model.dart';
 import 'package:natures_delicacies/pages/user_login.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding extends StatefulWidget {
@@ -102,10 +103,15 @@ class _OnboardingState extends State<Onboarding> {
               ),
               onPressed: () async {
                 if (currentindex == onboardingContent.length - 1) {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   await prefs.setBool('firstTime', false);
                   Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => UserLogin()));
+                      context,
+                      PageTransition(
+                          child: UserLogin(),
+                          type: PageTransitionType.bottomToTop,
+                          childCurrent: Onboarding()));
                 } else {
                   _pageController.nextPage(
                       duration: Duration(milliseconds: 750),

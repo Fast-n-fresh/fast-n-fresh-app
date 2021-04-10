@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:natures_delicacies/pages/onboarding.dart';
 import 'package:natures_delicacies/pages/user_login.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,10 +19,20 @@ class _SplashScreenState extends State<SplashScreen> {
       bool firstTime = prefs.getBool('firstTime');
       if (firstTime == false) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => UserLogin()));
+            context,
+            PageTransition(
+                child: UserLogin(),
+                type: PageTransitionType.bottomToTop,
+                childCurrent: SplashScreen()));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Onboarding()));
+          context,
+          PageTransition(
+            child: Onboarding(),
+            type: PageTransitionType.bottomToTop,
+            childCurrent: SplashScreen(),
+          ),
+        );
       }
     });
   }

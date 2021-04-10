@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/pages/user_register.dart';
+import 'package:natures_delicacies/pages/user_login.dart';
 import 'package:page_transition/page_transition.dart';
 
-class UserLogin extends StatefulWidget {
+class UserRegister extends StatefulWidget {
   @override
-  _UserLoginState createState() => _UserLoginState();
+  _UserRegisterState createState() => _UserRegisterState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _UserRegisterState extends State<UserRegister> {
   bool _isPasswordHidden = true;
+  bool _isConfirmPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class _UserLoginState extends State<UserLogin> {
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),
                 Text(
-                  'Welcome!',
+                  'Register!',
                   style: TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.bold,
@@ -37,7 +37,7 @@ class _UserLoginState extends State<UserLogin> {
                   height: 20,
                 ),
                 Text(
-                  'Login to your account to start shopping',
+                  'Sign up to continue',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -71,7 +71,7 @@ class _UserLoginState extends State<UserLogin> {
                           Padding(
                             padding: EdgeInsets.only(top: 50, bottom: 20),
                             child: Text(
-                              'Login to Continue',
+                              'Create a new account',
                               style: TextStyle(
                                 color: Theme.of(context).buttonColor,
                                 fontSize: 24,
@@ -79,42 +79,16 @@ class _UserLoginState extends State<UserLogin> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Icon(
-                                    Icons.mail,
-                                    size: 20,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Email',
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          buildTextField(context, 'First Name', Icons.account_box,
+                              TextInputType.name),
+                          buildTextField(context, 'Last Name', Icons.account_box,
+                              TextInputType.name),
+                          buildTextField(context, 'Mobile Number', Icons.phone,
+                              TextInputType.phone),
+                          buildTextField(context, 'Username', Icons.person,
+                              TextInputType.name),
+                          buildTextField(context, 'Email', Icons.mail,
+                              TextInputType.emailAddress),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 60,
@@ -174,13 +148,70 @@ class _UserLoginState extends State<UserLogin> {
                             width: MediaQuery.of(context).size.width,
                             height: 60,
                             margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 40),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  child: Icon(
+                                    Icons.lock,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    obscureText: _isConfirmPasswordHidden,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Confirm Password',
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                      suffix: Padding(
+                                        padding: EdgeInsets.only(right: 20),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _isConfirmPasswordHidden = !_isConfirmPasswordHidden;
+                                            });
+                                          },
+                                          child: Icon(
+                                            _isConfirmPasswordHidden
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          buildTextField(context, 'Address', Icons.location_on_rounded,
+                              TextInputType.streetAddress),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
                             child: TextButton(
                               onPressed: () {
-                                //TODO: Login User
+                                //TODO: Register User
                               },
                               child: Text(
-                                'Login',
+                                'Register',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -198,7 +229,7 @@ class _UserLoginState extends State<UserLogin> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Don\'t have an account?',
+                                'Already have an account?',
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextButton(
@@ -206,14 +237,14 @@ class _UserLoginState extends State<UserLogin> {
                                   Navigator.push(
                                       context,
                                       PageTransition(
-                                        child: UserRegister(),
+                                        child: UserLogin(),
                                         type: PageTransitionType
-                                            .rightToLeftJoined,
-                                        childCurrent: UserLogin(),
+                                            .leftToRightJoined,
+                                        childCurrent: UserRegister(),
                                       ));
                                 },
                                 child: Text(
-                                  'REGISTER',
+                                  'LOGIN',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               )
@@ -228,6 +259,47 @@ class _UserLoginState extends State<UserLogin> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Container buildTextField(
+      BuildContext context, String hint, IconData icon, TextInputType type) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 60,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            child: Icon(
+              icon,
+              size: 20,
+              color: Colors.grey,
+            ),
+          ),
+          Expanded(
+            child: TextField(
+
+              keyboardType: type,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: '$hint',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
