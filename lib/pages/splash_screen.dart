@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:natures_delicacies/pages/onboarding.dart';
-import 'package:natures_delicacies/pages/user_login.dart';
+import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
             context,
             PageTransition(
-              child: UserLogin(),
+              child: UserLoginRegister(),
               type: PageTransitionType.bottomToTop,
             ));
       } else {
