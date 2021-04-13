@@ -47,6 +47,9 @@ class _OnboardingState extends State<Onboarding> {
                     padding: const EdgeInsets.all(40),
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                        ),
                         SvgPicture.asset(
                           onboardingContent[i].image,
                           height: 300,
@@ -69,7 +72,7 @@ class _OnboardingState extends State<Onboarding> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.grey[700],
+                            color: Colors.grey,
                           ),
                         ),
                       ],

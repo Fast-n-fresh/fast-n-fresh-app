@@ -12,13 +12,31 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   bool _isLoginPasswordHidden = true;
   bool _isRegisterPasswordHidden = true;
   bool _isRegisterConfirmPasswordHidden = true;
-  double _loginOpacity = 1.0;
-  double _registerOpacity = 0.0;
-  var _loginHeight =
-      window.physicalSize.height * 0.60 / window.devicePixelRatio;
-  var _registerHeight = 0.0;
-  var _loginWidth = window.physicalSize.width / window.devicePixelRatio;
-  var _registerWidth = window.physicalSize.width / window.devicePixelRatio;
+  bool isAdmin = false;
+
+  double _loginOpacity;
+  double _registerOpacity;
+
+  var _loginHeight;
+  var _loginWidth;
+  var _registerHeight;
+  var _registerWidth;
+
+  double screenHeight = window.physicalSize.height / window.devicePixelRatio;
+  double screenWidth = window.physicalSize.width / window.devicePixelRatio;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loginOpacity = 1.0;
+    _registerOpacity = 0.0;
+
+    _loginWidth = screenWidth;
+    _registerWidth = screenWidth;
+    _loginHeight = screenHeight * 0.60;
+    _registerHeight = 0.0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +55,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: screenHeight * 0.1,
                     ),
                     Text(
                       'Welcome!',
@@ -59,7 +77,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: screenHeight * 0.1,
                     ),
                   ],
                 ),
@@ -98,7 +116,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
@@ -134,7 +152,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
@@ -189,8 +207,34 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               ],
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              right: 40,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Admin',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                Checkbox(
+                                  activeColor: Theme.of(context).primaryColor,
+                                  value: isAdmin,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isAdmin = value;
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
@@ -225,16 +269,16 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   setState(() {
                                     _loginHeight = 0.0;
                                     _loginOpacity = 0.0;
-                                    _registerHeight =
-                                        window.physicalSize.height *
-                                            0.60 /
-                                            window.devicePixelRatio;
+                                    _registerHeight = screenHeight * 0.60;
                                     _registerOpacity = 1.0;
                                   });
                                 },
                                 child: Text(
                                   'REGISTER',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               )
                             ],
@@ -255,7 +299,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: screenHeight * 0.1,
                     ),
                     Text(
                       'Register!',
@@ -277,7 +321,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: screenHeight * 0.1,
                     ),
                   ],
                 ),
@@ -315,18 +359,18 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               ),
                             ),
                           ),
-                          buildTextField(context, 'First Name',
-                              Icons.person, TextInputType.name),
-                          buildTextField(context, 'Last Name',
-                              Icons.person, TextInputType.name),
+                          buildTextField(context, 'First Name', Icons.person,
+                              TextInputType.name),
+                          buildTextField(context, 'Last Name', Icons.person,
+                              TextInputType.name),
                           buildTextField(context, 'Mobile Number', Icons.phone,
                               TextInputType.phone),
-                          buildTextField(context, 'Username', Icons.alternate_email,
-                              TextInputType.name),
+                          buildTextField(context, 'Username',
+                              Icons.alternate_email, TextInputType.name),
                           buildTextField(context, 'Email', Icons.mail,
                               TextInputType.emailAddress),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
@@ -382,7 +426,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
@@ -444,7 +488,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               Icons.location_on_rounded,
                               TextInputType.streetAddress),
                           Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
@@ -479,18 +523,22 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   setState(() {
                                     _registerHeight = 0.0;
                                     _registerOpacity = 0.0;
-                                    _loginHeight = window.physicalSize.height *
-                                        0.60 /
-                                        window.devicePixelRatio;
+                                    _loginHeight = screenHeight * 0.60;
                                     _loginOpacity = 1.0;
                                   });
                                 },
                                 child: Text(
                                   'LOGIN',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               )
                             ],
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.05,
                           )
                         ],
                       ),
@@ -508,7 +556,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   Container buildTextField(
       BuildContext context, String hint, IconData icon, TextInputType type) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: screenWidth,
       height: 60,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
       decoration: BoxDecoration(
