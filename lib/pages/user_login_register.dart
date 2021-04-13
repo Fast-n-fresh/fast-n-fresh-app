@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:natures_delicacies/models/user.dart';
+import 'package:natures_delicacies/network/networking.dart';
 
 class UserLoginRegister extends StatefulWidget {
   @override
@@ -24,6 +26,35 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
 
   double screenHeight = window.physicalSize.height / window.devicePixelRatio;
   double screenWidth = window.physicalSize.width / window.devicePixelRatio;
+
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
+  TextEditingController registerFirstNameController = TextEditingController();
+  TextEditingController registerLastNameController = TextEditingController();
+  TextEditingController registerPhoneController = TextEditingController();
+  TextEditingController registerUsernameController = TextEditingController();
+  TextEditingController registerEmailController = TextEditingController();
+  TextEditingController registerPasswordController = TextEditingController();
+  TextEditingController registerConfirmPasswordController =
+      TextEditingController();
+  TextEditingController registerAddressController = TextEditingController();
+
+  NetworkUtils networkUtils = new NetworkUtils();
+
+  @override
+  void dispose() {
+    super.dispose();
+    loginEmailController.dispose();
+    loginPasswordController.dispose();
+    registerFirstNameController.dispose();
+    registerLastNameController.dispose();
+    registerPhoneController.dispose();
+    registerUsernameController.dispose();
+    registerEmailController.dispose();
+    registerPasswordController.dispose();
+    registerConfirmPasswordController.dispose();
+    registerAddressController.dispose();
+  }
 
   @override
   void initState() {
@@ -493,8 +524,46 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
                             child: TextButton(
-                              onPressed: () {
-                                //TODO: Register User
+                              onPressed: () async {
+                                String name;
+                                String address;
+                                String username;
+                                String phone;
+                                String email;
+                                String password;
+                                String conf_password;
+
+                                setState(() {
+                                  String fname =
+                                      registerFirstNameController.text;
+                                  String lname =
+                                      registerLastNameController.text;
+                                  name = fname + lname;
+                                  phone = registerPhoneController.text;
+                                  username = registerUsernameController.text;
+                                  email = registerEmailController.text;
+                                  password = registerPasswordController.text;
+                                  conf_password =
+                                      registerConfirmPasswordController.text;
+                                  address = registerAddressController.text;
+                                });
+
+                                User user = new User(
+                                  username: username,
+                                  name: name,
+                                  address: address,
+                                  email: email,
+                                  password: password,
+                                  phoneNumber: phone,
+                                );
+
+                                await networkUtils
+                                    .registerUser(user)
+                                    .then((value) async {
+                                  if (networkUtils.signUpError == null) {
+                                    print('Successfully Registered');
+                                  }
+                                });
                               },
                               child: Text(
                                 'Register',
