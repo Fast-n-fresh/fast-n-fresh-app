@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:natures_delicacies/models/user.dart';
 import 'package:natures_delicacies/network/networking.dart';
+import 'package:toast/toast.dart';
 
 class UserLoginRegister extends StatefulWidget {
   @override
@@ -170,6 +171,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: loginEmailController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Email',
@@ -207,6 +209,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: loginPasswordController,
                                     obscureText: _isLoginPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -391,15 +394,23 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           buildTextField(context, 'First Name', Icons.person,
-                              TextInputType.name),
+                              TextInputType.name, registerFirstNameController),
                           buildTextField(context, 'Last Name', Icons.person,
-                              TextInputType.name),
+                              TextInputType.name, registerLastNameController),
                           buildTextField(context, 'Mobile Number', Icons.phone,
-                              TextInputType.phone),
-                          buildTextField(context, 'Username',
-                              Icons.alternate_email, TextInputType.name),
-                          buildTextField(context, 'Email', Icons.mail,
-                              TextInputType.emailAddress),
+                              TextInputType.phone, registerPhoneController),
+                          buildTextField(
+                              context,
+                              'Username',
+                              Icons.alternate_email,
+                              TextInputType.name,
+                              registerUsernameController),
+                          buildTextField(
+                              context,
+                              'Email',
+                              Icons.mail,
+                              TextInputType.emailAddress,
+                              registerEmailController),
                           Container(
                             width: screenWidth,
                             height: 60,
@@ -425,6 +436,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: registerPasswordController,
                                     obscureText: _isRegisterPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -481,6 +493,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller:
+                                        registerConfirmPasswordController,
                                     obscureText:
                                         _isRegisterConfirmPasswordHidden,
                                     decoration: InputDecoration(
@@ -517,7 +531,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               context,
                               'Address',
                               Icons.location_on_rounded,
-                              TextInputType.streetAddress),
+                              TextInputType.streetAddress,
+                              registerAddressController),
                           Container(
                             width: screenWidth,
                             height: 60,
@@ -525,6 +540,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 vertical: 20, horizontal: 40),
                             child: TextButton(
                               onPressed: () async {
+                                String fname;
+                                String lname;
                                 String name;
                                 String address;
                                 String username;
@@ -534,11 +551,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 String conf_password;
 
                                 setState(() {
-                                  String fname =
-                                      registerFirstNameController.text;
-                                  String lname =
-                                      registerLastNameController.text;
-                                  name = fname + lname;
+                                  fname = registerFirstNameController.text;
+                                  lname = registerLastNameController.text;
+                                  name = '$fname $lname';
                                   phone = registerPhoneController.text;
                                   username = registerUsernameController.text;
                                   email = registerEmailController.text;
@@ -557,13 +572,58 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   phoneNumber: phone,
                                 );
 
-                                await networkUtils
-                                    .registerUser(user)
-                                    .then((value) async {
-                                  if (networkUtils.signUpError == null) {
-                                    print('Successfully Registered');
-                                  }
-                                });
+                                if (fname.isEmpty ||
+                                    lname.isEmpty ||
+                                    phone.isEmpty ||
+                                    username.isEmpty ||
+                                    password.isEmpty ||
+                                    conf_password.isEmpty ||
+                                    address.isEmpty) {
+                                  Toast.show('Empty fields', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (phone.length != 10 ||
+                                    !isNumeric(phone)) {
+                                  Toast.show('Invalid phone number', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (password.length < 6) {
+                                  Toast.show('Password is too short', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (password != conf_password) {
+                                  Toast.show('Passwords don\'t match', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else {
+                                  await networkUtils
+                                      .registerUser(user)
+                                      .then((value) async {
+                                    if (networkUtils.signUpError == 'null') {
+                                      Toast.show(
+                                          'Registered Successfully', context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+                                    } else {
+                                      Toast.show('${networkUtils.signUpError}',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+                                    }
+                                  });
+                                }
                               },
                               child: Text(
                                 'Register',
@@ -622,8 +682,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     );
   }
 
-  Container buildTextField(
-      BuildContext context, String hint, IconData icon, TextInputType type) {
+  Container buildTextField(BuildContext context, String hint, IconData icon,
+      TextInputType type, TextEditingController controller) {
     return Container(
       width: screenWidth,
       height: 60,
@@ -647,6 +707,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
           ),
           Expanded(
             child: TextField(
+              controller: controller,
               keyboardType: type,
               decoration: InputDecoration(
                 border: InputBorder.none,
@@ -660,5 +721,12 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
         ],
       ),
     );
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return int.parse(s, onError: (e) => null) != null;
   }
 }
