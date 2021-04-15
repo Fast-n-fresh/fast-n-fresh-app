@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         body: Center(
-          child: Text('Home Page'),
+          child: Text(
+            'Home Page',
+            style: GoogleFonts.montserrat(),
+          ),
         ),
       ),
     );

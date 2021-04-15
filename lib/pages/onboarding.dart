@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/onboarding_model.dart';
 import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +59,7 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         Text(
                           onboardingContent[i].title,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),
@@ -69,7 +70,7 @@ class _OnboardingState extends State<Onboarding> {
                         Text(
                           onboardingContent[i].description,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: GoogleFonts.montserrat(
                             fontSize: 18,
                             color: Colors.grey,
                           ),
@@ -99,8 +100,10 @@ class _OnboardingState extends State<Onboarding> {
                 currentindex == onboardingContent.length - 1
                     ? 'Continue'
                     : 'Next',
-                style: TextStyle(
+                style: GoogleFonts.raleway(
                   color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
                 ),
               ),
               onPressed: () async {

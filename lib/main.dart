@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:natures_delicacies/pages/splash_screen.dart';
 
 void main() {
+  //TODO: Add font license
   runApp(MyApp());
 }
 
@@ -12,9 +13,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Nature\'s Delicacies',
       theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.redAccent,
-          buttonColor: Color(0xFFB40284A)
+        primarySwatch: Colors.red,
+        accentColor: Colors.redAccent,
+        buttonColor: Color(0xFFB40284A),
       ),
       home: SplashScreen(),
     );

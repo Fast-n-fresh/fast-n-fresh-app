@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/networking.dart';
@@ -99,7 +100,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                     ),
                     Text(
                       'Welcome!',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -110,10 +111,10 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                     ),
                     Text(
                       'Login to your account to start shopping',
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
-                        color: Colors.grey[200],
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(
@@ -145,7 +146,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       ),
-                      color: Colors.grey[200],
+                      color: Colors.white,
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -156,7 +157,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             padding: EdgeInsets.only(top: 50, bottom: 20),
                             child: Text(
                               'Login to Continue',
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 color: Theme.of(context).buttonColor,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -169,7 +170,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.white,
                               border: Border.all(
                                 color: Colors.grey,
                               ),
@@ -187,11 +188,13 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
                                     controller: loginEmailController,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Email',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.montserrat(
                                         color: Colors.grey,
                                       ),
                                     ),
@@ -206,7 +209,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.white,
                               border: Border.all(
                                 color: Colors.grey,
                               ),
@@ -225,13 +228,15 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
                                     textAlignVertical: TextAlignVertical.center,
                                     controller: loginPasswordController,
                                     obscureText: _isLoginPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Password',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.montserrat(
                                         color: Colors.grey,
                                       ),
                                       suffix: Padding(
@@ -269,7 +274,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   children: [
                                     Text(
                                       'Delivery Boy',
-                                      style: TextStyle(
+                                      style: GoogleFonts.montserrat(
                                         fontSize: 16,
                                         color: Colors.grey[700],
                                       ),
@@ -290,7 +295,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   children: [
                                     Text(
                                       'Admin',
-                                      style: TextStyle(
+                                      style: GoogleFonts.montserrat(
                                         fontSize: 16,
                                         color: Colors.grey[700],
                                       ),
@@ -408,9 +413,10 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               },
                               child: Text(
                                 'Login',
-                                style: TextStyle(
+                                style: GoogleFonts.raleway(
                                   color: Colors.white,
                                   fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                               style: TextButton.styleFrom(
@@ -426,7 +432,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             children: [
                               Text(
                                 'Don\'t have an account?',
-                                style: TextStyle(fontSize: 18),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                ),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -439,9 +447,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 },
                                 child: Text(
                                   'REGISTER',
-                                  style: TextStyle(
+                                  style: GoogleFonts.montserrat(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               )
@@ -467,7 +475,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                     ),
                     Text(
                       'Register!',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -478,10 +486,10 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                     ),
                     Text(
                       'Sign up to continue',
-                      style: TextStyle(
+                      style: GoogleFonts.montserrat(
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
-                        color: Colors.grey[200],
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(
@@ -513,7 +521,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       ),
-                      color: Colors.grey[200],
+                      color: Colors.white,
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -524,38 +532,60 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             padding: EdgeInsets.only(top: 50, bottom: 20),
                             child: Text(
                               'Create a new account',
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 color: Theme.of(context).buttonColor,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          buildTextField(context, 'First Name', Icons.person,
-                              TextInputType.name, registerFirstNameController),
-                          buildTextField(context, 'Last Name', Icons.person,
-                              TextInputType.name, registerLastNameController),
-                          buildTextField(context, 'Mobile Number', Icons.phone,
-                              TextInputType.phone, registerPhoneController),
                           buildTextField(
-                              context,
-                              'Username',
-                              Icons.alternate_email,
-                              TextInputType.name,
-                              registerUsernameController),
+                            context,
+                            'First Name',
+                            Icons.person,
+                            TextInputType.name,
+                            registerFirstNameController,
+                            TextCapitalization.words,
+                          ),
                           buildTextField(
-                              context,
-                              'Email',
-                              Icons.mail,
-                              TextInputType.emailAddress,
-                              registerEmailController),
+                            context,
+                            'Last Name',
+                            Icons.person,
+                            TextInputType.name,
+                            registerLastNameController,
+                            TextCapitalization.words,
+                          ),
+                          buildTextField(
+                            context,
+                            'Mobile Number',
+                            Icons.phone,
+                            TextInputType.phone,
+                            registerPhoneController,
+                            TextCapitalization.none,
+                          ),
+                          buildTextField(
+                            context,
+                            'Username',
+                            Icons.alternate_email,
+                            TextInputType.name,
+                            registerUsernameController,
+                            TextCapitalization.words,
+                          ),
+                          buildTextField(
+                            context,
+                            'Email',
+                            Icons.mail,
+                            TextInputType.emailAddress,
+                            registerEmailController,
+                            TextCapitalization.none,
+                          ),
                           Container(
                             width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.white,
                               border: Border.all(
                                 color: Colors.grey,
                               ),
@@ -574,12 +604,14 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
                                     controller: registerPasswordController,
                                     obscureText: _isRegisterPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Password',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.montserrat(
                                         color: Colors.grey,
                                       ),
                                       suffix: Padding(
@@ -612,7 +644,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             margin: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.white,
                               border: Border.all(
                                 color: Colors.grey,
                               ),
@@ -625,12 +657,14 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   width: 60,
                                   child: Icon(
                                     Icons.lock,
-                                    size: 30,
+                                    size: 20,
                                     color: Colors.grey,
                                   ),
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
                                     controller:
                                         registerConfirmPasswordController,
                                     obscureText:
@@ -638,7 +672,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: 'Confirm Password',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.montserrat(
                                         color: Colors.grey,
                                       ),
                                       suffix: Padding(
@@ -666,11 +700,13 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           buildTextField(
-                              context,
-                              'Address',
-                              Icons.location_on_rounded,
-                              TextInputType.streetAddress,
-                              registerAddressController),
+                            context,
+                            'Address',
+                            Icons.location_on_rounded,
+                            TextInputType.streetAddress,
+                            registerAddressController,
+                            TextCapitalization.sentences,
+                          ),
                           Container(
                             width: screenWidth,
                             height: 60,
@@ -780,8 +816,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               },
                               child: Text(
                                 'Register',
-                                style: TextStyle(
+                                style: GoogleFonts.raleway(
                                   color: Colors.white,
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 16,
                                 ),
                               ),
@@ -798,7 +835,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             children: [
                               Text(
                                 'Already have an account?',
-                                style: TextStyle(fontSize: 18),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                ),
                               ),
                               TextButton(
                                 onPressed: () {
@@ -811,9 +850,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 },
                                 child: Text(
                                   'LOGIN',
-                                  style: TextStyle(
+                                  style: GoogleFonts.montserrat(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               )
@@ -835,14 +874,19 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     );
   }
 
-  Container buildTextField(BuildContext context, String hint, IconData icon,
-      TextInputType type, TextEditingController controller) {
+  Container buildTextField(
+      BuildContext context,
+      String hint,
+      IconData icon,
+      TextInputType type,
+      TextEditingController controller,
+      TextCapitalization caps) {
     return Container(
       width: screenWidth,
       height: 60,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.white,
         border: Border.all(
           color: Colors.grey,
         ),
@@ -860,12 +904,14 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
           ),
           Expanded(
             child: TextField(
+              textCapitalization: caps,
+              style: GoogleFonts.montserrat(),
               controller: controller,
               keyboardType: type,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: '$hint',
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.montserrat(
                   color: Colors.grey,
                 ),
               ),
