@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:natures_delicacies/pages/onboarding.dart';
 import 'package:natures_delicacies/pages/user_login_register.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,26 +13,65 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3), () async {
+    timer = new Timer(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool firstTime = prefs.getBool('firstTime');
-      if (firstTime == false) {
-        Navigator.pushReplacement(
-            context,
-            PageTransition(
-              child: UserLoginRegister(),
-              type: PageTransitionType.bottomToTop,
-            ));
+      bool firstTime = (prefs.getBool('firstTime') ?? true);
+      bool loggedIn = (prefs.getBool('isLoggedIn') ?? false);
+      if (loggedIn) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              animation =
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+              return SlideTransition(
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                    .animate(animation),
+                child: child,
+              );
+            },
+          ),
+        );
+      } else if (firstTime == false) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => UserLoginRegister(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              animation =
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+              return SlideTransition(
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                    .animate(animation),
+                child: child,
+              );
+            },
+          ),
+        );
       } else {
-        Navigator.pushReplacement(
-          context,
-          PageTransition(
-            child: Onboarding(),
-            type: PageTransitionType.bottomToTop,
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => Onboarding(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              animation =
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+              return SlideTransition(
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                    .animate(animation),
+                child: child,
+              );
+            },
           ),
         );
       }

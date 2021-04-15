@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/networking.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+
+import 'home_page.dart';
 
 class UserLoginRegister extends StatefulWidget {
   @override
@@ -17,7 +20,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   bool _isLoginPasswordHidden = true;
   bool _isRegisterPasswordHidden = true;
   bool _isRegisterConfirmPasswordHidden = true;
+
   bool isAdmin = false;
+  bool isDeliveryBoy = false;
 
   double _loginOpacity;
   double _registerOpacity;
@@ -43,6 +48,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   TextEditingController registerAddressController = TextEditingController();
 
   NetworkUtils networkUtils = new NetworkUtils();
+  SharedPreferences prefs;
 
   @override
   void dispose() {
@@ -122,11 +128,19 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
               child: Column(
                 children: [
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(milliseconds: 750),
                     curve: Curves.easeInOut,
                     height: _loginHeight,
                     width: _loginWidth,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x20000000),
+                          spreadRadius: 2,
+                          blurRadius: 4,
+                          offset: Offset(0, -4),
+                        ),
+                      ],
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
@@ -211,6 +225,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textAlignVertical: TextAlignVertical.center,
                                     controller: loginPasswordController,
                                     obscureText: _isLoginPasswordHidden,
                                     decoration: InputDecoration(
@@ -244,28 +259,54 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(
-                              right: 40,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40,
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(
-                                  'Admin',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey[700],
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Delivery Boy',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
+                                      value: isDeliveryBoy,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isDeliveryBoy = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                Checkbox(
-                                  activeColor: Theme.of(context).primaryColor,
-                                  value: isAdmin,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isAdmin = value;
-                                    });
-                                  },
-                                )
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Admin',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    Checkbox(
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
+                                      value: isAdmin,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isAdmin = value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -284,44 +325,85 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   password = loginPasswordController.text;
                                 });
 
-                                UserLogin user = new UserLogin(
-                                  email: email,
-                                  password: password,
-                                );
+                                if (isDeliveryBoy == false &&
+                                    isAdmin == false) {
+                                  UserLogin user = new UserLogin(
+                                    email: email,
+                                    password: password,
+                                  );
 
-                                if (email.isEmpty || password.isEmpty) {
-                                  Toast.show('Empty fields', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else if (!EmailValidator.validate(email)) {
-                                  Toast.show('Invalid Email', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else {
-                                  await networkUtils
-                                      .loginUser(user)
-                                      .then((value) async {
-                                    if (networkUtils.signInError ==
-                                        'no error') {
-                                      Toast.show(
-                                          'Signed In Successfully', context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Colors.grey[700],
-                                          backgroundRadius: 10);
-                                    } else {
-                                      Toast.show('${networkUtils.signInError}',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Colors.grey[700],
-                                          backgroundRadius: 10);
-                                    }
-                                  });
+                                  if (email.isEmpty || password.isEmpty) {
+                                    Toast.show('Empty fields', context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.TOP,
+                                        backgroundColor: Colors.grey[700],
+                                        backgroundRadius: 10);
+                                  } else if (!EmailValidator.validate(email)) {
+                                    Toast.show('Invalid Email', context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.TOP,
+                                        backgroundColor: Colors.grey[700],
+                                        backgroundRadius: 10);
+                                  } else {
+                                    await networkUtils
+                                        .loginUser(user)
+                                        .then((value) async {
+                                      if (networkUtils.signInError ==
+                                          'no error') {
+                                        Toast.show(
+                                            'Signed In Successfully', context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.TOP,
+                                            backgroundColor: Colors.grey[700],
+                                            backgroundRadius: 10);
+                                        prefs = await SharedPreferences
+                                            .getInstance();
+                                        prefs.setBool('isLoggedIn', true);
+                                        Navigator.of(context).pushReplacement(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                HomePage(),
+                                            transitionDuration:
+                                                Duration(milliseconds: 1000),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              animation = CurvedAnimation(
+                                                  parent: animation,
+                                                  curve: Curves.easeInOut);
+                                              return SlideTransition(
+                                                position: Tween(
+                                                        begin: Offset(0.0, 1.0),
+                                                        end: Offset(0.0, 0.0))
+                                                    .animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      } else {
+                                        Toast.show(
+                                            '${networkUtils.signInError}',
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.TOP,
+                                            backgroundColor: Colors.grey[700],
+                                            backgroundRadius: 10);
+                                      }
+                                    });
+                                  }
+                                } else if (isDeliveryBoy == true &&
+                                    isAdmin == true) {
+                                  Toast.show(
+                                    'Cannot be both Admin and Delivery Boy',
+                                    context,
+                                    duration: Toast.LENGTH_LONG,
+                                    backgroundColor: Colors.grey[700],
+                                    backgroundRadius: 10,
+                                    gravity: Toast.TOP,
+                                  );
                                 }
                               },
                               child: Text(
@@ -414,11 +496,19 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
               child: Column(
                 children: [
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(milliseconds: 750),
                     curve: Curves.easeInOut,
                     height: _registerHeight,
                     width: _registerWidth,
                     decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x20000000),
+                          spreadRadius: 2,
+                          blurRadius: 4,
+                          offset: Offset(0, -4),
+                        ),
+                      ],
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
@@ -453,50 +543,12 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               Icons.alternate_email,
                               TextInputType.name,
                               registerUsernameController),
-                          // buildTextField(
-                          //     context,
-                          //     'Email',
-                          //     Icons.mail,
-                          //     TextInputType.emailAddress,
-                          //     registerEmailController),
-                          Container(
-                            width: screenWidth,
-                            height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Icon(
-                                    Icons.email,
-                                    size: 20,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: registerEmailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Email',
-                                      hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          buildTextField(
+                              context,
+                              'Email',
+                              Icons.mail,
+                              TextInputType.emailAddress,
+                              registerEmailController),
                           Container(
                             width: screenWidth,
                             height: 60,
@@ -573,7 +625,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   width: 60,
                                   child: Icon(
                                     Icons.lock,
-                                    size: 20,
+                                    size: 30,
                                     color: Colors.grey,
                                   ),
                                 ),
