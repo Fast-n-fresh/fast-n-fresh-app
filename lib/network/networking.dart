@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:natures_delicacies/constants/consts.dart';
+import 'package:natures_delicacies/constants/paths.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
