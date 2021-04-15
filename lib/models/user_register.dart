@@ -1,4 +1,4 @@
-class User {
+class UserRegister {
   String name;
   String username;
   String email;
@@ -6,7 +6,7 @@ class User {
   String phoneNumber;
   String address;
 
-  User(
+  UserRegister(
       {this.name,
       this.username,
       this.email,
@@ -14,8 +14,8 @@ class User {
       this.phoneNumber,
       this.address});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory UserRegister.fromJson(Map<String, dynamic> json) {
+    return UserRegister(
       name: json['name'],
       username: json['username'],
       email: json['email'],

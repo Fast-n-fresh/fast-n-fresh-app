@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/models/user.dart';
+import 'package:natures_delicacies/models/user_login.dart';
+import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/networking.dart';
 import 'package:toast/toast.dart';
 
@@ -273,8 +275,54 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
                             child: TextButton(
-                              onPressed: () {
-                                //TODO: Login User
+                              onPressed: () async {
+                                String email;
+                                String password;
+
+                                setState(() {
+                                  email = loginEmailController.text;
+                                  password = loginPasswordController.text;
+                                });
+
+                                UserLogin user = new UserLogin(
+                                  email: email,
+                                  password: password,
+                                );
+
+                                if (email.isEmpty || password.isEmpty) {
+                                  Toast.show('Empty fields', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (!EmailValidator.validate(email)) {
+                                  Toast.show('Invalid Email', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else {
+                                  await networkUtils
+                                      .loginUser(user)
+                                      .then((value) async {
+                                    if (networkUtils.signInError ==
+                                        'no error') {
+                                      Toast.show(
+                                          'Signed In Successfully', context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+                                    } else {
+                                      Toast.show('${networkUtils.signInError}',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+                                    }
+                                  });
+                                }
                               },
                               child: Text(
                                 'Login',
@@ -405,12 +453,50 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                               Icons.alternate_email,
                               TextInputType.name,
                               registerUsernameController),
-                          buildTextField(
-                              context,
-                              'Email',
-                              Icons.mail,
-                              TextInputType.emailAddress,
-                              registerEmailController),
+                          // buildTextField(
+                          //     context,
+                          //     'Email',
+                          //     Icons.mail,
+                          //     TextInputType.emailAddress,
+                          //     registerEmailController),
+                          Container(
+                            width: screenWidth,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 40),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 60,
+                                  child: Icon(
+                                    Icons.email,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    controller: registerEmailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Email',
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Container(
                             width: screenWidth,
                             height: 60,
@@ -563,7 +649,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   address = registerAddressController.text;
                                 });
 
-                                User user = new User(
+                                UserRegister user = new UserRegister(
                                   username: username,
                                   name: name,
                                   address: address,
@@ -576,10 +662,17 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     lname.isEmpty ||
                                     phone.isEmpty ||
                                     username.isEmpty ||
+                                    email.isEmpty ||
                                     password.isEmpty ||
                                     conf_password.isEmpty ||
                                     address.isEmpty) {
                                   Toast.show('Empty fields', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (!EmailValidator.validate(email)) {
+                                  Toast.show('Invalid Email', context,
                                       duration: Toast.LENGTH_LONG,
                                       gravity: Toast.TOP,
                                       backgroundColor: Colors.grey[700],
@@ -607,13 +700,21 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   await networkUtils
                                       .registerUser(user)
                                       .then((value) async {
-                                    if (networkUtils.signUpError == 'null') {
+                                    if (networkUtils.signUpError ==
+                                        'no error') {
                                       Toast.show(
                                           'Registered Successfully', context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.TOP,
                                           backgroundColor: Colors.grey[700],
                                           backgroundRadius: 10);
+
+                                      setState(() {
+                                        _registerHeight = 0.0;
+                                        _registerOpacity = 0.0;
+                                        _loginHeight = screenHeight * 0.60;
+                                        _loginOpacity = 1.0;
+                                      });
                                     } else {
                                       Toast.show('${networkUtils.signUpError}',
                                           context,
