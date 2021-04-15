@@ -88,6 +88,412 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
           fit: StackFit.expand,
           children: [
             AnimatedOpacity(
+              opacity: _registerOpacity,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: screenHeight * 0.1,
+                    ),
+                    Text(
+                      'Register!',
+                      style: GoogleFonts.poppins(
+                        fontSize: 48,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Sign up to continue',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenHeight * 0.1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 750),
+                    curve: Curves.easeInOut,
+                    height: _registerHeight,
+                    width: _registerWidth,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x20000000),
+                          spreadRadius: 2,
+                          blurRadius: 4,
+                          offset: Offset(0, -4),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 50, bottom: 20),
+                            child: Text(
+                              'Create a new account',
+                              style: GoogleFonts.poppins(
+                                color: Theme.of(context).buttonColor,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          buildTextField(
+                            context,
+                            'First Name',
+                            Icons.person,
+                            TextInputType.name,
+                            registerFirstNameController,
+                            TextCapitalization.words,
+                          ),
+                          buildTextField(
+                            context,
+                            'Last Name',
+                            Icons.person,
+                            TextInputType.name,
+                            registerLastNameController,
+                            TextCapitalization.words,
+                          ),
+                          buildTextField(
+                            context,
+                            'Mobile Number',
+                            Icons.phone,
+                            TextInputType.phone,
+                            registerPhoneController,
+                            TextCapitalization.none,
+                          ),
+                          buildTextField(
+                            context,
+                            'Username',
+                            Icons.alternate_email,
+                            TextInputType.name,
+                            registerUsernameController,
+                            TextCapitalization.words,
+                          ),
+                          buildTextField(
+                            context,
+                            'Email',
+                            Icons.mail,
+                            TextInputType.emailAddress,
+                            registerEmailController,
+                            TextCapitalization.none,
+                          ),
+                          Container(
+                            width: screenWidth,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 40),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  child: Icon(
+                                    Icons.lock,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
+                                    controller: registerPasswordController,
+                                    obscureText: _isRegisterPasswordHidden,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Password',
+                                      hintStyle: GoogleFonts.montserrat(
+                                        color: Colors.grey,
+                                      ),
+                                      suffix: Padding(
+                                        padding: EdgeInsets.only(right: 20),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _isRegisterPasswordHidden =
+                                              !_isRegisterPasswordHidden;
+                                            });
+                                          },
+                                          child: Icon(
+                                            _isRegisterPasswordHidden
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: screenWidth,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 40),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 60,
+                                  child: Icon(
+                                    Icons.lock,
+                                    size: 20,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TextField(
+                                    textCapitalization: TextCapitalization.none,
+                                    style: GoogleFonts.montserrat(),
+                                    controller:
+                                    registerConfirmPasswordController,
+                                    obscureText:
+                                    _isRegisterConfirmPasswordHidden,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Confirm Password',
+                                      hintStyle: GoogleFonts.montserrat(
+                                        color: Colors.grey,
+                                      ),
+                                      suffix: Padding(
+                                        padding: EdgeInsets.only(right: 20),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _isRegisterConfirmPasswordHidden =
+                                              !_isRegisterConfirmPasswordHidden;
+                                            });
+                                          },
+                                          child: Icon(
+                                            _isRegisterConfirmPasswordHidden
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          buildTextField(
+                            context,
+                            'Address',
+                            Icons.location_on_rounded,
+                            TextInputType.streetAddress,
+                            registerAddressController,
+                            TextCapitalization.sentences,
+                          ),
+                          Container(
+                            width: screenWidth,
+                            height: 60,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 40),
+                            child: TextButton(
+                              onPressed: () async {
+                                String fname;
+                                String lname;
+                                String name;
+                                String address;
+                                String username;
+                                String phone;
+                                String email;
+                                String password;
+                                String conf_password;
+
+                                setState(() {
+                                  fname = registerFirstNameController.text;
+                                  lname = registerLastNameController.text;
+                                  name = '$fname $lname';
+                                  phone = registerPhoneController.text;
+                                  username = registerUsernameController.text;
+                                  email = registerEmailController.text;
+                                  password = registerPasswordController.text;
+                                  conf_password =
+                                      registerConfirmPasswordController.text;
+                                  address = registerAddressController.text;
+                                });
+
+                                UserRegister user = new UserRegister(
+                                  username: username,
+                                  name: name,
+                                  address: address,
+                                  email: email,
+                                  password: password,
+                                  phoneNumber: phone,
+                                );
+
+                                if (fname.isEmpty ||
+                                    lname.isEmpty ||
+                                    phone.isEmpty ||
+                                    username.isEmpty ||
+                                    email.isEmpty ||
+                                    password.isEmpty ||
+                                    conf_password.isEmpty ||
+                                    address.isEmpty) {
+                                  Toast.show('Empty fields', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (!EmailValidator.validate(email)) {
+                                  Toast.show('Invalid Email', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (phone.length != 10 ||
+                                    !isNumeric(phone)) {
+                                  Toast.show('Invalid phone number', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (password.length < 6) {
+                                  Toast.show('Password is too short', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else if (password != conf_password) {
+                                  Toast.show('Passwords don\'t match', context,
+                                      duration: Toast.LENGTH_LONG,
+                                      gravity: Toast.TOP,
+                                      backgroundColor: Colors.grey[700],
+                                      backgroundRadius: 10);
+                                } else {
+                                  await networkUtils
+                                      .registerUser(user)
+                                      .then((value) async {
+                                    if (networkUtils.signUpError ==
+                                        'no error') {
+                                      Toast.show(
+                                          'Registered Successfully', context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+
+                                      setState(() {
+                                        _registerHeight = 0.0;
+                                        _registerOpacity = 0.0;
+                                        _loginHeight = screenHeight * 0.60;
+                                        _loginOpacity = 1.0;
+                                      });
+                                    } else {
+                                      Toast.show('${networkUtils.signUpError}',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Colors.grey[700],
+                                          backgroundRadius: 10);
+                                    }
+                                  });
+                                }
+                              },
+                              child: Text(
+                                'Register',
+                                style: GoogleFonts.raleway(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor: Theme.of(context).buttonColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Already have an account?',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _registerHeight = 0.0;
+                                    _registerOpacity = 0.0;
+                                    _loginHeight = screenHeight * 0.60;
+                                    _loginOpacity = 1.0;
+                                  });
+                                },
+                                child: Text(
+                                  'LOGIN',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: screenHeight * 0.05,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AnimatedOpacity(
               duration: Duration(milliseconds: 500),
               curve: Curves.easeInOut,
               opacity: _loginOpacity,
@@ -454,412 +860,6 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                               )
                             ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            AnimatedOpacity(
-              opacity: _registerOpacity,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: screenHeight * 0.1,
-                    ),
-                    Text(
-                      'Register!',
-                      style: GoogleFonts.poppins(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Sign up to continue',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.1,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Column(
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 750),
-                    curve: Curves.easeInOut,
-                    height: _registerHeight,
-                    width: _registerWidth,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x20000000),
-                          spreadRadius: 2,
-                          blurRadius: 4,
-                          offset: Offset(0, -4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 50, bottom: 20),
-                            child: Text(
-                              'Create a new account',
-                              style: GoogleFonts.poppins(
-                                color: Theme.of(context).buttonColor,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          buildTextField(
-                            context,
-                            'First Name',
-                            Icons.person,
-                            TextInputType.name,
-                            registerFirstNameController,
-                            TextCapitalization.words,
-                          ),
-                          buildTextField(
-                            context,
-                            'Last Name',
-                            Icons.person,
-                            TextInputType.name,
-                            registerLastNameController,
-                            TextCapitalization.words,
-                          ),
-                          buildTextField(
-                            context,
-                            'Mobile Number',
-                            Icons.phone,
-                            TextInputType.phone,
-                            registerPhoneController,
-                            TextCapitalization.none,
-                          ),
-                          buildTextField(
-                            context,
-                            'Username',
-                            Icons.alternate_email,
-                            TextInputType.name,
-                            registerUsernameController,
-                            TextCapitalization.words,
-                          ),
-                          buildTextField(
-                            context,
-                            'Email',
-                            Icons.mail,
-                            TextInputType.emailAddress,
-                            registerEmailController,
-                            TextCapitalization.none,
-                          ),
-                          Container(
-                            width: screenWidth,
-                            height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Icon(
-                                    Icons.lock,
-                                    size: 20,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    textCapitalization: TextCapitalization.none,
-                                    style: GoogleFonts.montserrat(),
-                                    controller: registerPasswordController,
-                                    obscureText: _isRegisterPasswordHidden,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Password',
-                                      hintStyle: GoogleFonts.montserrat(
-                                        color: Colors.grey,
-                                      ),
-                                      suffix: Padding(
-                                        padding: EdgeInsets.only(right: 20),
-                                        child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _isRegisterPasswordHidden =
-                                                  !_isRegisterPasswordHidden;
-                                            });
-                                          },
-                                          child: Icon(
-                                            _isRegisterPasswordHidden
-                                                ? Icons.visibility_off
-                                                : Icons.visibility,
-                                            size: 20,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: screenWidth,
-                            height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 60,
-                                  child: Icon(
-                                    Icons.lock,
-                                    size: 20,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    textCapitalization: TextCapitalization.none,
-                                    style: GoogleFonts.montserrat(),
-                                    controller:
-                                        registerConfirmPasswordController,
-                                    obscureText:
-                                        _isRegisterConfirmPasswordHidden,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'Confirm Password',
-                                      hintStyle: GoogleFonts.montserrat(
-                                        color: Colors.grey,
-                                      ),
-                                      suffix: Padding(
-                                        padding: EdgeInsets.only(right: 20),
-                                        child: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _isRegisterConfirmPasswordHidden =
-                                                  !_isRegisterConfirmPasswordHidden;
-                                            });
-                                          },
-                                          child: Icon(
-                                            _isRegisterConfirmPasswordHidden
-                                                ? Icons.visibility_off
-                                                : Icons.visibility,
-                                            size: 20,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          buildTextField(
-                            context,
-                            'Address',
-                            Icons.location_on_rounded,
-                            TextInputType.streetAddress,
-                            registerAddressController,
-                            TextCapitalization.sentences,
-                          ),
-                          Container(
-                            width: screenWidth,
-                            height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 40),
-                            child: TextButton(
-                              onPressed: () async {
-                                String fname;
-                                String lname;
-                                String name;
-                                String address;
-                                String username;
-                                String phone;
-                                String email;
-                                String password;
-                                String conf_password;
-
-                                setState(() {
-                                  fname = registerFirstNameController.text;
-                                  lname = registerLastNameController.text;
-                                  name = '$fname $lname';
-                                  phone = registerPhoneController.text;
-                                  username = registerUsernameController.text;
-                                  email = registerEmailController.text;
-                                  password = registerPasswordController.text;
-                                  conf_password =
-                                      registerConfirmPasswordController.text;
-                                  address = registerAddressController.text;
-                                });
-
-                                UserRegister user = new UserRegister(
-                                  username: username,
-                                  name: name,
-                                  address: address,
-                                  email: email,
-                                  password: password,
-                                  phoneNumber: phone,
-                                );
-
-                                if (fname.isEmpty ||
-                                    lname.isEmpty ||
-                                    phone.isEmpty ||
-                                    username.isEmpty ||
-                                    email.isEmpty ||
-                                    password.isEmpty ||
-                                    conf_password.isEmpty ||
-                                    address.isEmpty) {
-                                  Toast.show('Empty fields', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else if (!EmailValidator.validate(email)) {
-                                  Toast.show('Invalid Email', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else if (phone.length != 10 ||
-                                    !isNumeric(phone)) {
-                                  Toast.show('Invalid phone number', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else if (password.length < 6) {
-                                  Toast.show('Password is too short', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else if (password != conf_password) {
-                                  Toast.show('Passwords don\'t match', context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Colors.grey[700],
-                                      backgroundRadius: 10);
-                                } else {
-                                  await networkUtils
-                                      .registerUser(user)
-                                      .then((value) async {
-                                    if (networkUtils.signUpError ==
-                                        'no error') {
-                                      Toast.show(
-                                          'Registered Successfully', context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Colors.grey[700],
-                                          backgroundRadius: 10);
-
-                                      setState(() {
-                                        _registerHeight = 0.0;
-                                        _registerOpacity = 0.0;
-                                        _loginHeight = screenHeight * 0.60;
-                                        _loginOpacity = 1.0;
-                                      });
-                                    } else {
-                                      Toast.show('${networkUtils.signUpError}',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Colors.grey[700],
-                                          backgroundRadius: 10);
-                                    }
-                                  });
-                                }
-                              },
-                              child: Text(
-                                'Register',
-                                style: GoogleFonts.raleway(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).buttonColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Already have an account?',
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 18,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _registerHeight = 0.0;
-                                    _registerOpacity = 0.0;
-                                    _loginHeight = screenHeight * 0.60;
-                                    _loginOpacity = 1.0;
-                                  });
-                                },
-                                child: Text(
-                                  'LOGIN',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: screenHeight * 0.05,
                           )
                         ],
                       ),
