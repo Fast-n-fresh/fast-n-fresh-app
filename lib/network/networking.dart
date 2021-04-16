@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:natures_delicacies/consts/paths.dart';
+import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -79,11 +79,9 @@ class NetworkUtils {
       } else if (response.statusCode == 200) {
         print('signed in successfully');
         signInError = 'no error';
-      }
 
-      var extract = json.decode(response.body);
+        var extract = json.decode(response.body);
 
-      if (response.statusCode == 200) {
         name = extract['user']['name'].toString();
         email = extract['user']['email'].toString();
         phone = extract['user']['phoneNumber'].toString();
@@ -94,6 +92,7 @@ class NetworkUtils {
         final prefs = await SharedPreferences.getInstance();
 
         prefs.setString('name', name);
+        print(name);
         prefs.setString('email', email);
         prefs.setString('phoneNumber', phone);
         prefs.setString('address', address);

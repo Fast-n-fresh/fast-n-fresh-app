@@ -1,18 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/pages/onboarding.dart';
-import 'package:natures_delicacies/pages/splash_screen.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:natures_delicacies/pages/user_dashboard.dart';
 
 void main() {
-  //TODO: Add font license
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     ColorScheme colorSchemeLight = new ColorScheme(
       primary: Colors.red,
       primaryVariant: Colors.redAccent,
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
       final license = await rootBundle.loadString('licenses/OFL_Poppins');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
-    
+
     LicenseRegistry.addLicense(() async* {
       final license = await rootBundle.loadString('licenses/OFL_Raleway');
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
@@ -49,11 +48,12 @@ class MyApp extends StatelessWidget {
       title: 'Nature\'s Delicacies',
       theme: ThemeData(
         colorScheme: colorSchemeLight,
+        backgroundColor: colorSchemeLight.background,
         primarySwatch: colorSchemeLight.primary,
         accentColor: colorSchemeLight.primaryVariant,
         buttonColor: colorSchemeLight.secondary,
       ),
-      home: Onboarding(),
+      home: UserDashboard(),
     );
   }
 }

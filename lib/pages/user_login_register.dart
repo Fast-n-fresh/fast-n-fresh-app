@@ -10,7 +10,7 @@ import 'package:natures_delicacies/network/networking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
-import 'home_page.dart';
+import 'user_dashboard.dart';
 
 class UserLoginRegister extends StatefulWidget {
   @override
@@ -25,6 +25,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   bool isAdmin = false;
   bool isDeliveryBoy = false;
 
+  bool isLoginLoading = false;
+  bool isRegisterLoading = false;
+
   double _loginOpacity;
   double _registerOpacity;
 
@@ -35,6 +38,17 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
 
   double screenHeight = window.physicalSize.height / window.devicePixelRatio;
   double screenWidth = window.physicalSize.width / window.devicePixelRatio;
+
+  bool loginEmailValidate = false;
+  bool loginPasswordValidate = false;
+  bool registerFirstNameValidate = false;
+  bool registerLastNameValidate = false;
+  bool registerPhoneValidate = false;
+  bool registerUsernameValidate = false;
+  bool registerEmailValidate = false;
+  bool registerPasswordValidate = false;
+  bool registerConfirmPasswordValidate = false;
+  bool registerAddressValidate = false;
 
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
@@ -172,6 +186,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.name,
                             registerFirstNameController,
                             TextCapitalization.words,
+                            registerFirstNameValidate,
                           ),
                           buildTextField(
                             context,
@@ -180,6 +195,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.name,
                             registerLastNameController,
                             TextCapitalization.words,
+                            registerLastNameValidate,
                           ),
                           buildTextField(
                             context,
@@ -188,6 +204,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.phone,
                             registerPhoneController,
                             TextCapitalization.none,
+                            registerPhoneValidate,
                           ),
                           buildTextField(
                             context,
@@ -196,6 +213,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.name,
                             registerUsernameController,
                             TextCapitalization.words,
+                            registerUsernameValidate,
                           ),
                           buildTextField(
                             context,
@@ -204,6 +222,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.emailAddress,
                             registerEmailController,
                             TextCapitalization.none,
+                            registerEmailValidate,
                           ),
                           Container(
                             width: screenWidth,
@@ -225,7 +244,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -235,6 +255,13 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     controller: registerPasswordController,
                                     obscureText: _isRegisterPasswordHidden,
                                     decoration: InputDecoration(
+                                      errorText: registerPasswordValidate
+                                          ? 'Field can\'t be empty'
+                                          : null,
+                                      errorStyle: GoogleFonts.montserrat(
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
                                       border: InputBorder.none,
                                       hintText: 'Password',
                                       hintStyle: GoogleFonts.montserrat(
@@ -254,7 +281,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                           ),
                                         ),
                                       ),
@@ -284,7 +313,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -296,10 +326,19 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     obscureText:
                                         _isRegisterConfirmPasswordHidden,
                                     decoration: InputDecoration(
+                                      errorText: registerConfirmPasswordValidate
+                                          ? 'Field can\'t be empty'
+                                          : null,
+                                      errorStyle: GoogleFonts.montserrat(
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
                                       border: InputBorder.none,
                                       hintText: 'Confirm Password',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context).colorScheme.onSurface,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
                                       ),
                                       suffix: Padding(
                                         padding: EdgeInsets.only(right: 20),
@@ -315,7 +354,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                           ),
                                         ),
                                       ),
@@ -332,149 +373,220 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             TextInputType.streetAddress,
                             registerAddressController,
                             TextCapitalization.sentences,
+                            registerAddressValidate,
                           ),
                           Container(
                             width: screenWidth,
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
-                            child: TextButton(
-                              onPressed: () async {
-                                String fname;
-                                String lname;
-                                String name;
-                                String address;
-                                String username;
-                                String phone;
-                                String email;
-                                String password;
-                                String conf_password;
-
-                                setState(() {
-                                  fname = registerFirstNameController.text;
-                                  lname = registerLastNameController.text;
-                                  name = '$fname $lname';
-                                  phone = registerPhoneController.text;
-                                  username = registerUsernameController.text;
-                                  email = registerEmailController.text;
-                                  password = registerPasswordController.text;
-                                  conf_password =
-                                      registerConfirmPasswordController.text;
-                                  address = registerAddressController.text;
-                                });
-
-                                UserRegister user = new UserRegister(
-                                  username: username,
-                                  name: name,
-                                  address: address,
-                                  email: email,
-                                  password: password,
-                                  phoneNumber: phone,
-                                );
-
-                                if (fname.isEmpty ||
-                                    lname.isEmpty ||
-                                    phone.isEmpty ||
-                                    username.isEmpty ||
-                                    email.isEmpty ||
-                                    password.isEmpty ||
-                                    conf_password.isEmpty ||
-                                    address.isEmpty) {
-                                  Toast.show(
-                                    'Empty fields',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.TOP,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                  );
-                                } else if (!EmailValidator.validate(email)) {
-                                  Toast.show(
-                                    'Invalid Email',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.TOP,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                  );
-                                } else if (phone.length != 10 ||
-                                    !isNumeric(phone)) {
-                                  Toast.show(
-                                    'Invalid phone number',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.TOP,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                  );
-                                } else if (password.length < 6) {
-                                  Toast.show(
-                                    'Password is too short',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.TOP,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                  );
-                                } else if (password != conf_password) {
-                                  Toast.show(
-                                    'Passwords don\'t match',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.TOP,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                  );
-                                } else {
-                                  await networkUtils
-                                      .registerUser(user)
-                                      .then((value) async {
-                                    if (networkUtils.signUpError ==
-                                        'no error') {
-                                      Toast.show(
-                                        'Registered Successfully',
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.TOP,
-                                        backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                        backgroundRadius: 10,
-                                      );
+                            child: isRegisterLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      valueColor:
+                                          AlwaysStoppedAnimation(Colors.white),
+                                    ),
+                                  )
+                                : TextButton(
+                                    onPressed: () async {
+                                      String fname;
+                                      String lname;
+                                      String name;
+                                      String address;
+                                      String username;
+                                      String phone;
+                                      String email;
+                                      String password;
+                                      String confirmPassword;
 
                                       setState(() {
-                                        _registerHeight = 0.0;
-                                        _registerOpacity = 0.0;
-                                        _loginHeight = screenHeight * 0.60;
-                                        _loginOpacity = 1.0;
+                                        isRegisterLoading = true;
+                                        fname =
+                                            registerFirstNameController.text;
+                                        lname = registerLastNameController.text;
+                                        name = '$fname $lname';
+                                        phone = registerPhoneController.text;
+                                        username =
+                                            registerUsernameController.text;
+                                        email = registerEmailController.text;
+                                        password =
+                                            registerPasswordController.text;
+                                        confirmPassword =
+                                            registerConfirmPasswordController
+                                                .text;
+                                        address =
+                                            registerAddressController.text;
+
+                                        fname.isEmpty
+                                            ? registerFirstNameValidate = true
+                                            : registerFirstNameValidate = false;
+                                        lname.isEmpty
+                                            ? registerLastNameValidate = true
+                                            : registerLastNameValidate = false;
+                                        phone.isEmpty
+                                            ? registerPhoneValidate = true
+                                            : registerPhoneValidate = false;
+                                        email.isEmpty
+                                            ? registerEmailValidate = true
+                                            : registerEmailValidate = false;
+                                        username.isEmpty
+                                            ? registerUsernameValidate = true
+                                            : registerUsernameValidate = false;
+                                        password.isEmpty
+                                            ? registerPasswordValidate = true
+                                            : registerPasswordValidate = false;
+                                        confirmPassword.isEmpty
+                                            ? registerConfirmPasswordValidate =
+                                                true
+                                            : registerConfirmPasswordValidate =
+                                                false;
+                                        address.isEmpty
+                                            ? registerAddressValidate = true
+                                            : registerAddressValidate = false;
                                       });
-                                    } else {
-                                      Toast.show(
-                                        '${networkUtils.signUpError}',
-                                        context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.TOP,
-                                        backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                        backgroundRadius: 10,
+
+                                      UserRegister user = new UserRegister(
+                                        username: username,
+                                        name: name,
+                                        address: address,
+                                        email: email,
+                                        password: password,
+                                        phoneNumber: phone,
                                       );
-                                    }
-                                  });
-                                }
-                              },
-                              child: Text(
-                                'Register',
-                                style: GoogleFonts.raleway(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  letterSpacing: 1.25,
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).buttonColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
+
+                                      if (fname.isEmpty ||
+                                          lname.isEmpty ||
+                                          phone.isEmpty ||
+                                          username.isEmpty ||
+                                          email.isEmpty ||
+                                          password.isEmpty ||
+                                          confirmPassword.isEmpty ||
+                                          address.isEmpty) {
+                                        setState(() {
+                                          isRegisterLoading = false;
+                                        });
+                                        print('Empty Fields');
+                                      } else if (!EmailValidator.validate(
+                                          email)) {
+                                        setState(() {
+                                          isRegisterLoading = false;
+                                        });
+                                        Toast.show(
+                                          'Invalid Email',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          backgroundRadius: 10,
+                                        );
+                                      } else if (phone.length != 10 ||
+                                          !isNumeric(phone)) {
+                                        setState(() {
+                                          isRegisterLoading = false;
+                                        });
+                                        Toast.show(
+                                          'Invalid phone number',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          backgroundRadius: 10,
+                                        );
+                                      } else if (password.length < 6) {
+                                        setState(() {
+                                          isRegisterLoading = false;
+                                        });
+                                        Toast.show(
+                                          'Password is too short',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          backgroundRadius: 10,
+                                        );
+                                      } else if (password != confirmPassword) {
+                                        setState(() {
+                                          isRegisterLoading = false;
+                                        });
+                                        Toast.show(
+                                          'Passwords don\'t match',
+                                          context,
+                                          duration: Toast.LENGTH_LONG,
+                                          gravity: Toast.TOP,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          backgroundRadius: 10,
+                                        );
+                                      } else {
+                                        await networkUtils
+                                            .registerUser(user)
+                                            .then((value) async {
+                                          if (networkUtils.signUpError ==
+                                              'no error') {
+                                            Toast.show(
+                                              'Registered Successfully',
+                                              context,
+                                              duration: Toast.LENGTH_LONG,
+                                              gravity: Toast.TOP,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              backgroundRadius: 10,
+                                            );
+
+                                            setState(() {
+                                              isRegisterLoading = false;
+                                              _registerHeight = 0.0;
+                                              _registerOpacity = 0.0;
+                                              _loginHeight =
+                                                  screenHeight * 0.60;
+                                              _loginOpacity = 1.0;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isRegisterLoading = false;
+                                            });
+                                            Toast.show(
+                                              '${networkUtils.signUpError}',
+                                              context,
+                                              duration: Toast.LENGTH_LONG,
+                                              gravity: Toast.TOP,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              backgroundRadius: 10,
+                                            );
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: Text(
+                                      'Register',
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        letterSpacing: 1.25,
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).buttonColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -611,7 +723,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.mail,
                                     size: 20,
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -623,7 +736,16 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       border: InputBorder.none,
                                       hintText: 'Email',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context).colorScheme.onSurface,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ),
+                                      errorText: loginEmailValidate
+                                          ? 'Field can\'t be empty'
+                                          : null,
+                                      errorStyle: GoogleFonts.montserrat(
+                                        color:
+                                            Theme.of(context).colorScheme.error,
                                       ),
                                     ),
                                   ),
@@ -651,7 +773,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color: Theme.of(context).colorScheme.onSurface,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -663,9 +786,18 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     obscureText: _isLoginPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
+                                      errorText: loginPasswordValidate
+                                          ? 'Field can\'t be empty'
+                                          : null,
+                                      errorStyle: GoogleFonts.montserrat(
+                                        color:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
                                       hintText: 'Password',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context).colorScheme.onSurface,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface,
                                       ),
                                       suffix: Padding(
                                         padding: EdgeInsets.only(right: 20),
@@ -681,7 +813,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                           ),
                                         ),
                                       ),
@@ -704,7 +838,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       'Delivery Boy',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 16,
-                                        color: Theme.of(context).colorScheme.onBackground,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
                                       ),
                                     ),
                                     Checkbox(
@@ -725,7 +861,9 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       'Admin',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 16,
-                                        color: Theme.of(context).colorScheme.onBackground,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
                                       ),
                                     ),
                                     Checkbox(
@@ -748,122 +886,167 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             height: 60,
                             margin: EdgeInsets.symmetric(
                                 vertical: 20, horizontal: 40),
-                            child: TextButton(
-                              onPressed: () async {
-                                String email;
-                                String password;
+                            child: isLoginLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      valueColor:
+                                          AlwaysStoppedAnimation(Colors.white),
+                                    ),
+                                  )
+                                : TextButton(
+                                    onPressed: () async {
+                                      String email;
+                                      String password;
 
-                                setState(() {
-                                  email = loginEmailController.text;
-                                  password = loginPasswordController.text;
-                                });
+                                      setState(() {
+                                        isLoginLoading = true;
+                                        email = loginEmailController.text;
+                                        password = loginPasswordController.text;
 
-                                if (isDeliveryBoy == false &&
-                                    isAdmin == false) {
-                                  UserLogin user = new UserLogin(
-                                    email: email,
-                                    password: password,
-                                  );
+                                        email.isEmpty
+                                            ? loginEmailValidate = true
+                                            : loginEmailValidate = false;
+                                        password.isEmpty
+                                            ? loginPasswordValidate = true
+                                            : loginPasswordValidate = false;
+                                      });
 
-                                  if (email.isEmpty || password.isEmpty) {
-                                    Toast.show(
-                                      'Empty fields',
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                      backgroundRadius: 10,
-                                    );
-                                  } else if (!EmailValidator.validate(email)) {
-                                    Toast.show(
-                                      'Invalid Email',
-                                      context,
-                                      duration: Toast.LENGTH_LONG,
-                                      gravity: Toast.TOP,
-                                      backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                      backgroundRadius: 10,
-                                    );
-                                  } else {
-                                    await networkUtils
-                                        .loginUser(user)
-                                        .then((value) async {
-                                      if (networkUtils.signInError ==
-                                          'no error') {
-                                        Toast.show(
-                                          'Signed In Successfully',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
+                                      if (isDeliveryBoy == false &&
+                                          isAdmin == false) {
+                                        UserLogin user = new UserLogin(
+                                          email: email,
+                                          password: password,
                                         );
-                                        prefs = await SharedPreferences
-                                            .getInstance();
-                                        prefs.setBool('isLoggedIn', true);
-                                        Navigator.of(context).pushReplacement(
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation,
-                                                    secondaryAnimation) =>
-                                                HomePage(),
-                                            transitionDuration:
-                                                Duration(milliseconds: 1000),
-                                            transitionsBuilder: (context,
-                                                animation,
-                                                secondaryAnimation,
-                                                child) {
-                                              animation = CurvedAnimation(
-                                                  parent: animation,
-                                                  curve: Curves.easeInOut);
-                                              return SlideTransition(
-                                                position: Tween(
-                                                        begin: Offset(0.0, 1.0),
-                                                        end: Offset(0.0, 0.0))
-                                                    .animate(animation),
-                                                child: child,
+
+                                        if (email.isEmpty || password.isEmpty) {
+                                          print('Empty Fields');
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                        } else if (!EmailValidator.validate(
+                                            email)) {
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                          Toast.show(
+                                            'Invalid Email',
+                                            context,
+                                            duration: Toast.LENGTH_LONG,
+                                            gravity: Toast.TOP,
+                                            backgroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground,
+                                            backgroundRadius: 10,
+                                          );
+                                        } else {
+                                          await networkUtils
+                                              .loginUser(user)
+                                              .then((value) async {
+                                            if (networkUtils.signInError ==
+                                                'no error') {
+                                              Toast.show(
+                                                'Signed In Successfully',
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.TOP,
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
+                                                backgroundRadius: 10,
                                               );
-                                            },
-                                          ),
-                                        );
-                                      } else {
+                                              prefs = await SharedPreferences
+                                                  .getInstance();
+                                              prefs.setBool('isLoggedIn', true);
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                PageRouteBuilder(
+                                                  pageBuilder: (context,
+                                                          animation,
+                                                          secondaryAnimation) =>
+                                                      UserDashboard(),
+                                                  transitionDuration: Duration(
+                                                      milliseconds: 1000),
+                                                  transitionsBuilder: (context,
+                                                      animation,
+                                                      secondaryAnimation,
+                                                      child) {
+                                                    animation = CurvedAnimation(
+                                                        parent: animation,
+                                                        curve:
+                                                            Curves.easeInOut);
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                              begin: Offset(
+                                                                  0.0, 1.0),
+                                                              end: Offset(
+                                                                  0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+
+                                              Toast.show(
+                                                '${networkUtils.signInError}',
+                                                context,
+                                                duration: Toast.LENGTH_LONG,
+                                                gravity: Toast.TOP,
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground,
+                                                backgroundRadius: 10,
+                                              );
+                                            }
+                                          });
+                                        }
+                                      } else if (isDeliveryBoy == true &&
+                                          isAdmin == true) {
+                                        setState(() {
+                                          isLoginLoading = false;
+                                        });
                                         Toast.show(
-                                          '${networkUtils.signInError}',
+                                          'Cannot be both Admin and Delivery Boy',
                                           context,
                                           duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context).colorScheme.onBackground,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
                                           backgroundRadius: 10,
+                                          gravity: Toast.TOP,
                                         );
                                       }
-                                    });
-                                  }
-                                } else if (isDeliveryBoy == true &&
-                                    isAdmin == true) {
-                                  Toast.show(
-                                    'Cannot be both Admin and Delivery Boy',
-                                    context,
-                                    duration: Toast.LENGTH_LONG,
-                                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                                    backgroundRadius: 10,
-                                    gravity: Toast.TOP,
-                                  );
-                                }
-                              },
-                              child: Text(
-                                'Login',
-                                style: GoogleFonts.raleway(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 1.25,
-                                ),
-                              ),
-                              style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).buttonColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
+                                    },
+                                    child: Text(
+                                      'Login',
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 1.25,
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).buttonColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                  ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -907,12 +1090,14 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   }
 
   Container buildTextField(
-      BuildContext context,
-      String hint,
-      IconData icon,
-      TextInputType type,
-      TextEditingController controller,
-      TextCapitalization caps) {
+    BuildContext context,
+    String hint,
+    IconData icon,
+    TextInputType type,
+    TextEditingController controller,
+    TextCapitalization caps,
+    bool validate,
+  ) {
     return Container(
       width: screenWidth,
       height: 60,
@@ -941,6 +1126,10 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
               controller: controller,
               keyboardType: type,
               decoration: InputDecoration(
+                errorText: validate ? 'Field can\'t be empty' : null,
+                errorStyle: GoogleFonts.montserrat(
+                  color: Theme.of(context).colorScheme.error,
+                ),
                 border: InputBorder.none,
                 hintText: '$hint',
                 hintStyle: GoogleFonts.montserrat(

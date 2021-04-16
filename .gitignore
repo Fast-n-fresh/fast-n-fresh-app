@@ -35,7 +35,7 @@
 lib/generated_plugin_registrant.dart
 
 # Important
-lib/consts/paths.dart
+lib/consts/constants.dart
 lib/licenses
 
 # Symbolication related

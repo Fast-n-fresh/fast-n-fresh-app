@@ -5,7 +5,7 @@ import 'package:natures_delicacies/pages/onboarding.dart';
 import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
+import 'user_dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (loggedIn) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => HomePage(),
+            pageBuilder: (context, animation, secondaryAnimation) => UserDashboard(),
             transitionDuration: Duration(milliseconds: 1000),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
