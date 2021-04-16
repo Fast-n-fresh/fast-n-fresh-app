@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:natures_delicacies/constants/paths.dart';
+import 'package:natures_delicacies/consts/paths.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,8 +26,8 @@ class NetworkUtils {
 
     return await http
         .post(
-      Uri.http(BASE_URL, USER_SIGNUP_URL),
-      // Uri.parse('http://$BASE_URL/$USER_SIGNUP_URL'),
+      Uri.https(BASE_URL, USER_SIGNUP_URL),
+      // Uri.parse('https://$BASE_URL/$USER_SIGNUP_URL'),
       body: jsonEncode(user.toJson()),
       headers: headers,
     )
@@ -70,7 +70,7 @@ class NetworkUtils {
     var headers = {'Content-Type': 'application/json'};
 
     return await http
-        .post(Uri.http(BASE_URL, USER_SIGNIN_URL),
+        .post(Uri.https(BASE_URL, USER_SIGNIN_URL),
             body: jsonEncode(user.toJson()), headers: headers)
         .then((http.Response response) async {
       if (response.statusCode == 401) {

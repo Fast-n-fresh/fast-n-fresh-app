@@ -34,8 +34,9 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
-# Paths
-lib/constants/paths.dart
+# Important
+lib/consts/paths.dart
+lib/licenses
 
 # Symbolication related
 app.*.symbols

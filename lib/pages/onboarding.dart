@@ -46,6 +46,7 @@ class _OnboardingState extends State<Onboarding> {
                   child: Padding(
                     padding: const EdgeInsets.all(40),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
@@ -59,6 +60,7 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         Text(
                           onboardingContent[i].title,
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
@@ -104,6 +106,7 @@ class _OnboardingState extends State<Onboarding> {
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
+                  letterSpacing: 1.25,
                 ),
               ),
               onPressed: () async {
