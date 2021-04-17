@@ -1,19 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/categories_model.dart';
+import 'package:natures_delicacies/models/page_model.dart';
+import 'package:natures_delicacies/models/user_profile_model.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
-
-  @required
-  String name;
-
-  HomePage({this.name});
 }
 
 class _HomePageState extends State<HomePage> {
@@ -51,21 +48,30 @@ class _HomePageState extends State<HomePage> {
                       icon: Icon(Icons.menu),
                       onPressed: () {},
                     ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage('./lib/images/avatar.png'),
-                      radius: 30,
+                    GestureDetector(
+                      onTap: () {
+                        Provider.of<PageModel>(context, listen: false).setCurrentPage(3);
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('./lib/images/avatar.png'),
+                        radius: 30,
+                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
-                child: Text(
-                  'Hi ${widget.name},',
-                  style: GoogleFonts.poppins(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Consumer<UserProfileModel>(
+                  builder: (context, model, child) {
+                    return Text(
+                      'Hi ${model.name}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -80,7 +86,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: screenHeight * 0.025, horizontal: screenWidth * 0.025),
+                padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.025,
+                    horizontal: screenWidth * 0.025),
                 child: Text(
                   'Categories',
                   style: GoogleFonts.poppins(
@@ -161,6 +169,7 @@ List<String> greetings = [
 ];
 
 List<CategoriesModel> categories = [
+  CategoriesModel(imagePath: './lib/images/all.png', title: 'All'),
   CategoriesModel(
       imagePath: './lib/images/vegetables.png', title: 'Vegetables'),
   CategoriesModel(imagePath: './lib/images/fruits.png', title: 'Fruits'),

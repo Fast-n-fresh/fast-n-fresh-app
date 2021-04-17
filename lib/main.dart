@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:natures_delicacies/pages/user_dashboard.dart';
+import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/page_model.dart';
+import 'package:natures_delicacies/models/user_profile_model.dart';
+import 'package:natures_delicacies/pages/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +14,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     ColorScheme colorSchemeLight = new ColorScheme(
       primary: Colors.red,
       primaryVariant: Colors.redAccent,
@@ -43,17 +45,24 @@ class MyApp extends StatelessWidget {
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Nature\'s Delicacies',
-      theme: ThemeData(
-        colorScheme: colorSchemeLight,
-        backgroundColor: colorSchemeLight.background,
-        primarySwatch: colorSchemeLight.primary,
-        accentColor: colorSchemeLight.primaryVariant,
-        buttonColor: colorSchemeLight.secondary,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CartModel()),
+        ChangeNotifierProvider(create: (context) => PageModel()),
+        ChangeNotifierProvider(create: (context) => UserProfileModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Nature\'s Delicacies',
+        theme: ThemeData(
+          colorScheme: colorSchemeLight,
+          backgroundColor: colorSchemeLight.background,
+          primarySwatch: colorSchemeLight.primary,
+          accentColor: colorSchemeLight.primaryVariant,
+          buttonColor: colorSchemeLight.secondary,
+        ),
+        home: SplashScreen(),
       ),
-      home: UserDashboard(),
     );
   }
 }
