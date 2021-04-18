@@ -26,7 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (loggedIn) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => UserDashboard(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                UserDashboard(),
             transitionDuration: Duration(milliseconds: 1000),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
@@ -43,7 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (firstTime == false) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => UserLoginRegister(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                UserLoginRegister(),
             transitionDuration: Duration(milliseconds: 1000),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
@@ -60,7 +62,8 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => Onboarding(),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                Onboarding(),
             transitionDuration: Duration(milliseconds: 1000),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
@@ -83,15 +86,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Center(
-            child: Image.asset(
-              './lib/images/dummy_logo.png',
-              gaplessPlayback: true,
-              fit: BoxFit.fitHeight,
-            ),
+        child: Center(
+          child: Image.asset(
+            './lib/images/logo.jpg',
+            gaplessPlayback: true,
+            fit: BoxFit.fitHeight,
           ),
         ),
       ),

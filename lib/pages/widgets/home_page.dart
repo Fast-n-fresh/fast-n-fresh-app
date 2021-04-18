@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                 child: Consumer<UserProfileModel>(
                   builder: (context, model, child) {
                     return Text(
-                      'Hi ${model.name}',
+                      'Hi ${model.name},',
                       style: GoogleFonts.poppins(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,

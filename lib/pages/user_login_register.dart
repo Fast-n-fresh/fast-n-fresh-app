@@ -187,6 +187,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerFirstNameController,
                             TextCapitalization.words,
                             registerFirstNameValidate,
+                            TextInputAction.next,
                           ),
                           buildTextField(
                             context,
@@ -196,6 +197,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerLastNameController,
                             TextCapitalization.words,
                             registerLastNameValidate,
+                            TextInputAction.next,
                           ),
                           buildTextField(
                             context,
@@ -205,6 +207,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerPhoneController,
                             TextCapitalization.none,
                             registerPhoneValidate,
+                            TextInputAction.next,
                           ),
                           buildTextField(
                             context,
@@ -214,6 +217,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerUsernameController,
                             TextCapitalization.words,
                             registerUsernameValidate,
+                            TextInputAction.next,
                           ),
                           buildTextField(
                             context,
@@ -223,6 +227,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerEmailController,
                             TextCapitalization.none,
                             registerEmailValidate,
+                            TextInputAction.next,
                           ),
                           Container(
                             width: screenWidth,
@@ -250,6 +255,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textInputAction: TextInputAction.next,
                                     textCapitalization: TextCapitalization.none,
                                     style: GoogleFonts.montserrat(),
                                     controller: registerPasswordController,
@@ -319,6 +325,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textInputAction: TextInputAction.next,
                                     textCapitalization: TextCapitalization.none,
                                     style: GoogleFonts.montserrat(),
                                     controller:
@@ -374,6 +381,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                             registerAddressController,
                             TextCapitalization.sentences,
                             registerAddressValidate,
+                            TextInputAction.done,
                           ),
                           Container(
                             width: screenWidth,
@@ -729,6 +737,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textInputAction: TextInputAction.next,
+                                    keyboardType: TextInputType.emailAddress,
                                     textCapitalization: TextCapitalization.none,
                                     style: GoogleFonts.montserrat(),
                                     controller: loginEmailController,
@@ -779,6 +789,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    textInputAction: TextInputAction.done,
                                     textCapitalization: TextCapitalization.none,
                                     style: GoogleFonts.montserrat(),
                                     textAlignVertical: TextAlignVertical.center,
@@ -1097,6 +1108,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     TextEditingController controller,
     TextCapitalization caps,
     bool validate,
+    TextInputAction action,
   ) {
     return Container(
       width: screenWidth,
@@ -1121,6 +1133,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
           ),
           Expanded(
             child: TextField(
+              textInputAction: action,
               textCapitalization: caps,
               style: GoogleFonts.montserrat(),
               controller: controller,

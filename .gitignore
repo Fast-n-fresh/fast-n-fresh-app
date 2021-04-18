@@ -34,9 +34,10 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
-# Important
+# Sensitive
 lib/consts/constants.dart
 lib/licenses
+lib/images/logo.jpg
 
 # Symbolication related
 app.*.symbols
