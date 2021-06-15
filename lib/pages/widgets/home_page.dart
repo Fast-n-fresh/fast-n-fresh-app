@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_item.dart';
+import 'package:natures_delicacies/models/cart_model.dart';
 import 'package:natures_delicacies/models/categories_model.dart';
 import 'package:natures_delicacies/models/page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
@@ -40,8 +41,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -51,12 +51,10 @@ class _HomePageState extends State<HomePage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Provider.of<PageModel>(context, listen: false)
-                                .setCurrentPage(3);
+                            Provider.of<PageModel>(context, listen: false).setCurrentPage(3);
                           },
                           child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage('./lib/images/avatar.png'),
+                            backgroundImage: AssetImage('./lib/images/avatar.png'),
                             radius: 30,
                           ),
                         ),
@@ -64,8 +62,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
                     child: Consumer<UserProfileModel>(
                       builder: (context, model, child) {
                         return Text(
@@ -79,8 +76,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
                     child: Text(
                       'What would you like to order today?',
                       style: GoogleFonts.montserrat(
@@ -92,8 +88,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        vertical: screenHeight * 0.025,
-                        horizontal: screenWidth * 0.025),
+                        vertical: screenHeight * 0.025, horizontal: screenWidth * 0.025),
                     child: Text(
                       'Categories',
                       style: GoogleFonts.poppins(
@@ -141,17 +136,14 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.grey[200],
                                   ),
                                   padding: const EdgeInsets.all(10),
-                                  child:
-                                      Image.asset(categories[index].imagePath),
+                                  child: Image.asset(categories[index].imagePath),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
                                   child: Text(
                                     categories[index].title,
                                     style: GoogleFonts.montserrat(
-                                      color: activeCategory == index
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: activeCategory == index ? Colors.white : Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -177,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                   physics: ScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.7,
                   ),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -213,19 +205,73 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                items[index].name,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 24,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Text(
-                                "\u20B9 " + items[index].price.toString(),
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          items[index].name,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 24,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          "\u20B9 " + items[index].price.toString(),
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.primary,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Center(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          bool flag = false;
+                                          for (int i = 0;
+                                              i <
+                                                  Provider.of<CartModel>(context, listen: false)
+                                                      .getLength();
+                                              i++) {
+                                            if (items[index] ==
+                                                Provider.of<CartModel>(context, listen: false)
+                                                    .getItems()[i]) {
+                                              flag = true;
+                                              Provider.of<CartModel>(context, listen: false)
+                                                  .getItems()[i]
+                                                  .quantity++;
+                                              break;
+                                            }
+                                          }
+                                          if (!flag) {
+                                            Provider.of<CartModel>(context, listen: false)
+                                                .add(items[index]);
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -245,58 +291,16 @@ class _HomePageState extends State<HomePage> {
 
 List<CategoriesModel> categories = [
   CategoriesModel(imagePath: './lib/images/all.png', title: 'All'),
-  CategoriesModel(
-      imagePath: './lib/images/vegetables.png', title: 'Vegetables'),
+  CategoriesModel(imagePath: './lib/images/vegetables.png', title: 'Vegetables'),
   CategoriesModel(imagePath: './lib/images/fruits.png', title: 'Fruits'),
-  CategoriesModel(
-      imagePath: './lib/images/vegetables.png', title: 'Cut Vegetables'),
+  CategoriesModel(imagePath: './lib/images/vegetables.png', title: 'Cut Vegetables'),
   CategoriesModel(imagePath: './lib/images/fruits.png', title: 'Cut Fruits'),
 ];
 
 List<CartItem> items = [
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
-  CartItem(
-      name: "Banana",
-      price: 20.0,
-      quantity: 1,
-      imgUrl: './lib/images/banana.png'),
+  CartItem(name: "Banana", price: 20.0, quantity: 1, imgUrl: './lib/images/banana.png'),
+  CartItem(name: "Apple", price: 20.0, quantity: 1, imgUrl: './lib/images/apple.png'),
+  CartItem(name: "Mango", price: 20.0, quantity: 1, imgUrl: './lib/images/mango.png'),
+  CartItem(name: "Grapes", price: 20.0, quantity: 1, imgUrl: './lib/images/grapes.png'),
+  CartItem(name: "Pear", price: 20.0, quantity: 1, imgUrl: './lib/images/pear.png'),
 ];

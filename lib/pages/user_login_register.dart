@@ -58,8 +58,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   TextEditingController registerUsernameController = TextEditingController();
   TextEditingController registerEmailController = TextEditingController();
   TextEditingController registerPasswordController = TextEditingController();
-  TextEditingController registerConfirmPasswordController =
-      TextEditingController();
+  TextEditingController registerConfirmPasswordController = TextEditingController();
   TextEditingController registerAddressController = TextEditingController();
 
   NetworkUtils networkUtils = new NetworkUtils();
@@ -237,8 +236,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -254,8 +252,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -266,12 +263,10 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     controller: registerPasswordController,
                                     obscureText: _isRegisterPasswordHidden,
                                     decoration: InputDecoration(
-                                      errorText: registerPasswordValidate
-                                          ? 'Field can\'t be empty'
-                                          : null,
+                                      errorText:
+                                          registerPasswordValidate ? 'Field can\'t be empty' : null,
                                       errorStyle: GoogleFonts.montserrat(
-                                        color:
-                                            Theme.of(context).colorScheme.error,
+                                        color: Theme.of(context).colorScheme.error,
                                       ),
                                       border: InputBorder.none,
                                       hintText: 'Password',
@@ -292,9 +287,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -307,8 +300,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -324,8 +316,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -333,24 +324,19 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     textInputAction: TextInputAction.next,
                                     textCapitalization: TextCapitalization.none,
                                     style: GoogleFonts.montserrat(),
-                                    controller:
-                                        registerConfirmPasswordController,
-                                    obscureText:
-                                        _isRegisterConfirmPasswordHidden,
+                                    controller: registerConfirmPasswordController,
+                                    obscureText: _isRegisterConfirmPasswordHidden,
                                     decoration: InputDecoration(
                                       errorText: registerConfirmPasswordValidate
                                           ? 'Field can\'t be empty'
                                           : null,
                                       errorStyle: GoogleFonts.montserrat(
-                                        color:
-                                            Theme.of(context).colorScheme.error,
+                                        color: Theme.of(context).colorScheme.error,
                                       ),
                                       border: InputBorder.none,
                                       hintText: 'Confirm Password',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
                                       suffix: Padding(
                                         padding: EdgeInsets.only(right: 20),
@@ -366,9 +352,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -391,16 +375,12 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                             child: isRegisterLoading
                                 ? Center(
                                     child: CircularProgressIndicator(
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      valueColor:
-                                          AlwaysStoppedAnimation(Colors.white),
+                                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                                      valueColor: AlwaysStoppedAnimation(Colors.white),
                                     ),
                                   )
                                 : TextButton(
@@ -417,21 +397,15 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
 
                                       setState(() {
                                         isRegisterLoading = true;
-                                        fname =
-                                            registerFirstNameController.text;
+                                        fname = registerFirstNameController.text;
                                         lname = registerLastNameController.text;
                                         name = '$fname $lname';
                                         phone = registerPhoneController.text;
-                                        username =
-                                            registerUsernameController.text;
+                                        username = registerUsernameController.text;
                                         email = registerEmailController.text;
-                                        password =
-                                            registerPasswordController.text;
-                                        confirmPassword =
-                                            registerConfirmPasswordController
-                                                .text;
-                                        address =
-                                            registerAddressController.text;
+                                        password = registerPasswordController.text;
+                                        confirmPassword = registerConfirmPasswordController.text;
+                                        address = registerAddressController.text;
 
                                         fname.isEmpty
                                             ? registerFirstNameValidate = true
@@ -452,10 +426,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                             ? registerPasswordValidate = true
                                             : registerPasswordValidate = false;
                                         confirmPassword.isEmpty
-                                            ? registerConfirmPasswordValidate =
-                                                true
-                                            : registerConfirmPasswordValidate =
-                                                false;
+                                            ? registerConfirmPasswordValidate = true
+                                            : registerConfirmPasswordValidate = false;
                                         address.isEmpty
                                             ? registerAddressValidate = true
                                             : registerAddressValidate = false;
@@ -482,8 +454,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           isRegisterLoading = false;
                                         });
                                         print('Empty Fields');
-                                      } else if (!EmailValidator.validate(
-                                          email)) {
+                                      } else if (!EmailValidator.validate(email)) {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
@@ -492,13 +463,11 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
+                                          backgroundColor:
+                                              Theme.of(context).colorScheme.onBackground,
                                           backgroundRadius: 10,
                                         );
-                                      } else if (phone.length != 10 ||
-                                          !isNumeric(phone)) {
+                                      } else if (phone.length != 10 || !isNumeric(phone)) {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
@@ -507,9 +476,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
+                                          backgroundColor:
+                                              Theme.of(context).colorScheme.onBackground,
                                           backgroundRadius: 10,
                                         );
                                       } else if (password.length < 6) {
@@ -521,9 +489,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
+                                          backgroundColor:
+                                              Theme.of(context).colorScheme.onBackground,
                                           backgroundRadius: 10,
                                         );
                                       } else if (password != confirmPassword) {
@@ -535,25 +502,20 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           context,
                                           duration: Toast.LENGTH_LONG,
                                           gravity: Toast.TOP,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
+                                          backgroundColor:
+                                              Theme.of(context).colorScheme.onBackground,
                                           backgroundRadius: 10,
                                         );
                                       } else {
-                                        await networkUtils
-                                            .registerUser(user)
-                                            .then((value) async {
-                                          if (networkUtils.signUpError ==
-                                              'no error') {
+                                        await networkUtils.registerUser(user).then((value) async {
+                                          if (networkUtils.signUpError == 'no error') {
                                             Toast.show(
                                               'Registered Successfully',
                                               context,
                                               duration: Toast.LENGTH_LONG,
                                               gravity: Toast.TOP,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
+                                              backgroundColor:
+                                                  Theme.of(context).colorScheme.onBackground,
                                               backgroundRadius: 10,
                                             );
 
@@ -561,8 +523,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                               isRegisterLoading = false;
                                               _registerHeight = 0.0;
                                               _registerOpacity = 0.0;
-                                              _loginHeight =
-                                                  screenHeight * 0.60;
+                                              _loginHeight = screenHeight * 0.60;
                                               _loginOpacity = 1.0;
                                             });
                                           } else {
@@ -574,9 +535,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                               context,
                                               duration: Toast.LENGTH_LONG,
                                               gravity: Toast.TOP,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .onBackground,
+                                              backgroundColor:
+                                                  Theme.of(context).colorScheme.onBackground,
                                               backgroundRadius: 10,
                                             );
                                           }
@@ -593,8 +553,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       ),
                                     ),
                                     style: TextButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).buttonColor,
+                                      backgroundColor: Theme.of(context).buttonColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       ),
@@ -720,8 +679,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -736,8 +694,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.mail,
                                     size: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -751,16 +708,12 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       border: InputBorder.none,
                                       hintText: 'Email',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
-                                      errorText: loginEmailValidate
-                                          ? 'Field can\'t be empty'
-                                          : null,
+                                      errorText:
+                                          loginEmailValidate ? 'Field can\'t be empty' : null,
                                       errorStyle: GoogleFonts.montserrat(
-                                        color:
-                                            Theme.of(context).colorScheme.error,
+                                        color: Theme.of(context).colorScheme.error,
                                       ),
                                     ),
                                   ),
@@ -771,8 +724,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(
@@ -788,8 +740,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                   child: Icon(
                                     Icons.lock,
                                     size: 20,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
+                                    color: Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 Expanded(
@@ -802,26 +753,21 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                     obscureText: _isLoginPasswordHidden,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      errorText: loginPasswordValidate
-                                          ? 'Field can\'t be empty'
-                                          : null,
+                                      errorText:
+                                          loginPasswordValidate ? 'Field can\'t be empty' : null,
                                       errorStyle: GoogleFonts.montserrat(
-                                        color:
-                                            Theme.of(context).colorScheme.error,
+                                        color: Theme.of(context).colorScheme.error,
                                       ),
                                       hintText: 'Password',
                                       hintStyle: GoogleFonts.montserrat(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                       ),
                                       suffix: Padding(
                                         padding: EdgeInsets.only(right: 20),
                                         child: InkWell(
                                           onTap: () {
                                             setState(() {
-                                              _isLoginPasswordHidden =
-                                                  !_isLoginPasswordHidden;
+                                              _isLoginPasswordHidden = !_isLoginPasswordHidden;
                                             });
                                           },
                                           child: Icon(
@@ -829,9 +775,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
                                             size: 20,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ),
@@ -854,14 +798,11 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       'Delivery Boy',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
+                                        color: Theme.of(context).colorScheme.onBackground,
                                       ),
                                     ),
                                     Checkbox(
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
+                                      activeColor: Theme.of(context).primaryColor,
                                       value: isDeliveryBoy,
                                       onChanged: (value) {
                                         setState(() {
@@ -877,14 +818,11 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       'Admin',
                                       style: GoogleFonts.montserrat(
                                         fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground,
+                                        color: Theme.of(context).colorScheme.onBackground,
                                       ),
                                     ),
                                     Checkbox(
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
+                                      activeColor: Theme.of(context).primaryColor,
                                       value: isAdmin,
                                       onChanged: (value) {
                                         setState(() {
@@ -900,16 +838,12 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                           Container(
                             width: screenWidth,
                             height: 60,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 40),
+                            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                             child: isLoginLoading
                                 ? Center(
                                     child: CircularProgressIndicator(
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      valueColor:
-                                          AlwaysStoppedAnimation(Colors.white),
+                                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                                      valueColor: AlwaysStoppedAnimation(Colors.white),
                                     ),
                                   )
                                 : TextButton(
@@ -930,8 +864,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                             : loginPasswordValidate = false;
                                       });
 
-                                      if (isDeliveryBoy == false &&
-                                          isAdmin == false) {
+                                      if (isDeliveryBoy == false && isAdmin == false) {
                                         UserLogin user = new UserLogin(
                                           email: email,
                                           password: password,
@@ -942,8 +875,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           setState(() {
                                             isLoginLoading = false;
                                           });
-                                        } else if (!EmailValidator.validate(
-                                            email)) {
+                                        } else if (!EmailValidator.validate(email)) {
                                           setState(() {
                                             isLoginLoading = false;
                                           });
@@ -952,58 +884,42 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                             context,
                                             duration: Toast.LENGTH_LONG,
                                             gravity: Toast.TOP,
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground,
+                                            backgroundColor:
+                                                Theme.of(context).colorScheme.onBackground,
                                             backgroundRadius: 10,
                                           );
                                         } else {
-                                          await networkUtils
-                                              .loginUser(user)
-                                              .then((value) async {
-                                            if (networkUtils.signInError ==
-                                                'no error') {
+                                          await networkUtils.loginUser(user).then((value) async {
+                                            if (networkUtils.signInError == 'no error') {
                                               Toast.show(
                                                 'Signed In Successfully',
                                                 context,
                                                 duration: Toast.LENGTH_LONG,
                                                 gravity: Toast.TOP,
                                                 backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
+                                                    Theme.of(context).colorScheme.onBackground,
                                                 backgroundRadius: 10,
                                               );
-                                              prefs = await SharedPreferences
-                                                  .getInstance();
+                                              prefs = await SharedPreferences.getInstance();
                                               prefs.setBool('isLoggedIn', true);
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
 
-                                              Navigator.of(context)
-                                                  .pushReplacement(
+                                              Navigator.of(context).pushReplacement(
                                                 PageRouteBuilder(
-                                                  pageBuilder: (context,
-                                                          animation,
-                                                          secondaryAnimation) =>
-                                                      UserDashboard(),
-                                                  transitionDuration: Duration(
-                                                      milliseconds: 1000),
-                                                  transitionsBuilder: (context,
-                                                      animation,
-                                                      secondaryAnimation,
-                                                      child) {
+                                                  pageBuilder:
+                                                      (context, animation, secondaryAnimation) =>
+                                                          UserDashboard(),
+                                                  transitionDuration: Duration(milliseconds: 1000),
+                                                  transitionsBuilder: (context, animation,
+                                                      secondaryAnimation, child) {
                                                     animation = CurvedAnimation(
-                                                        parent: animation,
-                                                        curve:
-                                                            Curves.easeInOut);
+                                                        parent: animation, curve: Curves.easeInOut);
                                                     return SlideTransition(
                                                       position: Tween(
-                                                              begin: Offset(
-                                                                  0.0, 1.0),
-                                                              end: Offset(
-                                                                  0.0, 0.0))
+                                                              begin: Offset(0.0, 1.0),
+                                                              end: Offset(0.0, 0.0))
                                                           .animate(animation),
                                                       child: child,
                                                     );
@@ -1021,16 +937,13 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                                 duration: Toast.LENGTH_LONG,
                                                 gravity: Toast.TOP,
                                                 backgroundColor:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
+                                                    Theme.of(context).colorScheme.onBackground,
                                                 backgroundRadius: 10,
                                               );
                                             }
                                           });
                                         }
-                                      } else if (isDeliveryBoy == true &&
-                                          isAdmin == true) {
+                                      } else if (isDeliveryBoy == true && isAdmin == true) {
                                         setState(() {
                                           isLoginLoading = false;
                                         });
@@ -1038,9 +951,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           'Cannot be both Admin and Delivery Boy',
                                           context,
                                           duration: Toast.LENGTH_LONG,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground,
+                                          backgroundColor:
+                                              Theme.of(context).colorScheme.onBackground,
                                           backgroundRadius: 10,
                                           gravity: Toast.TOP,
                                         );
@@ -1056,8 +968,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                       ),
                                     ),
                                     style: TextButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).buttonColor,
+                                      backgroundColor: Theme.of(context).buttonColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       ),

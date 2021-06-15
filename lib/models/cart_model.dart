@@ -1,12 +1,8 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:natures_delicacies/models/cart_item.dart';
 
 class CartModel extends ChangeNotifier {
   List<CartItem> _items = [];
-
-  UnmodifiableListView<CartItem> get items => UnmodifiableListView(_items);
 
   double get getTotalPrice {
     double total = 0;
@@ -16,18 +12,40 @@ class CartModel extends ChangeNotifier {
     return total;
   }
 
+  int getLength() {
+    return _items.length;
+  }
+
+  List<CartItem> getItems() {
+    return _items;
+  }
+
   void add(CartItem item) {
     _items.add(item);
     notifyListeners();
   }
 
-  void remove(CartItem item) {
-    _items.remove(item);
+  void remove(int index) {
+    _items.removeAt(index);
     notifyListeners();
   }
 
   void removeAll() {
     _items.clear();
+    notifyListeners();
+  }
+
+  void incrementQuantity(int index) {
+    _items[index].quantity++;
+    notifyListeners();
+  }
+
+  void decrementQuantity(int index) {
+    if (_items[index].quantity > 1) {
+      _items[index].quantity--;
+    } else if (_items[index].quantity == 1) {
+      _items.removeAt(index);
+    }
     notifyListeners();
   }
 }

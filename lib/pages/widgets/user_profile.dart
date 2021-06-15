@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:natures_delicacies/models/page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:provider/provider.dart';
@@ -112,6 +113,8 @@ class _UserProfileState extends State<UserProfile> {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.setBool('isLoggedIn', false);
+                      Provider.of<PageModel>(context, listen: false)
+                          .setCurrentPage(0);
                       Navigator.of(context).pushReplacement(
                         PageRouteBuilder(
                           pageBuilder:
