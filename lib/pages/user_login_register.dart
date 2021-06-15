@@ -65,6 +65,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
   NetworkUtils networkUtils = new NetworkUtils();
   SharedPreferences prefs;
 
+  FocusNode focus;
+
   @override
   void dispose() {
     super.dispose();
@@ -78,6 +80,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     registerPasswordController.dispose();
     registerConfirmPasswordController.dispose();
     registerAddressController.dispose();
+    focus.dispose();
   }
 
   @override
@@ -91,6 +94,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     _registerWidth = screenWidth;
     _loginHeight = screenHeight * 0.60;
     _registerHeight = 0.0;
+
+    focus = FocusNode();
   }
 
   @override
