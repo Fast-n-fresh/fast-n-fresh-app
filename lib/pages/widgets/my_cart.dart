@@ -107,7 +107,7 @@ class NonEmptyCartWidget extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 5,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
@@ -119,6 +119,19 @@ class NonEmptyCartWidget extends StatelessWidget {
                                         .toString(),
                                 style: GoogleFonts.montserrat(
                                     fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Text(
+                                "per " +
+                                    Provider.of<CartModel>(context, listen: false)
+                                        .getItems()[index]
+                                        .unit,
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal),
                               ),

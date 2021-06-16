@@ -15,6 +15,8 @@ class UserDashboard extends StatefulWidget {
 
 class _UserDashboardState extends State<UserDashboard> {
   String name;
+  String fname;
+  String lname;
   String username;
   Random random = new Random();
 
@@ -24,8 +26,10 @@ class _UserDashboardState extends State<UserDashboard> {
     prefs = await SharedPreferences.getInstance();
     name = prefs.getString('name');
     Provider.of<UserProfileModel>(context, listen: false).setName(name);
-    name = name.substring(0, name.indexOf(' '));
-    Provider.of<UserProfileModel>(context, listen: false).setFirstName(name);
+    fname = name.substring(0, name.indexOf(' '));
+    Provider.of<UserProfileModel>(context, listen: false).setFirstName(fname);
+    lname = name.substring(name.indexOf(' '), name.length);
+    Provider.of<UserProfileModel>(context, listen: false).setLastName(lname);
     username = prefs.getString('username');
     Provider.of<UserProfileModel>(context, listen: false).setUsername(username);
   }

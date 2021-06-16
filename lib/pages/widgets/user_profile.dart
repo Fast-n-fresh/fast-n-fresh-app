@@ -24,9 +24,16 @@ class _UserProfileState extends State<UserProfile> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('./lib/images/avatar.png'),
-                      radius: 80,
+                    child: Consumer<UserProfileModel>(
+                      builder: (context, model, child) => CircleAvatar(
+                        radius: 80,
+                        backgroundImage: NetworkImage(
+                          "https://ui-avatars.com/api/?size=200&name=${model.name}&background=FF5252&format=png&color=FFFFFF",
+                        ),
+                        onBackgroundImageError: (exception, stackTrace) =>
+                            AssetImage('./lib/images/avatar.png'),
+                        backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -110,31 +117,24 @@ class _UserProfileState extends State<UserProfile> {
                       color: Colors.black,
                     ),
                     onTap: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setBool('isLoggedIn', false);
-                      Provider.of<PageModel>(context, listen: false)
-                          .setCurrentPage(0);
                       Navigator.of(context).pushReplacement(
                         PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  UserLoginRegister(),
+                          pageBuilder: (context, animation, secondaryAnimation) =>
+                              UserLoginRegister(),
                           transitionDuration: Duration(milliseconds: 500),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            animation = CurvedAnimation(
-                                parent: animation, curve: Curves.easeInOut);
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
                             return SlideTransition(
-                              position: Tween(
-                                      begin: Offset(0.0, 1.0),
-                                      end: Offset(0.0, 0.0))
+                              position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
                                   .animate(animation),
                               child: child,
                             );
                           },
                         ),
                       );
+                      Provider.of<PageModel>(context, listen: false).setCurrentPage(0);
                     },
                   ),
                 ],

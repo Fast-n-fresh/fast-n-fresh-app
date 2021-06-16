@@ -53,9 +53,16 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Provider.of<PageModel>(context, listen: false).setCurrentPage(3);
                           },
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage('./lib/images/avatar.png'),
-                            radius: 30,
+                          child: Consumer<UserProfileModel>(
+                            builder: (context, model, child) => CircleAvatar(
+                              radius: 30,
+                              backgroundImage: NetworkImage(
+                                "https://ui-avatars.com/api/?size=60&name=${model.name}&background=FF5252&format=png&color=FFFFFF",
+                              ),
+                              onBackgroundImageError: (exception, stackTrace) =>
+                                  AssetImage('./lib/images/avatar.png'),
+                              backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                            ),
                           ),
                         ),
                       ],
@@ -222,10 +229,20 @@ class _HomePageState extends State<HomePage> {
                                               color: Colors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
                                         Text(
                                           "\u20B9 " + items[index].price.toString(),
                                           style: GoogleFonts.montserrat(
                                               fontSize: 20,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        Text(
+                                          "per " + items[index].unit,
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 16,
                                               color: Colors.black,
                                               fontWeight: FontWeight.normal),
                                         ),
@@ -298,9 +315,10 @@ List<CategoriesModel> categories = [
 ];
 
 List<CartItem> items = [
-  CartItem(name: "Banana", price: 20.0, quantity: 1, imgUrl: './lib/images/banana.png'),
-  CartItem(name: "Apple", price: 20.0, quantity: 1, imgUrl: './lib/images/apple.png'),
-  CartItem(name: "Mango", price: 20.0, quantity: 1, imgUrl: './lib/images/mango.png'),
-  CartItem(name: "Grapes", price: 20.0, quantity: 1, imgUrl: './lib/images/grapes.png'),
-  CartItem(name: "Pear", price: 20.0, quantity: 1, imgUrl: './lib/images/pear.png'),
+  CartItem(
+      name: "Banana", price: 20.0, quantity: 1, imgUrl: './lib/images/banana.png', unit: 'piece'),
+  CartItem(name: "Apple", price: 20.0, quantity: 1, imgUrl: './lib/images/apple.png', unit: 'kg'),
+  CartItem(name: "Mango", price: 20.0, quantity: 1, imgUrl: './lib/images/mango.png', unit: 'kg'),
+  CartItem(name: "Grapes", price: 20.0, quantity: 1, imgUrl: './lib/images/grapes.png', unit: 'kg'),
+  CartItem(name: "Pear", price: 20.0, quantity: 1, imgUrl: './lib/images/pear.png', unit: 'kg'),
 ];

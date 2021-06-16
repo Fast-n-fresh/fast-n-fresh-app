@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/networking.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 
 import 'user_dashboard.dart';
 
@@ -66,6 +66,8 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
 
   FocusNode focus;
 
+  FToast fToast;
+
   @override
   void dispose() {
     super.dispose();
@@ -95,6 +97,29 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
     _registerHeight = 0.0;
 
     focus = FocusNode();
+
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  _showToast(String message) {
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        color: Colors.grey[700],
+      ),
+      child: Text(
+        message,
+        style: GoogleFonts.raleway(color: Colors.white),
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      gravity: ToastGravity.BOTTOM,
+      toastDuration: Duration(seconds: 2),
+    );
   }
 
   @override
@@ -458,66 +483,26 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
-                                        Toast.show(
-                                          'Invalid Email',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor:
-                                              Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
-                                        );
+                                        _showToast('Invalid Email');
                                       } else if (phone.length != 10 || !isNumeric(phone)) {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
-                                        Toast.show(
-                                          'Invalid phone number',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor:
-                                              Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
-                                        );
+                                        _showToast('Invalid phone number');
                                       } else if (password.length < 6) {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
-                                        Toast.show(
-                                          'Password is too short',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor:
-                                              Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
-                                        );
+                                        _showToast('Password is too short');
                                       } else if (password != confirmPassword) {
                                         setState(() {
                                           isRegisterLoading = false;
                                         });
-                                        Toast.show(
-                                          'Passwords don\'t match',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          gravity: Toast.TOP,
-                                          backgroundColor:
-                                              Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
-                                        );
+                                        _showToast('Passwords don\'t match');
                                       } else {
                                         await networkUtils.registerUser(user).then((value) async {
                                           if (networkUtils.signUpError == 'no error') {
-                                            Toast.show(
-                                              'Registered Successfully',
-                                              context,
-                                              duration: Toast.LENGTH_LONG,
-                                              gravity: Toast.TOP,
-                                              backgroundColor:
-                                                  Theme.of(context).colorScheme.onBackground,
-                                              backgroundRadius: 10,
-                                            );
+                                            _showToast('Registered Successfully');
 
                                             setState(() {
                                               isRegisterLoading = false;
@@ -530,15 +515,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                             setState(() {
                                               isRegisterLoading = false;
                                             });
-                                            Toast.show(
-                                              '${networkUtils.signUpError}',
-                                              context,
-                                              duration: Toast.LENGTH_LONG,
-                                              gravity: Toast.TOP,
-                                              backgroundColor:
-                                                  Theme.of(context).colorScheme.onBackground,
-                                              backgroundRadius: 10,
-                                            );
+                                            _showToast('${networkUtils.signUpError}');
                                           }
                                         });
                                       }
@@ -879,27 +856,11 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           setState(() {
                                             isLoginLoading = false;
                                           });
-                                          Toast.show(
-                                            'Invalid Email',
-                                            context,
-                                            duration: Toast.LENGTH_LONG,
-                                            gravity: Toast.TOP,
-                                            backgroundColor:
-                                                Theme.of(context).colorScheme.onBackground,
-                                            backgroundRadius: 10,
-                                          );
+                                          _showToast('Invalid Email');
                                         } else {
                                           await networkUtils.loginUser(user).then((value) async {
                                             if (networkUtils.signInError == 'no error') {
-                                              Toast.show(
-                                                'Signed In Successfully',
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.TOP,
-                                                backgroundColor:
-                                                    Theme.of(context).colorScheme.onBackground,
-                                                backgroundRadius: 10,
-                                              );
+                                              _showToast('Signed In Successfully');
                                               prefs = await SharedPreferences.getInstance();
                                               prefs.setBool('isLoggedIn', true);
                                               setState(() {
@@ -930,16 +891,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-
-                                              Toast.show(
-                                                '${networkUtils.signInError}',
-                                                context,
-                                                duration: Toast.LENGTH_LONG,
-                                                gravity: Toast.TOP,
-                                                backgroundColor:
-                                                    Theme.of(context).colorScheme.onBackground,
-                                                backgroundRadius: 10,
-                                              );
+                                              _showToast('${networkUtils.signInError}');
                                             }
                                           });
                                         }
@@ -947,15 +899,7 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                         setState(() {
                                           isLoginLoading = false;
                                         });
-                                        Toast.show(
-                                          'Cannot be both Admin and Delivery Boy',
-                                          context,
-                                          duration: Toast.LENGTH_LONG,
-                                          backgroundColor:
-                                              Theme.of(context).colorScheme.onBackground,
-                                          backgroundRadius: 10,
-                                          gravity: Toast.TOP,
-                                        );
+                                        _showToast('Cannot be both Admin and Delivery Boy');
                                       }
                                     },
                                     child: Text(
