@@ -36,6 +36,8 @@ dependencies:
   razorpay_flutter: ^1.2.3
   fluttertoast: ^8.0.7
   cached_network_image: ^3.0.0
+  marquee: ^2.1.0
+  scrollable_text_view: ^0.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

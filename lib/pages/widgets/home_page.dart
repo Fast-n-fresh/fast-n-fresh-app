@@ -8,6 +8,7 @@ import 'package:natures_delicacies/models/cart_model.dart';
 import 'package:natures_delicacies/models/categories_model.dart';
 import 'package:natures_delicacies/models/page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
+import 'package:natures_delicacies/pages/item_details.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -184,113 +185,143 @@ class _HomePageState extends State<HomePage> {
                   itemCount: items.length,
                   itemBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: GridTile(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 6,
-                              offset: Offset(1, 4),
-                              color: Colors.black.withOpacity(0.2),
-                            ),
-                          ],
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                items[index].imgUrl,
-                                height: 100,
-                                width: 100,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                ItemDetails(index: index),
+                            transitionDuration: Duration(milliseconds: 1000),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              animation =
+                                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                              return SlideTransition(
+                                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                                    .animate(animation),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: GridTile(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 6,
+                                offset: Offset(1, 4),
+                                color: Colors.black.withOpacity(0.2),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          items[index].name,
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 24,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "\u20B9 " + items[index].price.toString(),
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 20,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                        Text(
-                                          "per " + items[index].unit,
-                                          style: GoogleFonts.montserrat(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.primary,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Center(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          bool flag = false;
-                                          for (int i = 0;
-                                              i <
-                                                  Provider.of<CartModel>(context, listen: false)
-                                                      .getLength();
-                                              i++) {
-                                            if (items[index] ==
-                                                Provider.of<CartModel>(context, listen: false)
-                                                    .getItems()[i]) {
-                                              flag = true;
-                                              Provider.of<CartModel>(context, listen: false)
-                                                  .getItems()[i]
-                                                  .quantity++;
-                                              break;
-                                            }
-                                          }
-                                          if (!flag) {
-                                            Provider.of<CartModel>(context, listen: false)
-                                                .add(items[index]);
-                                          }
-                                        },
-                                        icon: Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                          size: 20,
+                            ],
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  items[index].imgUrl,
+                                  height: 100,
+                                  width: 100,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                items[index].name,
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 24,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w500),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              "\u20B9 " + items[index].price.toString(),
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.normal),
+                                            ),
+                                            Text(
+                                              "per " + items[index].unit,
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.normal),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).colorScheme.primary,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Center(
+                                          child: IconButton(
+                                            onPressed: () {
+                                              bool flag = false;
+                                              for (int i = 0;
+                                                  i <
+                                                      Provider.of<CartModel>(context, listen: false)
+                                                          .getLength();
+                                                  i++) {
+                                                if (items[index] ==
+                                                    Provider.of<CartModel>(context, listen: false)
+                                                        .getItems()[i]) {
+                                                  flag = true;
+                                                  Provider.of<CartModel>(context, listen: false)
+                                                      .getItems()[i]
+                                                      .quantity++;
+                                                  break;
+                                                }
+                                              }
+                                              if (!flag) {
+                                                Provider.of<CartModel>(context, listen: false)
+                                                    .add(items[index]);
+                                              }
+                                            },
+                                            icon: Icon(
+                                              Icons.add,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -316,9 +347,45 @@ List<CategoriesModel> categories = [
 
 List<CartItem> items = [
   CartItem(
-      name: "Banana", price: 20.0, quantity: 1, imgUrl: './lib/images/banana.png', unit: 'piece'),
-  CartItem(name: "Apple", price: 20.0, quantity: 1, imgUrl: './lib/images/apple.png', unit: 'kg'),
-  CartItem(name: "Mango", price: 20.0, quantity: 1, imgUrl: './lib/images/mango.png', unit: 'kg'),
-  CartItem(name: "Grapes", price: 20.0, quantity: 1, imgUrl: './lib/images/grapes.png', unit: 'kg'),
-  CartItem(name: "Pear", price: 20.0, quantity: 1, imgUrl: './lib/images/pear.png', unit: 'kg'),
+    name: "Banana",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/banana.png',
+    unit: 'piece',
+  ),
+  CartItem(
+    name: "Apple",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/apple.png',
+    unit: 'kg',
+  ),
+  CartItem(
+    name: "Mango",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/mango.png',
+    unit: 'kg',
+  ),
+  CartItem(
+    name: "Grapes",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/grapes.png',
+    unit: 'kg',
+  ),
+  CartItem(
+    name: "Pear",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/pear.png',
+    unit: 'kg',
+  ),
+  CartItem(
+    name: "South African Apple",
+    price: 20.0,
+    quantity: 1,
+    imgUrl: './lib/images/apple.png',
+    unit: 'kg',
+  ),
 ];

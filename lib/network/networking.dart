@@ -19,15 +19,11 @@ class NetworkUtils {
   String userToken;
 
   Future<UserRegister> registerUser(UserRegister user) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'connection': 'keep-alive'
-    };
+    var headers = {'Content-Type': 'application/json', 'connection': 'keep-alive'};
 
     return await http
         .post(
       Uri.https(BASE_URL, USER_SIGNUP_URL),
-      // Uri.parse('https://$BASE_URL/$USER_SIGNUP_URL'),
       body: jsonEncode(user.toJson()),
       headers: headers,
     )

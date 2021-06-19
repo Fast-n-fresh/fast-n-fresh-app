@@ -83,120 +83,131 @@ class NonEmptyCartWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Image.asset(
-                          Provider.of<CartModel>(context, listen: false).getItems()[index].imgUrl,
-                          height: 100,
-                          width: 100,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                Provider.of<CartModel>(context, listen: false)
-                                    .getItems()[index]
-                                    .name,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 24, color: Colors.black, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                "\u20B9 " +
-                                    Provider.of<CartModel>(context, listen: false)
-                                        .getItems()[index]
-                                        .price
-                                        .toString(),
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                "per " +
-                                    Provider.of<CartModel>(context, listen: false)
-                                        .getItems()[index]
-                                        .unit,
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: 40,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).accentColor,
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Provider.of<CartModel>(context, listen: false)
-                                              .decrementQuantity(index);
-                                        },
-                                        icon: Icon(
-                                          Icons.remove,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Consumer<CartModel>(
-                                          builder: (context, cart, child) => Text(
-                                            '${cart.getItems()[index].quantity}',
-                                            style: GoogleFonts.montserrat(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.normal,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Provider.of<CartModel>(context, listen: false)
-                                              .incrementQuantity(index);
-                                        },
-                                        icon: Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Image.asset(
+                            Provider.of<CartModel>(context, listen: false).getItems()[index].imgUrl,
+                            height: 100,
+                            width: 100,
+                          ),
                         ),
                       ),
                       Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  Provider.of<CartModel>(context, listen: false)
+                                      .getItems()[index]
+                                      .name,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  "\u20B9 " +
+                                      Provider.of<CartModel>(context, listen: false)
+                                          .getItems()[index]
+                                          .price
+                                          .toString(),
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  "per " +
+                                      Provider.of<CartModel>(context, listen: false)
+                                          .getItems()[index]
+                                          .unit,
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                height: 40,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Provider.of<CartModel>(context, listen: false)
+                                                .decrementQuantity(index);
+                                          },
+                                          icon: Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Consumer<CartModel>(
+                                            builder: (context, cart, child) => Text(
+                                              '${cart.getItems()[index].quantity}',
+                                              style: GoogleFonts.montserrat(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Provider.of<CartModel>(context, listen: false)
+                                                .incrementQuantity(index);
+                                          },
+                                          icon: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
                         child: IconButton(
                           onPressed: () {
                             Provider.of<CartModel>(context, listen: false).remove(index);
