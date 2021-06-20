@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/page_model.dart';
 import 'package:natures_delicacies/pages/widgets/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -62,10 +63,13 @@ class _ItemDetailsState extends State<ItemDetails> {
                   ),
                 ),
                 Center(
-                  child: Image.asset(
-                    items[widget.index].imgUrl,
-                    height: 300,
-                    width: 300,
+                  child: Hero(
+                    tag: 'image ' + items[widget.index].name,
+                    child: Image.asset(
+                      items[widget.index].imgUrl,
+                      height: 300,
+                      width: 300,
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -176,8 +180,22 @@ class _ItemDetailsState extends State<ItemDetails> {
                         }
                         if (!flag) {
                           Provider.of<CartModel>(context, listen: false).add(items[widget.index]);
+                          if (count != 1) {
+                            for (int i = 0;
+                                i < Provider.of<CartModel>(context, listen: false).getLength();
+                                i++) {
+                              if (items[widget.index] ==
+                                  Provider.of<CartModel>(context, listen: false).getItems()[i]) {
+                                Provider.of<CartModel>(context, listen: false)
+                                    .getItems()[i]
+                                    .quantity += (count - 1);
+                              }
+                            }
+                          }
                         }
                       }
+                      Navigator.pop(context);
+                      Provider.of<PageModel>(context, listen: false).setCurrentPage(2);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).buttonColor,

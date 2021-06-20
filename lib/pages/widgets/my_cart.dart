@@ -230,7 +230,7 @@ class NonEmptyCartWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -260,7 +260,7 @@ class NonEmptyCartWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                 width: screenWidth,
                 height: 60,

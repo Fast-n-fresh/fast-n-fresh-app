@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                   physics: ScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.7,
+                    childAspectRatio: 0.6,
                   ),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -222,15 +222,35 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.all(12),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Image.asset(
-                                  items[index].imgUrl,
-                                  height: 100,
-                                  width: 100,
+                                Hero(
+                                  tag: 'image ' + items[index].name,
+                                  child: Center(
+                                    child: Image.asset(
+                                      items[index].imgUrl,
+                                      height: 100,
+                                      width: 100,
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 10,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Container(
+                                    child: Text(
+                                      items[index].name,
+                                      textAlign: TextAlign.start,
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 24,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -244,17 +264,6 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Container(
-                                              child: Text(
-                                                items[index].name,
-                                                style: GoogleFonts.montserrat(
-                                                    fontSize: 24,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                              ),
-                                            ),
                                             SizedBox(
                                               height: 5,
                                             ),
