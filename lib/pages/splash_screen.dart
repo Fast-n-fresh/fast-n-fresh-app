@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:natures_delicacies/pages/admin_panel.dart';
+import 'package:natures_delicacies/pages/delivery_boy_panel.dart';
+import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:natures_delicacies/pages/onboarding.dart';
-import 'package:natures_delicacies/pages/user_login_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'user_dashboard.dart';
@@ -22,20 +24,46 @@ class _SplashScreenState extends State<SplashScreen> {
     timer = new Timer(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool firstTime = (prefs.getBool('firstTime') ?? true);
-      bool loggedIn = (prefs.getBool('isLoggedIn') ?? false);
-      if (loggedIn) {
+      bool isUserLoggedIn = (prefs.getBool('isLoggedIn') ?? false);
+      bool isAdminLoggedIn = (prefs.getBool('isAdminLoggedIn') ?? false);
+      bool isDeliveryBoyLoggedIn = (prefs.getBool('isDeliveryBoyLoggedIn') ?? false);
+      if (isUserLoggedIn) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                UserDashboard(),
+            pageBuilder: (context, animation, secondaryAnimation) => UserDashboard(),
             transitionDuration: Duration(milliseconds: 1000),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              animation =
-                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
               return SlideTransition(
-                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                    .animate(animation),
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0)).animate(animation),
+                child: child,
+              );
+            },
+          ),
+        );
+      } else if (isAdminLoggedIn) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => AdminPanel(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+              return SlideTransition(
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0)).animate(animation),
+                child: child,
+              );
+            },
+          ),
+        );
+      } else if (isDeliveryBoyLoggedIn) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => DeliveryBoyPanel(),
+            transitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+              return SlideTransition(
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0)).animate(animation),
                 child: child,
               );
             },
@@ -44,16 +72,12 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (firstTime == false) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                UserLoginRegister(),
+            pageBuilder: (context, animation, secondaryAnimation) => LoginRegister(),
             transitionDuration: Duration(milliseconds: 1000),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              animation =
-                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
               return SlideTransition(
-                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                    .animate(animation),
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0)).animate(animation),
                 child: child,
               );
             },
@@ -62,16 +86,12 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                Onboarding(),
+            pageBuilder: (context, animation, secondaryAnimation) => Onboarding(),
             transitionDuration: Duration(milliseconds: 1000),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              animation =
-                  CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
               return SlideTransition(
-                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                    .animate(animation),
+                position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0)).animate(animation),
                 child: child,
               );
             },
@@ -88,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Center(
           child: Image.asset(
-            './lib/images/logo.jpg',
+            './lib/images/logo.png',
             gaplessPlayback: true,
             fit: BoxFit.fitHeight,
           ),

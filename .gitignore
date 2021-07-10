@@ -37,7 +37,7 @@ lib/generated_plugin_registrant.dart
 # Sensitive
 lib/consts/constants.dart
 lib/licenses
-lib/images/logo.jpg
+lib/images/logo.png
 
 # Symbolication related
 app.*.symbols

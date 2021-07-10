@@ -5,19 +5,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:natures_delicacies/models/admin_login.dart';
+import 'package:natures_delicacies/models/delivery_boy_login.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/networking.dart';
+import 'package:natures_delicacies/pages/admin_panel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'delivery_boy_panel.dart';
 import 'user_dashboard.dart';
 
-class UserLoginRegister extends StatefulWidget {
+class LoginRegister extends StatefulWidget {
   @override
-  _UserLoginRegisterState createState() => _UserLoginRegisterState();
+  _LoginRegisterState createState() => _LoginRegisterState();
 }
 
-class _UserLoginRegisterState extends State<UserLoginRegister> {
+class _LoginRegisterState extends State<LoginRegister> {
   bool _isLoginPasswordHidden = true;
   bool _isRegisterPasswordHidden = true;
   bool _isRegisterConfirmPasswordHidden = true;
@@ -900,6 +904,116 @@ class _UserLoginRegisterState extends State<UserLoginRegister> {
                                           isLoginLoading = false;
                                         });
                                         _showToast('Cannot be both Admin and Delivery Boy');
+                                      } else if (isAdmin == true) {
+                                        AdminLogin admin = new AdminLogin(
+                                          email: email,
+                                          password: password,
+                                        );
+
+                                        if (email.isEmpty || password.isEmpty) {
+                                          print('Empty Fields');
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                        } else if (!EmailValidator.validate(email)) {
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                          _showToast('Invalid Email');
+                                        } else {
+                                          await networkUtils.loginAdmin(admin).then((value) async {
+                                            if (networkUtils.signInError == 'no error') {
+                                              _showToast('Signed In Successfully');
+                                              prefs = await SharedPreferences.getInstance();
+                                              prefs.setBool('isAdminLoggedIn', true);
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+
+                                              Navigator.of(context).pushReplacement(
+                                                PageRouteBuilder(
+                                                  pageBuilder:
+                                                      (context, animation, secondaryAnimation) =>
+                                                          AdminPanel(),
+                                                  transitionDuration: Duration(milliseconds: 1000),
+                                                  transitionsBuilder: (context, animation,
+                                                      secondaryAnimation, child) {
+                                                    animation = CurvedAnimation(
+                                                        parent: animation, curve: Curves.easeInOut);
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                              begin: Offset(0.0, 1.0),
+                                                              end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+                                              _showToast('${networkUtils.signInError}');
+                                            }
+                                          });
+                                        }
+                                      } else if (isDeliveryBoy == true) {
+                                        DeliveryBoyLogin deliveryBoy = new DeliveryBoyLogin(
+                                          email: email,
+                                          password: password,
+                                        );
+
+                                        if (email.isEmpty || password.isEmpty) {
+                                          print('Empty Fields');
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                        } else if (!EmailValidator.validate(email)) {
+                                          setState(() {
+                                            isLoginLoading = false;
+                                          });
+                                          _showToast('Invalid Email');
+                                        } else {
+                                          await networkUtils
+                                              .loginDeliveryBoy(deliveryBoy)
+                                              .then((value) async {
+                                            if (networkUtils.signInError == 'no error') {
+                                              _showToast('Signed In Successfully');
+                                              prefs = await SharedPreferences.getInstance();
+                                              prefs.setBool('isDeliveryBoyLoggedIn', true);
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+
+                                              Navigator.of(context).pushReplacement(
+                                                PageRouteBuilder(
+                                                  pageBuilder:
+                                                      (context, animation, secondaryAnimation) =>
+                                                          DeliveryBoyPanel(),
+                                                  transitionDuration: Duration(milliseconds: 1000),
+                                                  transitionsBuilder: (context, animation,
+                                                      secondaryAnimation, child) {
+                                                    animation = CurvedAnimation(
+                                                        parent: animation, curve: Curves.easeInOut);
+                                                    return SlideTransition(
+                                                      position: Tween(
+                                                              begin: Offset(0.0, 1.0),
+                                                              end: Offset(0.0, 0.0))
+                                                          .animate(animation),
+                                                      child: child,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              setState(() {
+                                                isLoginLoading = false;
+                                              });
+                                              _showToast('${networkUtils.signInError}');
+                                            }
+                                          });
+                                        }
                                       }
                                     },
                                     child: Text(

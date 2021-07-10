@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
+import 'package:natures_delicacies/models/admin_login.dart';
+import 'package:natures_delicacies/models/delivery_boy_login.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,6 +99,58 @@ class NetworkUtils {
       }
 
       return UserLogin.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<AdminLogin> loginAdmin(AdminLogin admin) async {
+    var headers = {'Content-Type': 'application/json'};
+
+    return await http
+        .post(Uri.https(BASE_URL, ADMIN_SIGNIN_URL),
+            body: jsonEncode(admin.toJson()), headers: headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 401) {
+        print('unable to login');
+        signInError = 'Unable to login';
+      } else if (response.statusCode == 200) {
+        print('signed in successfully');
+        signInError = 'no error';
+
+        var extract = json.decode(response.body);
+        userToken = extract['token'].toString();
+
+        final prefs = await SharedPreferences.getInstance();
+
+        prefs.setString('token', userToken);
+      }
+
+      return AdminLogin.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<DeliveryBoyLogin> loginDeliveryBoy(DeliveryBoyLogin deliveryBoy) async {
+    var headers = {'Content-Type': 'application/json'};
+
+    return await http
+        .post(Uri.https(BASE_URL, DELIVERY_BOY_SIGNIN_URL),
+            body: jsonEncode(deliveryBoy.toJson()), headers: headers)
+        .then((http.Response response) async {
+      if (response.statusCode == 401) {
+        print('unable to login');
+        signInError = 'Unable to login';
+      } else if (response.statusCode == 200) {
+        print('signed in successfully');
+        signInError = 'no error';
+
+        var extract = json.decode(response.body);
+        userToken = extract['token'].toString();
+
+        final prefs = await SharedPreferences.getInstance();
+
+        prefs.setString('token', userToken);
+      }
+
+      return DeliveryBoyLogin.fromJson(json.decode(response.body));
     });
   }
 }

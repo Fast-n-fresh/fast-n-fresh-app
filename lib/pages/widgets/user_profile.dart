@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
-import 'package:natures_delicacies/pages/user_login_register.dart';
+import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -121,8 +121,7 @@ class _UserProfileState extends State<UserProfile> {
                       prefs.setBool('isLoggedIn', false);
                       Navigator.of(context).pushReplacement(
                         PageRouteBuilder(
-                          pageBuilder: (context, animation, secondaryAnimation) =>
-                              UserLoginRegister(),
+                          pageBuilder: (context, animation, secondaryAnimation) => LoginRegister(),
                           transitionDuration: Duration(milliseconds: 500),
                           transitionsBuilder: (context, animation, secondaryAnimation, child) {
                             animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
