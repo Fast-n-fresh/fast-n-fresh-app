@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:natures_delicacies/pages/admin_panel.dart';
@@ -16,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Timer timer;
+  double screenWidth = window.physicalSize.width / window.devicePixelRatio;
 
   @override
   void initState() {
@@ -107,10 +109,13 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
-          child: Image.asset(
-            './lib/images/logo.png',
-            gaplessPlayback: true,
-            fit: BoxFit.fitHeight,
+          child: Container(
+            height: screenWidth * 0.8,
+            child: Image.asset(
+              './lib/images/logo.png',
+              gaplessPlayback: true,
+              fit: BoxFit.fitHeight,
+            ),
           ),
         ),
       ),

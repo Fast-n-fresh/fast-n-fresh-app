@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
-import 'package:natures_delicacies/pages/checkout.dart';
 import 'package:provider/provider.dart';
 
 class MyCart extends StatefulWidget {
@@ -267,20 +266,20 @@ class NonEmptyCartWidget extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) => Checkout(),
-                        transitionDuration: Duration(milliseconds: 1000),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
-                          return SlideTransition(
-                            position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                                .animate(animation),
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
+                    // Navigator.of(context).push(
+                    //   PageRouteBuilder(
+                    //     pageBuilder: (context, animation, secondaryAnimation) => Checkout(),
+                    //     transitionDuration: Duration(milliseconds: 1000),
+                    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    //       animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                    //       return SlideTransition(
+                    //         position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                    //             .animate(animation),
+                    //         child: child,
+                    //       );
+                    //     },
+                    //   ),
+                    // );
                   },
                   child: Text(
                     'Checkout',

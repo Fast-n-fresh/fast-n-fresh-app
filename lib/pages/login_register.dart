@@ -9,7 +9,7 @@ import 'package:natures_delicacies/models/admin_login.dart';
 import 'package:natures_delicacies/models/delivery_boy_login.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
-import 'package:natures_delicacies/network/networking.dart';
+import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/pages/admin_panel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,7 +65,7 @@ class _LoginRegisterState extends State<LoginRegister> {
   TextEditingController registerConfirmPasswordController = TextEditingController();
   TextEditingController registerAddressController = TextEditingController();
 
-  NetworkUtils networkUtils = new NetworkUtils();
+  AccountUtils accountUtils = new AccountUtils();
   SharedPreferences prefs;
 
   FocusNode focus;
@@ -504,8 +504,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                         });
                                         _showToast('Passwords don\'t match');
                                       } else {
-                                        await networkUtils.registerUser(user).then((value) async {
-                                          if (networkUtils.signUpError == 'no error') {
+                                        await accountUtils.registerUser(user).then((value) async {
+                                          if (accountUtils.signUpError == 'no error') {
                                             _showToast('Registered Successfully');
 
                                             setState(() {
@@ -519,7 +519,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                                             setState(() {
                                               isRegisterLoading = false;
                                             });
-                                            _showToast('${networkUtils.signUpError}');
+                                            _showToast('${accountUtils.signUpError}');
                                           }
                                         });
                                       }
@@ -862,8 +862,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                           });
                                           _showToast('Invalid Email');
                                         } else {
-                                          await networkUtils.loginUser(user).then((value) async {
-                                            if (networkUtils.signInError == 'no error') {
+                                          await accountUtils.loginUser(user).then((value) async {
+                                            if (accountUtils.signInError == 'no error') {
                                               _showToast('Signed In Successfully');
                                               prefs = await SharedPreferences.getInstance();
                                               prefs.setBool('isLoggedIn', true);
@@ -895,7 +895,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-                                              _showToast('${networkUtils.signInError}');
+                                              _showToast('${accountUtils.signInError}');
                                             }
                                           });
                                         }
@@ -921,8 +921,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                           });
                                           _showToast('Invalid Email');
                                         } else {
-                                          await networkUtils.loginAdmin(admin).then((value) async {
-                                            if (networkUtils.signInError == 'no error') {
+                                          await accountUtils.loginAdmin(admin).then((value) async {
+                                            if (accountUtils.signInError == 'no error') {
                                               _showToast('Signed In Successfully');
                                               prefs = await SharedPreferences.getInstance();
                                               prefs.setBool('isAdminLoggedIn', true);
@@ -954,7 +954,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-                                              _showToast('${networkUtils.signInError}');
+                                              _showToast('${accountUtils.signInError}');
                                             }
                                           });
                                         }
@@ -975,10 +975,10 @@ class _LoginRegisterState extends State<LoginRegister> {
                                           });
                                           _showToast('Invalid Email');
                                         } else {
-                                          await networkUtils
+                                          await accountUtils
                                               .loginDeliveryBoy(deliveryBoy)
                                               .then((value) async {
-                                            if (networkUtils.signInError == 'no error') {
+                                            if (accountUtils.signInError == 'no error') {
                                               _showToast('Signed In Successfully');
                                               prefs = await SharedPreferences.getInstance();
                                               prefs.setBool('isDeliveryBoyLoggedIn', true);
@@ -1010,7 +1010,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-                                              _showToast('${networkUtils.signInError}');
+                                              _showToast('${accountUtils.signInError}');
                                             }
                                           });
                                         }

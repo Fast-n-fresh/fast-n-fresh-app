@@ -144,12 +144,12 @@ class _HomePageState extends State<HomePage> {
                                     color: Colors.grey[200],
                                   ),
                                   padding: const EdgeInsets.all(10),
-                                  child: Image.asset(categories[index].imagePath),
+                                  child: Image.asset(categories[index].imageUrl),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 10),
                                   child: Text(
-                                    categories[index].title,
+                                    categories[index].name,
                                     style: GoogleFonts.montserrat(
                                       color: activeCategory == index ? Colors.white : Colors.black,
                                       fontSize: 16,
@@ -347,11 +347,11 @@ class _HomePageState extends State<HomePage> {
 }
 
 List<CategoriesModel> categories = [
-  CategoriesModel(imagePath: './lib/images/all.png', title: 'All'),
-  CategoriesModel(imagePath: './lib/images/vegetables.png', title: 'Vegetables'),
-  CategoriesModel(imagePath: './lib/images/fruits.png', title: 'Fruits'),
-  CategoriesModel(imagePath: './lib/images/vegetables.png', title: 'Cut Vegetables'),
-  CategoriesModel(imagePath: './lib/images/fruits.png', title: 'Cut Fruits'),
+  CategoriesModel(imageUrl: './lib/images/all.png', name: 'All'),
+  CategoriesModel(imageUrl: './lib/images/vegetables.png', name: 'Vegetables'),
+  CategoriesModel(imageUrl: './lib/images/fruits.png', name: 'Fruits'),
+  CategoriesModel(imageUrl: './lib/images/vegetables.png', name: 'Cut Vegetables'),
+  CategoriesModel(imageUrl: './lib/images/fruits.png', name: 'Cut Fruits'),
 ];
 
 List<CartItem> items = [

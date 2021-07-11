@@ -13,7 +13,7 @@ class _CheckoutState extends State<Checkout> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
-        child: Text('Checkout'),
+        child: Text('Integrate Razorpay'),
       ),
     );
   }
