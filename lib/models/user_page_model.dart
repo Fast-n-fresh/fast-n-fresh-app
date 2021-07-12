@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:natures_delicacies/pages/widgets/home_page.dart';
-import 'package:natures_delicacies/pages/widgets/my_cart.dart';
-import 'package:natures_delicacies/pages/widgets/orders.dart';
-import 'package:natures_delicacies/pages/widgets/user_profile.dart';
+import 'package:natures_delicacies/pages/user_tabs/home_page.dart';
+import 'package:natures_delicacies/pages/user_tabs/my_cart.dart';
+import 'package:natures_delicacies/pages/user_tabs/orders.dart';
+import 'package:natures_delicacies/pages/user_tabs/user_profile.dart';
 
-class PageModel extends ChangeNotifier {
+class UserPageModel extends ChangeNotifier {
   int currentIndex = 0;
 
   List<Widget> pages = [

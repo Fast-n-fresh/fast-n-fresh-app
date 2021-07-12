@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/page_model.dart';
+import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:provider/provider.dart';
@@ -133,7 +133,7 @@ class _UserProfileState extends State<UserProfile> {
                           },
                         ),
                       );
-                      Provider.of<PageModel>(context, listen: false).setCurrentPage(0);
+                      Provider.of<UserPageModel>(context, listen: false).setCurrentPage(0);
                     },
                   ),
                 ],

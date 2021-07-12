@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_item.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
 import 'package:natures_delicacies/models/categories_model.dart';
-import 'package:natures_delicacies/models/page_model.dart';
+import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/pages/item_details.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Provider.of<PageModel>(context, listen: false).setCurrentPage(3);
+                            Provider.of<UserPageModel>(context, listen: false).setCurrentPage(3);
                           },
                           child: Consumer<UserProfileModel>(
                             builder: (context, model, child) => CircleAvatar(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
-import 'package:natures_delicacies/models/page_model.dart';
-import 'package:natures_delicacies/pages/widgets/home_page.dart';
+import 'package:natures_delicacies/models/user_page_model.dart';
+import 'package:natures_delicacies/pages/user_tabs/home_page.dart';
 import 'package:provider/provider.dart';
 
 class ItemDetails extends StatefulWidget {
@@ -195,7 +195,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         }
                       }
                       Navigator.pop(context);
-                      Provider.of<PageModel>(context, listen: false).setCurrentPage(2);
+                      Provider.of<UserPageModel>(context, listen: false).setCurrentPage(2);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).buttonColor,

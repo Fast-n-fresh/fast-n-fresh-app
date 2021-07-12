@@ -1,4 +1,7 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:natures_delicacies/models/admin_page_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_register.dart';
@@ -14,6 +17,19 @@ class _AdminPanelState extends State<AdminPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      bottomNavigationBar: CurvedNavigationBar(
+        items: tabs,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.secondary,
+        animationCurve: Curves.easeInOut,
+        index: Provider.of<AdminPageModel>(context, listen: true).currentIndex,
+        onTap: (val) {
+          Provider.of<AdminPageModel>(context, listen: false).setCurrentPage(val);
+        },
+        height: 75,
+        animationDuration: Duration(milliseconds: 500),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,11 +51,30 @@ class _AdminPanelState extends State<AdminPanel> {
         },
         child: Icon(Icons.exit_to_app),
       ),
-      body: SafeArea(
-        child: Text(
-          'Admin Panel',
-        ),
+      body: Consumer<AdminPageModel>(
+        builder: (context, model, _) {
+          return model.currentPage(model.currentIndex);
+        },
       ),
     );
   }
 }
+
+List<Widget> tabs = [
+  Icon(
+    Icons.create,
+    color: Colors.grey[200],
+  ),
+  Icon(
+    Icons.assignment_ind,
+    color: Colors.grey[200],
+  ),
+  Icon(
+    Icons.question_answer,
+    color: Colors.grey[200],
+  ),
+  Icon(
+    Icons.settings,
+    color: Colors.grey[200],
+  ),
+];

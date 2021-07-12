@@ -14,7 +14,7 @@ import 'package:natures_delicacies/pages/admin_panel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'delivery_boy_panel.dart';
-import 'user_dashboard.dart';
+import 'user_panel.dart';
 
 class LoginRegister extends StatefulWidget {
   @override
@@ -875,7 +875,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                                                 PageRouteBuilder(
                                                   pageBuilder:
                                                       (context, animation, secondaryAnimation) =>
-                                                          UserDashboard(),
+                                                          UserPanel(),
                                                   transitionDuration: Duration(milliseconds: 1000),
                                                   transitionsBuilder: (context, animation,
                                                       secondaryAnimation, child) {

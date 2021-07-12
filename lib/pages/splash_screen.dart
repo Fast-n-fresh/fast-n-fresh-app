@@ -8,7 +8,7 @@ import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:natures_delicacies/pages/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'user_dashboard.dart';
+import 'user_panel.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isUserLoggedIn) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => UserDashboard(),
+            pageBuilder: (context, animation, secondaryAnimation) => UserPanel(),
             transitionDuration: Duration(milliseconds: 1000),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);

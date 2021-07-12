@@ -2,10 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
-import 'package:natures_delicacies/models/page_model.dart';
+import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/pages/splash_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'models/admin_page_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,7 +50,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CartModel()),
-        ChangeNotifierProvider(create: (context) => PageModel()),
+        ChangeNotifierProvider(create: (context) => UserPageModel()),
+        ChangeNotifierProvider(create: (context) => AdminPageModel()),
         ChangeNotifierProvider(create: (context) => UserProfileModel()),
       ],
       child: MaterialApp(

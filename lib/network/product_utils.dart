@@ -22,10 +22,10 @@ class ProductUtils {
       headers: headers,
     )
         .then((http.Response response) async {
-      if (response.statusCode == 200) {
-        categoryCreation = 'Category Created Successfully!';
-      } else {
+      if (response.statusCode == 400) {
         categoryCreation = json.decode(response.body)['error'];
+      } else {
+        categoryCreation = 'Category Created Successfully!';
       }
       return CategoriesModel.fromJson(json.decode(response.body));
     });
