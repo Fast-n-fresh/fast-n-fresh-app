@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/categories_model.dart';
-import 'package:natures_delicacies/models/product_model.dart';
+import 'package:natures_delicacies/models/product.dart';
+import 'package:natures_delicacies/models/product_category.dart';
 import 'package:natures_delicacies/network/product_utils.dart';
 
 class CreateProducts extends StatefulWidget {
@@ -150,7 +150,7 @@ class _CreateProductsState extends State<CreateProducts> {
                                 isCategoryLoading = false;
                               });
                             } else {
-                              CategoriesModel category = CategoriesModel(
+                              ProductCategory category = ProductCategory(
                                 name: categoryName,
                                 imageUrl: categoryUrl,
                               );
@@ -285,7 +285,7 @@ class _CreateProductsState extends State<CreateProducts> {
                                 isProductLoading = false;
                               });
                             } else {
-                              ProductModel product = ProductModel(
+                              Product product = Product(
                                 name: productName,
                                 imageUrl: productUrl,
                                 unit: productUnit,

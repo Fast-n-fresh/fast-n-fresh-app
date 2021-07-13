@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/delivery_boy_page_model.dart';
 import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/pages/splash_screen.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CartModel()),
         ChangeNotifierProvider(create: (context) => UserPageModel()),
         ChangeNotifierProvider(create: (context) => AdminPageModel()),
+        ChangeNotifierProvider(create: (context) => DeliveryBoyPageModel()),
         ChangeNotifierProvider(create: (context) => UserProfileModel()),
       ],
       child: MaterialApp(

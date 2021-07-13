@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_item.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
-import 'package:natures_delicacies/models/categories_model.dart';
+import 'package:natures_delicacies/models/product_category.dart';
 import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/network/product_utils.dart';
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   int activeCategory = 0;
 
   ProductUtils productUtils = new ProductUtils();
-  List<CategoriesModel> myCategories;
+  List<ProductCategory> myCategories;
 
   Future getCategories() async {
     await productUtils.getCategories().then((value) {
@@ -190,60 +190,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 )
-                // Container(
-                //   height: 80,
-                //   child: ListView.builder(
-                //     shrinkWrap: true,
-                //     scrollDirection: Axis.horizontal,
-                //     itemCount: categories.length,
-                //     itemBuilder: (context, index) => GestureDetector(
-                //       onTap: () {
-                //         setState(() {
-                //           activeCategory = index;
-                //         });
-                //       },
-                //       child: Padding(
-                //         padding: EdgeInsets.symmetric(horizontal: 2.5),
-                //         child: Card(
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(50),
-                //           ),
-                //           color: activeCategory == index
-                //               ? Theme.of(context).colorScheme.primaryVariant
-                //               : Colors.white,
-                //           child: Padding(
-                //             padding: EdgeInsets.symmetric(horizontal: 10),
-                //             child: Row(
-                //               children: [
-                //                 Container(
-                //                   height: 50,
-                //                   width: 50,
-                //                   decoration: BoxDecoration(
-                //                     borderRadius: BorderRadius.circular(50),
-                //                     color: Colors.grey[200],
-                //                   ),
-                //                   padding: const EdgeInsets.all(10),
-                //                   child: Image.asset(categories[index].imageUrl),
-                //                 ),
-                //                 Padding(
-                //                   padding: EdgeInsets.symmetric(horizontal: 10),
-                //                   child: Text(
-                //                     categories[index].name,
-                //                     style: GoogleFonts.montserrat(
-                //                       color: activeCategory == index ? Colors.white : Colors.black,
-                //                       fontSize: 16,
-                //                       fontWeight: FontWeight.normal,
-                //                     ),
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             SizedBox(
@@ -424,14 +370,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-List<CategoriesModel> categories = [
-  CategoriesModel(imageUrl: './lib/images/all.png', name: 'All'),
-  CategoriesModel(imageUrl: './lib/images/vegetables.png', name: 'Vegetables'),
-  CategoriesModel(imageUrl: './lib/images/fruits.png', name: 'Fruits'),
-  CategoriesModel(imageUrl: './lib/images/vegetables.png', name: 'Cut Vegetables'),
-  CategoriesModel(imageUrl: './lib/images/fruits.png', name: 'Cut Fruits'),
-];
 
 List<CartItem> items = [
   CartItem(

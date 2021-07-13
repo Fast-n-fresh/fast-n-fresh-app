@@ -1,4 +1,4 @@
-class ProductModel {
+class Product {
   String name;
   int price;
   String unit;
@@ -7,7 +7,7 @@ class ProductModel {
   String category;
   String id;
 
-  ProductModel({
+  Product({
     this.name,
     this.price,
     this.unit,
@@ -17,8 +17,8 @@ class ProductModel {
     this.id,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
       name: json['name'],
       price: json['price'],
       unit: json['metric'],

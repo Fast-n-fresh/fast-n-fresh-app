@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
-import 'package:natures_delicacies/models/categories_model.dart';
-import 'package:natures_delicacies/models/product_model.dart';
+import 'package:natures_delicacies/models/product.dart';
+import 'package:natures_delicacies/models/product_category.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductUtils {
   String categoryCreation;
   String productCreation;
 
-  Future<CategoriesModel> createCategory(CategoriesModel category) async {
+  Future<ProductCategory> createCategory(ProductCategory category) async {
     final prefs = await SharedPreferences.getInstance();
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken', 'Content-Type': 'application/json'};
@@ -27,11 +27,11 @@ class ProductUtils {
       } else {
         categoryCreation = 'Category Created Successfully!';
       }
-      return CategoriesModel.fromJson(json.decode(response.body));
+      return ProductCategory.fromJson(json.decode(response.body));
     });
   }
 
-  Future<ProductModel> createProduct(ProductModel product) async {
+  Future<Product> createProduct(Product product) async {
     final prefs = await SharedPreferences.getInstance();
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken', 'Content-Type': 'application/json'};
@@ -48,12 +48,12 @@ class ProductUtils {
       } else {
         productCreation = json.decode(response.body)['error'];
       }
-      return ProductModel.fromJson(json.decode(response.body));
+      return Product.fromJson(json.decode(response.body));
     });
   }
 
-  Future<List<CategoriesModel>> getCategories() async {
-    List<CategoriesModel> categories = [];
+  Future<List<ProductCategory>> getCategories() async {
+    List<ProductCategory> categories = [];
     final response = await http.get(
       Uri.https(BASE_URL, USER_GET_CATEGORIES),
     );
@@ -62,7 +62,7 @@ class ProductUtils {
     var categoriesJson = extract['categoryList'];
     if (response.statusCode == 200) {
       for (Map i in categoriesJson) {
-        categories.add(CategoriesModel.fromJson(i));
+        categories.add(ProductCategory.fromJson(i));
       }
     } else {
       throw new Exception('Couldn\'t fetch data');
@@ -70,21 +70,20 @@ class ProductUtils {
     return categories;
   }
 
-  Future<List<CategoriesModel>> getProducts(String categoryId) async {
-    List<CategoriesModel> categories = [];
+  Future<List<Product>> getProducts(String categoryId) async {
+    List<Product> products = [];
     final response = await http.get(
-      Uri.https(BASE_URL, USER_GET_CATEGORIES + categoryId),
+      Uri.https(BASE_URL, USER_GET_PRODUCTS + categoryId),
     );
-
     var extract = json.decode(response.body);
     var categoriesJson = extract['categoryList'];
     if (response.statusCode == 200) {
       for (Map i in categoriesJson) {
-        categories.add(CategoriesModel.fromJson(i));
+        products.add(Product.fromJson(i));
       }
     } else {
       throw new Exception('Couldn\'t fetch data');
     }
-    return categories;
+    return products;
   }
 }
