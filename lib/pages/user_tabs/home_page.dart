@@ -8,6 +8,7 @@ import 'package:natures_delicacies/models/cart_model.dart';
 import 'package:natures_delicacies/models/categories_model.dart';
 import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
+import 'package:natures_delicacies/network/product_utils.dart';
 import 'package:natures_delicacies/pages/item_details.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Random random = new Random();
   int activeCategory = 0;
+
+  ProductUtils productUtils = new ProductUtils();
+  List<CategoriesModel> myCategories;
+
+  Future getCategories() async {
+    await productUtils.getCategories().then((value) {
+      myCategories = value;
+      print(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,60 +122,128 @@ class _HomePageState extends State<HomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 80,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categories.length,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          activeCategory = index;
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.5),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          color: activeCategory == index
-                              ? Theme.of(context).colorScheme.primaryVariant
-                              : Colors.white,
+                FutureBuilder(
+                  future: getCategories(),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                      case ConnectionState.active:
+                        return Center(child: CircularProgressIndicator());
+                      case ConnectionState.done:
+                        print('done');
+                    }
+                    return Container(
+                      height: 80,
+                      child: ListView.builder(
+                        itemCount: myCategories.length,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              activeCategory = index;
+                            });
+                          },
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.grey[200],
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(categories[index].imageUrl),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Text(
-                                    categories[index].name,
-                                    style: GoogleFonts.montserrat(
-                                      color: activeCategory == index ? Colors.white : Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                            padding: EdgeInsets.symmetric(horizontal: 2.5),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              color: activeCategory == index
+                                  ? Theme.of(context).colorScheme.primaryVariant
+                                  : Colors.white,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.grey[200],
+                                      ),
+                                      padding: EdgeInsets.all(10),
+                                      child: Image.network(myCategories[index].imageUrl),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 10),
+                                      child: Text(
+                                        myCategories[index].name,
+                                        style: GoogleFonts.montserrat(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal,
+                                          color:
+                                              activeCategory == index ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
+                    );
+                  },
+                )
+                // Container(
+                //   height: 80,
+                //   child: ListView.builder(
+                //     shrinkWrap: true,
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: categories.length,
+                //     itemBuilder: (context, index) => GestureDetector(
+                //       onTap: () {
+                //         setState(() {
+                //           activeCategory = index;
+                //         });
+                //       },
+                //       child: Padding(
+                //         padding: EdgeInsets.symmetric(horizontal: 2.5),
+                //         child: Card(
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(50),
+                //           ),
+                //           color: activeCategory == index
+                //               ? Theme.of(context).colorScheme.primaryVariant
+                //               : Colors.white,
+                //           child: Padding(
+                //             padding: EdgeInsets.symmetric(horizontal: 10),
+                //             child: Row(
+                //               children: [
+                //                 Container(
+                //                   height: 50,
+                //                   width: 50,
+                //                   decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(50),
+                //                     color: Colors.grey[200],
+                //                   ),
+                //                   padding: const EdgeInsets.all(10),
+                //                   child: Image.asset(categories[index].imageUrl),
+                //                 ),
+                //                 Padding(
+                //                   padding: EdgeInsets.symmetric(horizontal: 10),
+                //                   child: Text(
+                //                     categories[index].name,
+                //                     style: GoogleFonts.montserrat(
+                //                       color: activeCategory == index ? Colors.white : Colors.black,
+                //                       fontSize: 16,
+                //                       fontWeight: FontWeight.normal,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(

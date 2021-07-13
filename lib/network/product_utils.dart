@@ -51,4 +51,40 @@ class ProductUtils {
       return ProductModel.fromJson(json.decode(response.body));
     });
   }
+
+  Future<List<CategoriesModel>> getCategories() async {
+    List<CategoriesModel> categories = [];
+    final response = await http.get(
+      Uri.https(BASE_URL, USER_GET_CATEGORIES),
+    );
+
+    var extract = json.decode(response.body);
+    var categoriesJson = extract['categoryList'];
+    if (response.statusCode == 200) {
+      for (Map i in categoriesJson) {
+        categories.add(CategoriesModel.fromJson(i));
+      }
+    } else {
+      throw new Exception('Couldn\'t fetch data');
+    }
+    return categories;
+  }
+
+  Future<List<CategoriesModel>> getProducts(String categoryId) async {
+    List<CategoriesModel> categories = [];
+    final response = await http.get(
+      Uri.https(BASE_URL, USER_GET_CATEGORIES + categoryId),
+    );
+
+    var extract = json.decode(response.body);
+    var categoriesJson = extract['categoryList'];
+    if (response.statusCode == 200) {
+      for (Map i in categoriesJson) {
+        categories.add(CategoriesModel.fromJson(i));
+      }
+    } else {
+      throw new Exception('Couldn\'t fetch data');
+    }
+    return categories;
+  }
 }
