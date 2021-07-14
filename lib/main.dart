@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Nature\'s Delicacies',
+        title: 'Fast n\' fresh',
         theme: ThemeData(
           colorScheme: colorSchemeLight,
           backgroundColor: colorSchemeLight.background,

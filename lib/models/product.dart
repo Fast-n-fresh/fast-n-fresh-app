@@ -6,6 +6,7 @@ class Product {
   String description;
   String category;
   String id;
+  int quantity = 0;
 
   Product({
     this.name,
@@ -28,6 +29,8 @@ class Product {
       id: json['_id'],
     );
   }
+
+  num get total => quantity * price;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

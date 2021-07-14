@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/user_page_model.dart';
-import 'package:natures_delicacies/pages/user_tabs/home_page.dart';
 import 'package:provider/provider.dart';
 
 class ItemDetails extends StatefulWidget {
   final int index;
+  final List<Product> products;
 
-  const ItemDetails({Key key, @required this.index}) : super(key: key);
+  const ItemDetails({Key key, @required this.index, @required this.products}) : super(key: key);
 
   @override
   _ItemDetailsState createState() => _ItemDetailsState();
@@ -64,9 +65,9 @@ class _ItemDetailsState extends State<ItemDetails> {
                 ),
                 Center(
                   child: Hero(
-                    tag: 'image ' + items[widget.index].name,
-                    child: Image.asset(
-                      items[widget.index].imgUrl,
+                    tag: 'image ' + widget.products[widget.index].name,
+                    child: Image.network(
+                      widget.products[widget.index].imageUrl,
                       height: 300,
                       width: 300,
                     ),
@@ -76,7 +77,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   height: 10,
                 ),
                 Text(
-                  items[widget.index].name,
+                  widget.products[widget.index].name,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
                     fontSize: 40,
@@ -84,14 +85,14 @@ class _ItemDetailsState extends State<ItemDetails> {
                   ),
                 ),
                 Text(
-                  '\u20B9 ' + items[widget.index].price.toString(),
+                  '\u20B9 ' + widget.products[widget.index].price.toString(),
                   style: GoogleFonts.montserrat(
                     fontSize: 32,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
                 Text(
-                  'per ' + items[widget.index].unit,
+                  'per ' + widget.products[widget.index].unit,
                   style: GoogleFonts.montserrat(
                     fontSize: 26,
                     fontWeight: FontWeight.normal,
@@ -170,7 +171,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                         for (int i = 0;
                             i < Provider.of<CartModel>(context, listen: false).getLength();
                             i++) {
-                          if (items[widget.index] ==
+                          if (widget.products[widget.index] ==
                               Provider.of<CartModel>(context, listen: false).getItems()[i]) {
                             flag = true;
                             Provider.of<CartModel>(context, listen: false).getItems()[i].quantity +=
@@ -179,12 +180,13 @@ class _ItemDetailsState extends State<ItemDetails> {
                           }
                         }
                         if (!flag) {
-                          Provider.of<CartModel>(context, listen: false).add(items[widget.index]);
+                          Provider.of<CartModel>(context, listen: false)
+                              .add(widget.products[widget.index]);
                           if (count != 1) {
                             for (int i = 0;
                                 i < Provider.of<CartModel>(context, listen: false).getLength();
                                 i++) {
-                              if (items[widget.index] ==
+                              if (widget.products[widget.index] ==
                                   Provider.of<CartModel>(context, listen: false).getItems()[i]) {
                                 Provider.of<CartModel>(context, listen: false)
                                     .getItems()[i]

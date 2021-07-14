@@ -33,7 +33,8 @@ dependencies:
   curved_navigation_bar: ^0.3.7
   flutter_statusbarcolor: ^0.2.3
   provider: ^5.0.0
-  razorpay_flutter: ^1.2.3
+  razorpay_flutter: ^1.2.7
+  shimmer: ^2.0.0
   fluttertoast: ^8.0.7
   cached_network_image: ^3.0.0
   marquee: ^2.1.0

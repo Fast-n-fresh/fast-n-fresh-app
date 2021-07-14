@@ -70,15 +70,15 @@ class ProductUtils {
     return categories;
   }
 
-  Future<List<Product>> getProducts(String categoryId) async {
+  Future<List<Product>> getProducts(String category) async {
     List<Product> products = [];
     final response = await http.get(
-      Uri.https(BASE_URL, USER_GET_PRODUCTS + categoryId),
+      Uri.https(BASE_URL, USER_GET_PRODUCTS + category),
     );
     var extract = json.decode(response.body);
-    var categoriesJson = extract['categoryList'];
+    var produtsJson = extract['products'];
     if (response.statusCode == 200) {
-      for (Map i in categoriesJson) {
+      for (Map i in produtsJson) {
         products.add(Product.fromJson(i));
       }
     } else {
