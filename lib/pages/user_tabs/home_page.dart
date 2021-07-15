@@ -61,8 +61,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                right: screenWidth * 0.050,
-                left: screenWidth * 0.050,
+                right: screenWidth * 0.030,
+                left: screenWidth * 0.030,
                 top: screenHeight * 0.040,
                 bottom: screenHeight * 0.00,
               ),
@@ -74,9 +74,31 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.menu),
-                          onPressed: () {},
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Consumer<UserProfileModel>(
+                                builder: (context, model, child) {
+                                  return Text(
+                                    'Hi ${model.fname},',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                },
+                              ),
+                              Text(
+                                'What would you like to order today?',
+                                style: GoogleFonts.montserrat(
+                                  color: Theme.of(context).colorScheme.onBackground,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -95,31 +117,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
-                    child: Consumer<UserProfileModel>(
-                      builder: (context, model, child) {
-                        return Text(
-                          'Hi ${model.fname},',
-                          style: GoogleFonts.poppins(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.025),
-                    child: Text(
-                      'What would you like to order today?',
-                      style: GoogleFonts.montserrat(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      ),
                     ),
                   ),
                   Padding(
@@ -149,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                         return Container(
                           height: 80,
                           child: ListView.builder(
-                            itemCount: 3,
+                            itemCount: 6,
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => Padding(
@@ -159,8 +156,8 @@ class _HomePageState extends State<HomePage> {
                                 baseColor: Colors.grey[300],
                                 highlightColor: Colors.grey[100],
                                 child: Container(
-                                  width: 150,
-                                  height: 50,
+                                  width: 120,
+                                  height: 80,
                                   decoration: BoxDecoration(
                                     color: Colors.grey[300],
                                     borderRadius: BorderRadius.circular(50),
@@ -190,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.symmetric(horizontal: 2.5),
                             child: Card(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(40),
                               ),
                               color: activeCategoryIndex == index
                                   ? Theme.of(context).colorScheme.primaryVariant
