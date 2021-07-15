@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/models/user_page_model.dart';
+import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,14 +46,14 @@ class _UserPanelState extends State<UserPanel> {
         backgroundColor: Theme.of(context).colorScheme.background,
         color: Theme.of(context).colorScheme.secondary,
         animationCurve: Curves.easeInOut,
-        index: Provider.of<UserPageModel>(context, listen: true).currentIndex,
+        index: Provider.of<UserPage>(context, listen: true).currentIndex,
         onTap: (val) {
-          Provider.of<UserPageModel>(context, listen: false).setCurrentPage(val);
+          Provider.of<UserPage>(context, listen: false).setCurrentPage(val);
         },
         height: 75,
         animationDuration: Duration(milliseconds: 500),
       ),
-      body: Consumer<UserPageModel>(
+      body: Consumer<UserPage>(
         builder: (context, model, _) {
           return model.currentPage(model.currentIndex);
         },

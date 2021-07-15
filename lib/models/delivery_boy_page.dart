@@ -3,7 +3,7 @@ import 'package:natures_delicacies/pages/delivery_boy_tabs/assigned_orders.dart'
 import 'package:natures_delicacies/pages/delivery_boy_tabs/delivery_boy_settings.dart';
 import 'package:natures_delicacies/pages/delivery_boy_tabs/delivery_status.dart';
 
-class DeliveryBoyPageModel extends ChangeNotifier {
+class DeliveryBoyPage extends ChangeNotifier {
   int currentIndex = 0;
 
   List<Widget> pages = [

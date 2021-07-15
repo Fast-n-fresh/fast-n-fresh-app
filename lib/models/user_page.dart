@@ -4,7 +4,7 @@ import 'package:natures_delicacies/pages/user_tabs/my_cart.dart';
 import 'package:natures_delicacies/pages/user_tabs/orders.dart';
 import 'package:natures_delicacies/pages/user_tabs/user_profile.dart';
 
-class UserPageModel extends ChangeNotifier {
+class UserPage extends ChangeNotifier {
   int currentIndex = 0;
 
   List<Widget> pages = [

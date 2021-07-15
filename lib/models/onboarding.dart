@@ -1,21 +1,21 @@
-class OnboardingModel {
+class Onboarding {
   String image;
   String title;
   String description;
 
-  OnboardingModel({this.image, this.title, this.description});
+  Onboarding({this.image, this.title, this.description});
 }
 
-List<OnboardingModel> onboardingContent = [
-  OnboardingModel(
+List<Onboarding> onboardingContent = [
+  Onboarding(
       image: './lib/images/food.svg',
       title: 'Quality Food',
       description: "Get fresh fruits and vegetables"),
-  OnboardingModel(
+  Onboarding(
       image: './lib/images/mobile.svg',
       title: 'Quick Payment',
       description: "Order from the comfort of your home"),
-  OnboardingModel(
+  Onboarding(
       image: './lib/images/delivery.svg',
       title: 'Doorstep Delivery',
       description: 'Fast and safe delivery to your house')

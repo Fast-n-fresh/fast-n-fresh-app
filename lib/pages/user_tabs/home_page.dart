@@ -4,10 +4,10 @@ import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/cart.dart';
 import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/product_category.dart';
-import 'package:natures_delicacies/models/user_page_model.dart';
+import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/network/product_utils.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Provider.of<UserPageModel>(context, listen: false).setCurrentPage(3);
+                            Provider.of<UserPage>(context, listen: false).setCurrentPage(3);
                           },
                           child: Consumer<UserProfileModel>(
                             builder: (context, model, child) => CircleAvatar(
@@ -409,25 +409,23 @@ class _HomePageState extends State<HomePage> {
                                                     bool flag = false;
                                                     for (int i = 0;
                                                         i <
-                                                            Provider.of<CartModel>(context,
+                                                            Provider.of<Cart>(context,
                                                                     listen: false)
                                                                 .getLength();
                                                         i++) {
                                                       if (products[index].name ==
-                                                          Provider.of<CartModel>(context,
-                                                                  listen: false)
+                                                          Provider.of<Cart>(context, listen: false)
                                                               .getItems()[i]
                                                               .name) {
                                                         flag = true;
-                                                        Provider.of<CartModel>(context,
-                                                                listen: false)
+                                                        Provider.of<Cart>(context, listen: false)
                                                             .getItems()[i]
                                                             .quantity++;
                                                         break;
                                                       }
                                                     }
                                                     if (!flag) {
-                                                      Provider.of<CartModel>(context, listen: false)
+                                                      Provider.of<Cart>(context, listen: false)
                                                           .add(products[index]);
                                                     }
                                                   },

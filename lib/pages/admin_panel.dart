@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/models/admin_page_model.dart';
+import 'package:natures_delicacies/models/admin_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,9 +23,9 @@ class _AdminPanelState extends State<AdminPanel> {
         backgroundColor: Theme.of(context).colorScheme.background,
         color: Theme.of(context).colorScheme.secondary,
         animationCurve: Curves.easeInOut,
-        index: Provider.of<AdminPageModel>(context, listen: true).currentIndex,
+        index: Provider.of<AdminPage>(context, listen: true).currentIndex,
         onTap: (val) {
-          Provider.of<AdminPageModel>(context, listen: false).setCurrentPage(val);
+          Provider.of<AdminPage>(context, listen: false).setCurrentPage(val);
         },
         height: 75,
         animationDuration: Duration(milliseconds: 500),
@@ -51,7 +51,7 @@ class _AdminPanelState extends State<AdminPanel> {
         },
         child: Icon(Icons.exit_to_app),
       ),
-      body: Consumer<AdminPageModel>(
+      body: Consumer<AdminPage>(
         builder: (context, model, _) {
           return model.currentPage(model.currentIndex);
         },

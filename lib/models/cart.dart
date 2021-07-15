@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:natures_delicacies/models/product.dart';
 
-class CartModel extends ChangeNotifier {
+class Cart extends ChangeNotifier {
   List<Product> _items = [];
 
   double get getTotalPrice {

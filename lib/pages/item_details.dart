@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/cart.dart';
 import 'package:natures_delicacies/models/product.dart';
-import 'package:natures_delicacies/models/user_page_model.dart';
+import 'package:natures_delicacies/models/user_page.dart';
 import 'package:provider/provider.dart';
 
 class ItemDetails extends StatefulWidget {
@@ -168,37 +168,34 @@ class _ItemDetailsState extends State<ItemDetails> {
                       bool flag = false;
                       if (count != 0) {
                         for (int i = 0;
-                            i < Provider.of<CartModel>(context, listen: false).getLength();
+                            i < Provider.of<Cart>(context, listen: false).getLength();
                             i++) {
                           if (widget.products[widget.index].name ==
-                              Provider.of<CartModel>(context, listen: false).getItems()[i].name) {
+                              Provider.of<Cart>(context, listen: false).getItems()[i].name) {
                             flag = true;
-                            Provider.of<CartModel>(context, listen: false).getItems()[i].quantity +=
+                            Provider.of<Cart>(context, listen: false).getItems()[i].quantity +=
                                 count;
                             break;
                           }
                         }
                         if (!flag) {
-                          Provider.of<CartModel>(context, listen: false)
+                          Provider.of<Cart>(context, listen: false)
                               .add(widget.products[widget.index]);
                           if (count != 1) {
                             for (int i = 0;
-                                i < Provider.of<CartModel>(context, listen: false).getLength();
+                                i < Provider.of<Cart>(context, listen: false).getLength();
                                 i++) {
                               if (widget.products[widget.index].name ==
-                                  Provider.of<CartModel>(context, listen: false)
-                                      .getItems()[i]
-                                      .name) {
-                                Provider.of<CartModel>(context, listen: false)
-                                    .getItems()[i]
-                                    .quantity += (count - 1);
+                                  Provider.of<Cart>(context, listen: false).getItems()[i].name) {
+                                Provider.of<Cart>(context, listen: false).getItems()[i].quantity +=
+                                    (count - 1);
                               }
                             }
                           }
                         }
                       }
                       Navigator.pop(context);
-                      Provider.of<UserPageModel>(context, listen: false).setCurrentPage(2);
+                      Provider.of<UserPage>(context, listen: false).setCurrentPage(2);
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).buttonColor,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/onboarding_model.dart';
+import 'package:natures_delicacies/models/onboarding.dart';
 import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

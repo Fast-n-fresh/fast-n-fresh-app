@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/consts/constants.dart';
-import 'package:natures_delicacies/models/cart_model.dart';
+import 'package:natures_delicacies/models/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -58,7 +58,7 @@ class _MyCartState extends State<MyCart> {
   void openCheckout() {
     var options = {
       'key': RAZORPAY_API_KEY,
-      'amount': Provider.of<CartModel>(context, listen: false).getTotalPrice * 100,
+      'amount': Provider.of<Cart>(context, listen: false).getTotalPrice * 100,
       'name': 'Fast n\' fresh',
       'description': 'Payment for grocery order',
       'prefill': {
@@ -101,7 +101,7 @@ class _MyCartState extends State<MyCart> {
       body: SafeArea(
         child: Align(
           alignment: Alignment(0, 1),
-          child: Consumer<CartModel>(
+          child: Consumer<Cart>(
             builder: (context, cart, child) => (cart.getLength() == 0)
                 ? EmptyCartWidget()
                 : Column(
@@ -125,7 +125,7 @@ class _MyCartState extends State<MyCart> {
                             physics: ScrollPhysics(),
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            itemCount: Provider.of<CartModel>(context, listen: false).getLength(),
+                            itemCount: Provider.of<Cart>(context, listen: false).getLength(),
                             itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                               child: Container(
@@ -150,7 +150,7 @@ class _MyCartState extends State<MyCart> {
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                         child: Image.network(
-                                          Provider.of<CartModel>(context, listen: false)
+                                          Provider.of<Cart>(context, listen: false)
                                               .getItems()[index]
                                               .imageUrl,
                                           height: 100,
@@ -169,7 +169,7 @@ class _MyCartState extends State<MyCart> {
                                             Padding(
                                               padding: const EdgeInsets.only(left: 8),
                                               child: Text(
-                                                Provider.of<CartModel>(context, listen: false)
+                                                Provider.of<Cart>(context, listen: false)
                                                     .getItems()[index]
                                                     .name,
                                                 overflow: TextOverflow.ellipsis,
@@ -187,7 +187,7 @@ class _MyCartState extends State<MyCart> {
                                               padding: const EdgeInsets.only(left: 8),
                                               child: Text(
                                                 "\u20B9 " +
-                                                    Provider.of<CartModel>(context, listen: false)
+                                                    Provider.of<Cart>(context, listen: false)
                                                         .getItems()[index]
                                                         .price
                                                         .toString(),
@@ -201,7 +201,7 @@ class _MyCartState extends State<MyCart> {
                                               padding: const EdgeInsets.only(left: 8),
                                               child: Text(
                                                 "per " +
-                                                    Provider.of<CartModel>(context, listen: false)
+                                                    Provider.of<Cart>(context, listen: false)
                                                         .getItems()[index]
                                                         .unit,
                                                 style: GoogleFonts.montserrat(
@@ -229,8 +229,7 @@ class _MyCartState extends State<MyCart> {
                                                     Expanded(
                                                       child: IconButton(
                                                         onPressed: () {
-                                                          Provider.of<CartModel>(context,
-                                                                  listen: false)
+                                                          Provider.of<Cart>(context, listen: false)
                                                               .decrementQuantity(index);
                                                         },
                                                         icon: Icon(
@@ -241,7 +240,7 @@ class _MyCartState extends State<MyCart> {
                                                     ),
                                                     Expanded(
                                                       child: Center(
-                                                        child: Consumer<CartModel>(
+                                                        child: Consumer<Cart>(
                                                           builder: (context, cart, child) => Text(
                                                             '${cart.getItems()[index].quantity}',
                                                             style: GoogleFonts.montserrat(
@@ -255,8 +254,7 @@ class _MyCartState extends State<MyCart> {
                                                     Expanded(
                                                       child: IconButton(
                                                         onPressed: () {
-                                                          Provider.of<CartModel>(context,
-                                                                  listen: false)
+                                                          Provider.of<Cart>(context, listen: false)
                                                               .incrementQuantity(index);
                                                         },
                                                         icon: Icon(
@@ -277,8 +275,7 @@ class _MyCartState extends State<MyCart> {
                                       flex: 2,
                                       child: IconButton(
                                         onPressed: () {
-                                          Provider.of<CartModel>(context, listen: false)
-                                              .remove(index);
+                                          Provider.of<Cart>(context, listen: false).remove(index);
                                         },
                                         icon: Icon(
                                           Icons.delete,
@@ -312,7 +309,7 @@ class _MyCartState extends State<MyCart> {
                                     ),
                                   ),
                                 ),
-                                Consumer<CartModel>(
+                                Consumer<Cart>(
                                   builder: (context, cart, child) => Padding(
                                     padding: const EdgeInsets.only(left: 30),
                                     child: Text(

@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:natures_delicacies/models/delivery_boy_page_model.dart';
+import 'package:natures_delicacies/models/delivery_boy_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,14 +44,14 @@ class _DeliveryBoyPanelState extends State<DeliveryBoyPanel> {
         backgroundColor: Theme.of(context).colorScheme.background,
         color: Theme.of(context).colorScheme.secondary,
         animationCurve: Curves.easeInOut,
-        index: Provider.of<DeliveryBoyPageModel>(context, listen: true).currentIndex,
+        index: Provider.of<DeliveryBoyPage>(context, listen: true).currentIndex,
         onTap: (val) {
-          Provider.of<DeliveryBoyPageModel>(context, listen: false).setCurrentPage(val);
+          Provider.of<DeliveryBoyPage>(context, listen: false).setCurrentPage(val);
         },
         height: 75,
         animationDuration: Duration(milliseconds: 500),
       ),
-      body: Consumer<DeliveryBoyPageModel>(
+      body: Consumer<DeliveryBoyPage>(
         builder: (context, model, _) {
           return model.currentPage(model.currentIndex);
         },
