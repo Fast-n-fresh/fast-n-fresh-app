@@ -20,7 +20,6 @@ class _ItemDetailsState extends State<ItemDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -171,8 +170,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                         for (int i = 0;
                             i < Provider.of<CartModel>(context, listen: false).getLength();
                             i++) {
-                          if (widget.products[widget.index] ==
-                              Provider.of<CartModel>(context, listen: false).getItems()[i]) {
+                          if (widget.products[widget.index].name ==
+                              Provider.of<CartModel>(context, listen: false).getItems()[i].name) {
                             flag = true;
                             Provider.of<CartModel>(context, listen: false).getItems()[i].quantity +=
                                 count;
@@ -186,8 +185,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                             for (int i = 0;
                                 i < Provider.of<CartModel>(context, listen: false).getLength();
                                 i++) {
-                              if (widget.products[widget.index] ==
-                                  Provider.of<CartModel>(context, listen: false).getItems()[i]) {
+                              if (widget.products[widget.index].name ==
+                                  Provider.of<CartModel>(context, listen: false)
+                                      .getItems()[i]
+                                      .name) {
                                 Provider.of<CartModel>(context, listen: false)
                                     .getItems()[i]
                                     .quantity += (count - 1);

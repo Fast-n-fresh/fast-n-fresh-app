@@ -6,7 +6,7 @@ class Product {
   String description;
   String category;
   String id;
-  int quantity = 0;
+  int quantity = 1;
 
   Product({
     this.name,

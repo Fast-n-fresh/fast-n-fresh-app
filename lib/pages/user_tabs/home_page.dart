@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/cart_item.dart';
 import 'package:natures_delicacies/models/cart_model.dart';
 import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/product_category.dart';
@@ -11,6 +11,7 @@ import 'package:natures_delicacies/models/user_page_model.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/network/product_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../item_details.dart';
 
@@ -28,10 +29,14 @@ class _HomePageState extends State<HomePage> {
   List<ProductCategory> categories;
   List<Product> products;
 
-  Future getCategories() async {
-    await productUtils.getCategories().then((value) {
-      categories = value;
-      activeCategoryName = categories[0].name;
+  final AsyncMemoizer _categoryMemoizer = AsyncMemoizer();
+
+  Future getCategories() {
+    return this._categoryMemoizer.runOnce(() async {
+      await productUtils.getCategories().then((value) {
+        categories = value;
+        activeCategoryName = categories[0].name;
+      });
     });
   }
 
@@ -141,7 +146,30 @@ class _HomePageState extends State<HomePage> {
                       case ConnectionState.none:
                       case ConnectionState.waiting:
                       case ConnectionState.active:
-                        return Center(child: CircularProgressIndicator());
+                        return Container(
+                          height: 80,
+                          child: ListView.builder(
+                            itemCount: 3,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 2.5),
+                              child: Shimmer.fromColors(
+                                key: UniqueKey(),
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[100],
+                                child: Container(
+                                  width: 150,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       case ConnectionState.done:
                         print('done');
                     }
@@ -216,7 +244,39 @@ class _HomePageState extends State<HomePage> {
                     case ConnectionState.none:
                     case ConnectionState.waiting:
                     case ConnectionState.active:
-                      return Center(child: CircularProgressIndicator());
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: GridView.builder(
+                            physics: ScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.6,
+                            ),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            key: UniqueKey(),
+                            itemCount: 8,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Shimmer.fromColors(
+                                key: UniqueKey(),
+                                baseColor: Colors.grey[300],
+                                highlightColor: Colors.grey[100],
+                                child: GridTile(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.grey[300],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
                     case ConnectionState.done:
                       print('done');
                   }
@@ -356,10 +416,11 @@ class _HomePageState extends State<HomePage> {
                                                                     listen: false)
                                                                 .getLength();
                                                         i++) {
-                                                      if (products[index] ==
+                                                      if (products[index].name ==
                                                           Provider.of<CartModel>(context,
                                                                   listen: false)
-                                                              .getItems()[i]) {
+                                                              .getItems()[i]
+                                                              .name) {
                                                         flag = true;
                                                         Provider.of<CartModel>(context,
                                                                 listen: false)
@@ -401,48 +462,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-List<CartItem> items = [
-  CartItem(
-    name: "Banana",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/banana.png',
-    unit: 'piece',
-  ),
-  CartItem(
-    name: "Apple",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/apple.png',
-    unit: 'kg',
-  ),
-  CartItem(
-    name: "Mango",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/mango.png',
-    unit: 'kg',
-  ),
-  CartItem(
-    name: "Grapes",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/grapes.png',
-    unit: 'kg',
-  ),
-  CartItem(
-    name: "Pear",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/pear.png',
-    unit: 'kg',
-  ),
-  CartItem(
-    name: "South African Apple",
-    price: 20.0,
-    quantity: 1,
-    imgUrl: './lib/images/apple.png',
-    unit: 'kg',
-  ),
-];
