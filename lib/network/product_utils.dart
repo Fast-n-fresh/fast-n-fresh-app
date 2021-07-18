@@ -104,7 +104,7 @@ class ProductUtils {
     )
         .then((http.Response response) async {
       if (response.statusCode == 200) {
-        orderCreation = 'Order Placed Successfully!';
+        orderCreation = 'Order Created Successfully!';
       } else {
         orderCreation = json.decode(response.body)['error'];
       }

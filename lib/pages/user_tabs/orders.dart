@@ -90,7 +90,7 @@ class _OrdersState extends State<Orders> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Expanded(
                         child: SingleChildScrollView(
@@ -121,7 +121,10 @@ class _OrdersState extends State<Orders> {
                                 );
                               },
                               child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.050),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.050,
+                                  vertical: 10,
+                                ),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     boxShadow: [
