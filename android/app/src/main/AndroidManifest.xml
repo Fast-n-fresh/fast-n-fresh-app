@@ -5,7 +5,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="Nature's Delicacies"
+        android:label="Fast n' fresh"
         android:usesCleartextTraffic = "true">
         <activity
             android:name=".MainActivity"

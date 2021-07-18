@@ -4,6 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/cart.dart';
+import 'package:natures_delicacies/models/order.dart';
+import 'package:natures_delicacies/models/product.dart';
+import 'package:natures_delicacies/network/product_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -15,6 +18,8 @@ class MyCart extends StatefulWidget {
 class _MyCartState extends State<MyCart> {
   Razorpay razorpay;
   FToast fToast;
+
+  ProductUtils productUtils = new ProductUtils();
 
   @override
   void initState() {
@@ -77,9 +82,27 @@ class _MyCartState extends State<MyCart> {
     }
   }
 
+  void placeOrder() async {
+    List<Product> productList = Provider.of<Cart>(context, listen: false).getProducts();
+    List<Products> products = [];
+
+    for (int i = 0; i < productList.length; i += 1) {
+      products.add(new Products(productId: productList[i].id, quantity: productList[i].quantity));
+      print('$i: ${productList[i].id}, ${productList[i].quantity}');
+    }
+
+    Order order = new Order(products: products);
+    await productUtils.placeOrder(order).then((value) async {
+      if (productUtils.orderCreation == 'Order Created Successfully!') {
+        _showToast('Payment Successful, Order Created Successfully!');
+      } else {
+        _showToast('Error placing order, ${productUtils.orderCreation}');
+      }
+    });
+  }
+
   void handlePaymentSuccess(PaymentSuccessResponse response) {
-    _showToast('Payment Successful');
-    //TODO: Add order to pending orders
+    placeOrder();
   }
 
   void handlePaymentError(PaymentFailureResponse response) {
@@ -151,7 +174,7 @@ class _MyCartState extends State<MyCart> {
                                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                                         child: Image.network(
                                           Provider.of<Cart>(context, listen: false)
-                                              .getItems()[index]
+                                              .getProducts()[index]
                                               .imageUrl,
                                           height: 100,
                                           width: 100,
@@ -170,7 +193,7 @@ class _MyCartState extends State<MyCart> {
                                               padding: const EdgeInsets.only(left: 8),
                                               child: Text(
                                                 Provider.of<Cart>(context, listen: false)
-                                                    .getItems()[index]
+                                                    .getProducts()[index]
                                                     .name,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 2,
@@ -188,7 +211,7 @@ class _MyCartState extends State<MyCart> {
                                               child: Text(
                                                 "\u20B9 " +
                                                     Provider.of<Cart>(context, listen: false)
-                                                        .getItems()[index]
+                                                        .getProducts()[index]
                                                         .price
                                                         .toString(),
                                                 style: GoogleFonts.montserrat(
@@ -202,7 +225,7 @@ class _MyCartState extends State<MyCart> {
                                               child: Text(
                                                 "per " +
                                                     Provider.of<Cart>(context, listen: false)
-                                                        .getItems()[index]
+                                                        .getProducts()[index]
                                                         .unit,
                                                 style: GoogleFonts.montserrat(
                                                     fontSize: 16,
@@ -242,7 +265,7 @@ class _MyCartState extends State<MyCart> {
                                                       child: Center(
                                                         child: Consumer<Cart>(
                                                           builder: (context, cart, child) => Text(
-                                                            '${cart.getItems()[index].quantity}',
+                                                            '${cart.getProducts()[index].quantity}',
                                                             style: GoogleFonts.montserrat(
                                                                 fontSize: 20,
                                                                 fontWeight: FontWeight.normal,

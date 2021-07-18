@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       case ConnectionState.done:
-                        print('done');
+                        print('fetched categories');
                     }
                     return Container(
                       height: 80,
@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       );
                     case ConnectionState.done:
-                      print('done');
+                      print('fetched products');
                   }
                   return Expanded(
                     child: SingleChildScrollView(
@@ -415,11 +415,11 @@ class _HomePageState extends State<HomePage> {
                                                         i++) {
                                                       if (products[index].name ==
                                                           Provider.of<Cart>(context, listen: false)
-                                                              .getItems()[i]
+                                                              .getProducts()[i]
                                                               .name) {
                                                         flag = true;
                                                         Provider.of<Cart>(context, listen: false)
-                                                            .getItems()[i]
+                                                            .getProducts()[i]
                                                             .quantity++;
                                                         break;
                                                       }

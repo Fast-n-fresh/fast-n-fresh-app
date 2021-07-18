@@ -2,49 +2,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:natures_delicacies/models/product.dart';
 
 class Cart extends ChangeNotifier {
-  List<Product> _items = [];
+  List<Product> _products = [];
 
   double get getTotalPrice {
     double total = 0;
-    for (int i = 0; i < _items.length; i++) {
-      total += _items[i].total;
+    for (int i = 0; i < _products.length; i++) {
+      total += _products[i].total;
     }
     return total;
   }
 
   int getLength() {
-    return _items.length;
+    return _products.length;
   }
 
-  List<Product> getItems() {
-    return _items;
+  List<Product> getProducts() {
+    return _products;
   }
 
-  void add(Product item) {
-    _items.add(item);
+  void add(Product product) {
+    _products.add(product);
     notifyListeners();
   }
 
   void remove(int index) {
-    _items.removeAt(index);
+    _products.removeAt(index);
     notifyListeners();
   }
 
   void removeAll() {
-    _items.clear();
+    _products.clear();
     notifyListeners();
   }
 
   void incrementQuantity(int index) {
-    _items[index].quantity++;
+    _products[index].quantity++;
     notifyListeners();
   }
 
   void decrementQuantity(int index) {
-    if (_items[index].quantity > 1) {
-      _items[index].quantity--;
-    } else if (_items[index].quantity == 1) {
-      _items.removeAt(index);
+    if (_products[index].quantity > 1) {
+      _products[index].quantity--;
+    } else if (_products[index].quantity == 1) {
+      _products.removeAt(index);
     }
     notifyListeners();
   }
