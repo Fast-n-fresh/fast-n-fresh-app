@@ -6,6 +6,7 @@ import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/cart.dart';
 import 'package:natures_delicacies/models/order.dart';
 import 'package:natures_delicacies/models/product.dart';
+import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/network/product_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -88,13 +89,13 @@ class _MyCartState extends State<MyCart> {
 
     for (int i = 0; i < productList.length; i += 1) {
       products.add(new Products(productId: productList[i].id, quantity: productList[i].quantity));
-      print('$i: ${productList[i].id}, ${productList[i].quantity}');
     }
 
     Order order = new Order(products: products);
     await productUtils.placeOrder(order).then((value) async {
       if (productUtils.orderCreation == 'Order Created Successfully!') {
         _showToast('Payment Successful, Order Created Successfully!');
+        Provider.of<UserPage>(context, listen: false).setCurrentPage(1);
       } else {
         _showToast('Error placing order, ${productUtils.orderCreation}');
       }

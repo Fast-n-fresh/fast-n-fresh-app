@@ -31,7 +31,9 @@ class Cart extends ChangeNotifier {
   }
 
   void removeAll() {
-    _products.clear();
+    for (int i = 0; i < _products.length; i++) {
+      _products.removeAt(i);
+    }
     notifyListeners();
   }
 

@@ -82,7 +82,7 @@ class _OrdersState extends State<Orders> {
                           top: screenHeight * 0.030,
                         ),
                         child: Text(
-                          'Previous Orders',
+                          'My Orders',
                           style: GoogleFonts.poppins(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
