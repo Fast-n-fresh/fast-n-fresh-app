@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:natures_delicacies/models/previous_orders.dart';
-import 'package:natures_delicacies/network/product_utils.dart';
+import 'package:natures_delicacies/network/order_utils.dart';
 import 'package:natures_delicacies/pages/order_details.dart';
 
 class Orders extends StatefulWidget {
@@ -11,12 +11,12 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  ProductUtils productUtils = new ProductUtils();
+  OrderUtils orderUtils = new OrderUtils();
 
   List<PrevOrders> previousOrders = [];
 
   Future getOrders() async {
-    await productUtils.getPreviousOrders().then((value) {
+    await orderUtils.getPreviousOrders().then((value) {
       previousOrders = value;
     });
   }
@@ -33,7 +33,6 @@ class _OrdersState extends State<Orders> {
         total += (previousOrders[index].products[i].quantity *
             previousOrders[index].products[i].product.price);
       }
-
       return total;
     }
 

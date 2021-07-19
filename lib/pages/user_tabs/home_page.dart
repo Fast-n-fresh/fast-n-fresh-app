@@ -9,7 +9,7 @@ import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/product_category.dart';
 import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
-import 'package:natures_delicacies/network/product_utils.dart';
+import 'package:natures_delicacies/network/order_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   int activeCategoryIndex = 0;
   String activeCategoryName;
 
-  ProductUtils productUtils = new ProductUtils();
+  OrderUtils orderUtils = new OrderUtils();
   List<ProductCategory> categories;
   List<Product> products;
 
@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   Future getCategories() {
     return this._categoryMemoizer.runOnce(() async {
-      await productUtils.getCategories().then((value) {
+      await orderUtils.getCategories().then((value) {
         categories = value;
         activeCategoryName = categories[0].name;
       });
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future getProducts() async {
-    await productUtils
+    await orderUtils
         .getProducts(activeCategoryName == null ? 'All' : activeCategoryName)
         .then((value) {
       products = value;

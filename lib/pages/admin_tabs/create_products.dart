@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/product_category.dart';
-import 'package:natures_delicacies/network/product_utils.dart';
+import 'package:natures_delicacies/network/order_utils.dart';
 
 class CreateProducts extends StatefulWidget {
   const CreateProducts({Key key}) : super(key: key);
@@ -36,7 +36,7 @@ class _CreateProductsState extends State<CreateProducts> {
   bool isCategoryLoading = false;
   bool isProductLoading = false;
 
-  ProductUtils productUtils = new ProductUtils();
+  OrderUtils orderUtils = new OrderUtils();
   FToast fToast;
 
   _showToast(String message) {
@@ -154,11 +154,11 @@ class _CreateProductsState extends State<CreateProducts> {
                                 name: categoryName,
                                 imageUrl: categoryUrl,
                               );
-                              await productUtils.createCategory(category).then((value) async {
+                              await orderUtils.createCategory(category).then((value) async {
                                 setState(() {
                                   isCategoryLoading = false;
                                 });
-                                if (productUtils.categoryCreation ==
+                                if (orderUtils.categoryCreation ==
                                     'Category Created Successfully!') {
                                   setState(() {
                                     categoryNameController.text = "";
@@ -166,7 +166,7 @@ class _CreateProductsState extends State<CreateProducts> {
                                   });
                                   _showToast("Category Created Successfully!");
                                 } else {
-                                  _showToast(productUtils.categoryCreation);
+                                  _showToast(orderUtils.categoryCreation);
                                 }
                               });
                             }
@@ -293,12 +293,11 @@ class _CreateProductsState extends State<CreateProducts> {
                                 category: productCategory,
                                 description: productDesc,
                               );
-                              await productUtils.createProduct(product).then((value) async {
+                              await orderUtils.createProduct(product).then((value) async {
                                 setState(() {
                                   isProductLoading = false;
                                 });
-                                if (productUtils.productCreation ==
-                                    'Product Created Successfully!') {
+                                if (orderUtils.productCreation == 'Product Created Successfully!') {
                                   _showToast("Product Created Successfully!");
                                   setState(() {
                                     productNameController.text = "";
@@ -309,7 +308,7 @@ class _CreateProductsState extends State<CreateProducts> {
                                     productPriceController.text = "";
                                   });
                                 } else {
-                                  _showToast(productUtils.productCreation);
+                                  _showToast(orderUtils.productCreation);
                                 }
                               });
                             }

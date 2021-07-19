@@ -7,7 +7,7 @@ import 'package:natures_delicacies/models/cart.dart';
 import 'package:natures_delicacies/models/order.dart';
 import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/user_page.dart';
-import 'package:natures_delicacies/network/product_utils.dart';
+import 'package:natures_delicacies/network/order_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -20,7 +20,7 @@ class _MyCartState extends State<MyCart> {
   Razorpay razorpay;
   FToast fToast;
 
-  ProductUtils productUtils = new ProductUtils();
+  OrderUtils orderUtils = new OrderUtils();
 
   @override
   void initState() {
@@ -92,12 +92,12 @@ class _MyCartState extends State<MyCart> {
     }
 
     Order order = new Order(products: products);
-    await productUtils.placeOrder(order).then((value) async {
-      if (productUtils.orderCreation == 'Order Created Successfully!') {
+    await orderUtils.placeOrder(order).then((value) async {
+      if (orderUtils.orderCreation == 'Order Created Successfully!') {
         _showToast('Payment Successful, Order Created Successfully!');
         Provider.of<UserPage>(context, listen: false).setCurrentPage(1);
       } else {
-        _showToast('Error placing order, ${productUtils.orderCreation}');
+        _showToast('Error placing order, ${orderUtils.orderCreation}');
       }
     });
   }
@@ -108,7 +108,6 @@ class _MyCartState extends State<MyCart> {
 
   void handlePaymentError(PaymentFailureResponse response) {
     _showToast('Payment Failed, Error: ' + response.message);
-    print(response.message);
   }
 
   void handleExternalWallet(ExternalWalletResponse response) {
