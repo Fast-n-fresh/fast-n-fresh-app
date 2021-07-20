@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/previous_orders.dart';
+import 'package:natures_delicacies/pages/user_feedback.dart';
 
 class OrderDetails extends StatefulWidget {
   final List<Products> products;
@@ -161,19 +162,45 @@ class _OrderDetailsState extends State<OrderDetails> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 20,
-                  ),
-                  child: Text(
-                    'Total Cost: \u20B9 ' + getTotalCost().toString(),
-                    style: GoogleFonts.montserrat(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
+                Text(
+                  'Total Cost: \u20B9 ' + getTotalCost().toString(),
+                  style: GoogleFonts.montserrat(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => UserFeedback(),
+                    transitionDuration: Duration(milliseconds: 1000),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                      return SlideTransition(
+                        position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                            .animate(animation),
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Text(
+                'Like our service? Or have any complains?\nGive us a feedback here!',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
           ],
         ),

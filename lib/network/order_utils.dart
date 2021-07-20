@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/delivery_boys.dart';
+import 'package:natures_delicacies/models/feedback_list.dart';
 import 'package:natures_delicacies/models/order.dart';
 import 'package:natures_delicacies/models/pending_orders.dart';
 import 'package:natures_delicacies/models/previous_orders.dart';
@@ -17,6 +18,7 @@ class OrderUtils {
   String ordersFetched;
   String fetchDeliveryBoys;
   String fetchPendingOrders;
+  String fetchFeedbacks;
 
   Future<ProductCategory> createCategory(ProductCategory category) async {
     final prefs = await SharedPreferences.getInstance();
@@ -160,28 +162,6 @@ class OrderUtils {
     return deliveryBoys;
   }
 
-  Future<List<PendingOrders>> getPendingOrders() async {
-    final prefs = await SharedPreferences.getInstance();
-    String adminToken = prefs.getString('token');
-    var headers = {'Authorization': 'Bearer $adminToken'};
-
-    List<PendingOrders> pendingOrders = [];
-
-    final response = await http.get(Uri.https(BASE_URL, ADMIN_ORDERS_URL), headers: headers);
-
-    var extract = json.decode(response.body);
-    var pendingOrdersJson = extract['pendingOrders'];
-    if (response.statusCode == 200) {
-      fetchPendingOrders = 'Orders Fetched Successfully!';
-      for (Map i in pendingOrdersJson) {
-        pendingOrders.add(PendingOrders.fromJson(i));
-      }
-    } else {
-      throw new Exception('Couldn\'t get pending orders');
-    }
-    return pendingOrders;
-  }
-
   Future assignOrder(String orderId, String deliveryBoyName) async {
     final prefs = await SharedPreferences.getInstance();
     String adminToken = prefs.getString('token');
@@ -208,5 +188,79 @@ class OrderUtils {
       toastMessage = extract['e'];
     }
     return toastMessage;
+  }
+
+  Future sendFeedback(String message, double rating, String deliveryBoyName) async {
+    final prefs = await SharedPreferences.getInstance();
+    String userToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $userToken',
+      'Content-Type': 'application/json',
+    };
+
+    var body = jsonEncode({
+      "message": message,
+      "rating": rating,
+      "deliveryBoyName": deliveryBoyName,
+    });
+    String toastMessage;
+
+    final response = await http.post(
+      Uri.https(BASE_URL, USER_FEEDBACKS),
+      headers: headers,
+      body: body,
+    );
+
+    var extract = json.decode(response.body);
+    if (response.statusCode == 200) {
+      toastMessage = extract['message'];
+    } else {
+      toastMessage = extract['e'];
+    }
+    return toastMessage;
+  }
+
+  Future<List<PendingOrders>> getPendingOrders() async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $adminToken'};
+
+    List<PendingOrders> pendingOrders = [];
+
+    final response = await http.get(Uri.https(BASE_URL, ADMIN_ORDERS_URL), headers: headers);
+
+    var extract = json.decode(response.body);
+    var pendingOrdersJson = extract['pendingOrders'];
+    if (response.statusCode == 200) {
+      fetchPendingOrders = 'Orders Fetched Successfully!';
+      for (Map i in pendingOrdersJson) {
+        pendingOrders.add(PendingOrders.fromJson(i));
+      }
+    } else {
+      throw new Exception('Couldn\'t get pending orders');
+    }
+    return pendingOrders;
+  }
+
+  Future<List<Feedbacks>> getAdminFeedbacks() async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $adminToken'};
+
+    List<Feedbacks> feedbacks = [];
+
+    final response = await http.get(Uri.https(BASE_URL, ADMIN_FEEDBACKS), headers: headers);
+
+    var extract = json.decode(response.body);
+    var feedbacksJson = extract['feedbacks'];
+    if (response.statusCode == 200) {
+      fetchFeedbacks = 'Feedbacks Fetched Successfully!';
+      for (Map i in feedbacksJson) {
+        feedbacks.add(Feedbacks.fromJson(i));
+      }
+    } else {
+      throw new Exception('Couldn\'t get feedbacks');
+    }
+    return feedbacks;
   }
 }
