@@ -60,7 +60,7 @@ class _AssignOrdersState extends State<AssignOrders> {
                   ),
                 );
               case ConnectionState.done:
-                print('fetched pending orders');
+                print('fetched pending deliveries');
             }
             return pendingOrders.isEmpty
                 ? EmptyPendingOrders()

@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:natures_delicacies/pages/admin_tabs/admin_feedbacks.dart';
 import 'package:natures_delicacies/pages/admin_tabs/admin_settings.dart';
 import 'package:natures_delicacies/pages/admin_tabs/assign_orders.dart';
-import 'package:natures_delicacies/pages/admin_tabs/create_products.dart';
-import 'package:natures_delicacies/pages/admin_tabs/delivery_status.dart';
+import 'package:natures_delicacies/pages/admin_tabs/create_entitites.dart';
+import 'package:natures_delicacies/pages/admin_tabs/pending_deliveries.dart';
 
 class AdminPage extends ChangeNotifier {
   int currentIndex = 0;
 
   List<Widget> pages = [
-    CreateProducts(),
+    CreateEntities(),
     AssignOrders(),
     AdminFeedbacks(),
-    DeliveryStatus(),
+    PendingDeliveries(),
     AdminSettings(),
   ];
 

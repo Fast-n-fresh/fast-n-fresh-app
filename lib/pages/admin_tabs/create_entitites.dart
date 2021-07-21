@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:natures_delicacies/models/delivery_boy_register.dart';
 import 'package:natures_delicacies/models/product.dart';
 import 'package:natures_delicacies/models/product_category.dart';
+import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/network/order_utils.dart';
 
-class CreateProducts extends StatefulWidget {
-  const CreateProducts({Key key}) : super(key: key);
+class CreateEntities extends StatefulWidget {
+  const CreateEntities({Key key}) : super(key: key);
 
   @override
-  _CreateProductsState createState() => _CreateProductsState();
+  _CreateEntitiesState createState() => _CreateEntitiesState();
 }
 
-class _CreateProductsState extends State<CreateProducts> {
+class _CreateEntitiesState extends State<CreateEntities> {
   TextEditingController categoryNameController = TextEditingController();
   TextEditingController categoryImgController = TextEditingController();
 
@@ -22,6 +24,11 @@ class _CreateProductsState extends State<CreateProducts> {
   TextEditingController productPriceController = TextEditingController();
   TextEditingController productDescController = TextEditingController();
   TextEditingController productCategoryController = TextEditingController();
+
+  TextEditingController deliveryBoyNameController = TextEditingController();
+  TextEditingController deliveryBoyEmailController = TextEditingController();
+  TextEditingController deliveryBoyPhoneController = TextEditingController();
+  TextEditingController deliveryBoyPasswordController = TextEditingController();
 
   bool categoryNameValidate = false;
   bool categoryImgValidate = false;
@@ -33,10 +40,18 @@ class _CreateProductsState extends State<CreateProducts> {
   bool productDescValidate = false;
   bool productCategoryValidate = false;
 
+  bool deliveryBoyNameValidate = false;
+  bool deliveryBoyEmailValidate = false;
+  bool deliveryBoyPhoneValidate = false;
+  bool deliveryBoyPasswordValidate = false;
+
   bool isCategoryLoading = false;
   bool isProductLoading = false;
+  bool isDeliveryBoyLoading = false;
 
   OrderUtils orderUtils = new OrderUtils();
+  AccountUtils accountUtils = new AccountUtils();
+
   FToast fToast;
 
   _showToast(String message) {
@@ -350,6 +365,130 @@ class _CreateProductsState extends State<CreateProducts> {
                                           });
                                         } else {
                                           _showToast(orderUtils.productCreation);
+                                        }
+                                      });
+                                    }
+                                  },
+                                  child: Text(
+                                    'Create',
+                                    style: GoogleFonts.raleway(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      letterSpacing: 1.25,
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Register Delivery Boy',
+                          style: GoogleFonts.poppins(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        buildTextField(context, 'Name', Icons.person, deliveryBoyNameController,
+                            deliveryBoyNameValidate, TextInputAction.next, screenWidth),
+                        buildTextField(context, 'Email', Icons.email, deliveryBoyEmailController,
+                            deliveryBoyEmailValidate, TextInputAction.next, screenWidth),
+                        buildTextField(
+                            context,
+                            'Phone Number',
+                            Icons.phone,
+                            deliveryBoyPhoneController,
+                            deliveryBoyPhoneValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(
+                            context,
+                            'Password',
+                            Icons.lock,
+                            deliveryBoyPasswordController,
+                            deliveryBoyPasswordValidate,
+                            TextInputAction.done,
+                            screenWidth),
+                        Container(
+                          width: screenWidth,
+                          height: 60,
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          child: isDeliveryBoyLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: () async {
+                                    String deliveryBoyName;
+                                    String deliveryBoyEmail;
+                                    String deliveryBoyPhone;
+                                    String deliveryBoyPassword;
+
+                                    setState(() {
+                                      isDeliveryBoyLoading = true;
+                                      deliveryBoyName = deliveryBoyNameController.text;
+                                      deliveryBoyEmail = deliveryBoyEmailController.text;
+                                      deliveryBoyPhone = deliveryBoyPhoneController.text;
+                                      deliveryBoyPassword = deliveryBoyPasswordController.text;
+
+                                      deliveryBoyName.isEmpty
+                                          ? deliveryBoyNameValidate = true
+                                          : deliveryBoyNameValidate = false;
+                                      deliveryBoyEmail.isEmpty
+                                          ? deliveryBoyEmailValidate = true
+                                          : deliveryBoyEmailValidate = false;
+                                      deliveryBoyPhone.isEmpty
+                                          ? deliveryBoyPhoneValidate = true
+                                          : deliveryBoyPhoneValidate = false;
+                                      deliveryBoyPassword.isEmpty
+                                          ? deliveryBoyPasswordValidate = true
+                                          : deliveryBoyPasswordValidate = false;
+                                    });
+
+                                    if (deliveryBoyName.isEmpty ||
+                                        deliveryBoyEmail.isEmpty ||
+                                        deliveryBoyPhone.isEmpty ||
+                                        deliveryBoyPassword.isEmpty) {
+                                      setState(() {
+                                        isDeliveryBoyLoading = false;
+                                      });
+                                    } else {
+                                      DeliveryBoyRegister deliveryBoy = DeliveryBoyRegister(
+                                        name: deliveryBoyName,
+                                        email: deliveryBoyEmail,
+                                        phoneNumber: deliveryBoyPhone,
+                                        password: deliveryBoyPassword,
+                                      );
+
+                                      await accountUtils
+                                          .registerDeliveryBoy(deliveryBoy)
+                                          .then((value) async {
+                                        setState(() {
+                                          isDeliveryBoyLoading = false;
+                                        });
+                                        if (accountUtils.signUpError == 'no error') {
+                                          _showToast("Delivery Boy Registered Successfully!");
+                                          setState(() {
+                                            deliveryBoyNameController.text = "";
+                                            deliveryBoyEmailController.text = "";
+                                            deliveryBoyPhoneController.text = "";
+                                            deliveryBoyPasswordController.text = "";
+                                          });
+                                        } else {
+                                          _showToast(accountUtils.signUpError);
                                         }
                                       });
                                     }

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/admin_login.dart';
-import 'package:natures_delicacies/models/deliver_boy_register.dart';
 import 'package:natures_delicacies/models/delivery_boy_login.dart';
+import 'package:natures_delicacies/models/delivery_boy_register.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -199,12 +199,6 @@ class AccountUtils {
         extract['deliveryBoy']['pendingOrders'].forEach((order) => deliveryBoyPending.add(order));
 
         final prefs = await SharedPreferences.getInstance();
-
-        prefs.setString('name', name);
-        prefs.setString('email', email);
-        prefs.setString('phoneNumber', phone);
-        prefs.setString('address', address);
-        prefs.setString('username', username);
       }
 
       return UserRegister.fromJson(json.decode(response.body));

@@ -252,18 +252,17 @@ class OrderUtils {
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken'};
 
+    DeliveryStatusList deliveryStatusList;
+
     final response =
         await http.get(Uri.https(BASE_URL, ADMIN_DELIVERY_STATUS_URL), headers: headers);
 
-    DeliveryStatusList deliveryStatusList;
-
     if (response.statusCode == 200) {
       fetchDeliveryStatus = 'Delivery Status Fetched Successfully!';
-      deliveryStatusList = DeliveryStatusList.fromJson(json.decode(response.body));
+      deliveryStatusList = DeliveryStatusList.fromJson(jsonDecode(response.body));
     } else {
       throw new Exception('Couldn\'t get delivery status');
     }
-
     return deliveryStatusList.deliveryStatus;
   }
 }
