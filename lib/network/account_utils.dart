@@ -210,4 +210,28 @@ class AccountUtils {
       return UserRegister.fromJson(json.decode(response.body));
     });
   }
+
+  Future deleteUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    String userToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $userToken',
+    };
+
+    final response = await http.delete(
+      Uri.https(BASE_URL, USER_DELETE_URL),
+      headers: headers,
+    );
+
+    var extract = json.decode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
 }

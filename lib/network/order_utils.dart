@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/delivery_boys.dart';
-import 'package:natures_delicacies/models/feedback_list.dart';
+import 'package:natures_delicacies/models/feedback.dart';
 import 'package:natures_delicacies/models/order.dart';
 import 'package:natures_delicacies/models/pending_orders.dart';
 import 'package:natures_delicacies/models/previous_orders.dart';
@@ -65,7 +65,7 @@ class OrderUtils {
   Future<List<ProductCategory>> getCategories() async {
     List<ProductCategory> categories = [];
     final response = await http.get(
-      Uri.https(BASE_URL, USER_GET_CATEGORIES),
+      Uri.https(BASE_URL, USER_GET_CATEGORIES_URL),
     );
 
     var extract = json.decode(response.body);
@@ -83,7 +83,7 @@ class OrderUtils {
   Future<List<Product>> getProducts(String category) async {
     List<Product> products = [];
     final response = await http.get(
-      Uri.https(BASE_URL, USER_GET_PRODUCTS + category),
+      Uri.https(BASE_URL, USER_GET_PRODUCTS_URL + category),
     );
     var extract = json.decode(response.body);
     var productsJson = extract['products'];
@@ -147,7 +147,7 @@ class OrderUtils {
 
     List<DeliveryBoy> deliveryBoys = [];
 
-    final response = await http.get(Uri.https(BASE_URL, GET_DELIVERY_BOYS), headers: headers);
+    final response = await http.get(Uri.https(BASE_URL, GET_DELIVERY_BOYS_URL), headers: headers);
 
     var extract = json.decode(response.body);
     var deliveryBoysJson = extract['deliveryBoyList'];
@@ -206,7 +206,7 @@ class OrderUtils {
     String toastMessage;
 
     final response = await http.post(
-      Uri.https(BASE_URL, USER_FEEDBACKS),
+      Uri.https(BASE_URL, USER_FEEDBACKS_URL),
       headers: headers,
       body: body,
     );
@@ -249,7 +249,7 @@ class OrderUtils {
 
     List<Feedbacks> feedbacks = [];
 
-    final response = await http.get(Uri.https(BASE_URL, ADMIN_FEEDBACKS), headers: headers);
+    final response = await http.get(Uri.https(BASE_URL, ADMIN_FEEDBACKS_URL), headers: headers);
 
     var extract = json.decode(response.body);
     var feedbacksJson = extract['feedbacks'];

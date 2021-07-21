@@ -45,7 +45,7 @@ class Feedbacks {
     id = json['_id'];
     user = json['user'];
     message = json['message'];
-    rating = json['rating'];
+    rating = json['rating'].toDouble();
     deliveryBoy = json['deliveryBoy'];
     timeStamp = json['timeStamp'];
   }

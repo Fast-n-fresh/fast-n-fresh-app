@@ -159,6 +159,7 @@ class _UserFeedbackState extends State<UserFeedback> {
                     textAlign: TextAlign.start,
                     controller: _messageController,
                     maxLines: null,
+                    textCapitalization: TextCapitalization.sentences,
                     style: GoogleFonts.montserrat(
                       fontSize: 20,
                       fontWeight: FontWeight.normal,

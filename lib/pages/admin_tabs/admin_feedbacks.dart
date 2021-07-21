@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:natures_delicacies/models/feedback_list.dart';
+import 'package:natures_delicacies/models/feedback.dart';
 import 'package:natures_delicacies/network/order_utils.dart';
 
 class AdminFeedbacks extends StatefulWidget {
@@ -90,26 +90,7 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                             shrinkWrap: true,
                             itemCount: feedbacks.length,
                             itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                // Navigator.of(context).push(
-                                //   PageRouteBuilder(
-                                //     pageBuilder: (context, animation, secondaryAnimation) =>
-                                //         PendingOrderDetails(),
-                                //     transitionDuration: Duration(milliseconds: 1000),
-                                //     transitionsBuilder:
-                                //         (context, animation, secondaryAnimation, child) {
-                                //       animation = CurvedAnimation(
-                                //           parent: animation, curve: Curves.easeInOut);
-                                //       return SlideTransition(
-                                //         position:
-                                //             Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                                //                 .animate(animation),
-                                //         child: child,
-                                //       );
-                                //     },
-                                //   ),
-                                // );
-                              },
+                              onTap: () {},
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * 0.050,
@@ -152,7 +133,17 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                                         Text(
                                           'Rating: ${feedbacks[index].rating}',
                                           style: GoogleFonts.montserrat(
-                                            fontSize: 16,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal,
+                                              color: Theme.of(context).colorScheme.primaryVariant),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          '${feedbacks[index].message}',
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 18,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
@@ -164,7 +155,7 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                                           style: GoogleFonts.montserrat(
                                             fontSize: 16,
                                             fontWeight: FontWeight.normal,
-                                            color: Colors.grey[700],
+                                            color: Colors.grey[600],
                                           ),
                                         ),
                                         SizedBox(
@@ -175,17 +166,7 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                                           style: GoogleFonts.montserrat(
                                             fontSize: 16,
                                             fontWeight: FontWeight.normal,
-                                            color: Colors.grey[700],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Message: ${feedbacks[index].message}',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
+                                            color: Colors.grey[600],
                                           ),
                                         ),
                                       ],
