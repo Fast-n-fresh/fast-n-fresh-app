@@ -100,154 +100,170 @@ class _UserProfileState extends State<UserProfile> {
             SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: ListView(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Update Password',
-                      style: GoogleFonts.poppins(fontSize: 18),
-                    ),
-                    leading: Icon(
-                      Icons.lock,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Update Location',
-                      style: GoogleFonts.poppins(fontSize: 18),
-                    ),
-                    leading: Icon(
-                      Icons.location_on,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.grey[800],
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Delete Account',
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        color: Theme.of(context).colorScheme.error,
+            Container(
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      ListTile(
+                        title: Text(
+                          'Update Password',
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        ),
+                        leading: Icon(
+                          Icons.lock,
+                          color: Colors.grey[800],
+                        ),
                       ),
-                    ),
-                    leading: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Are you sure?',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            content: Text(
-                              'This account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 16,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, 'Cancel');
-                                },
-                                child: Text(
-                                  'CANCEL',
+                      ListTile(
+                        title: Text(
+                          'Update Location',
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        ),
+                        leading: Icon(
+                          Icons.location_on,
+                          color: Colors.grey[800],
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.grey[800],
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Delete Account',
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                        leading: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Are you sure?',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              TextButton(
-                                onPressed: () async {
-                                  await accountUtils.deleteUser().then((value) async {
-                                    if (value == 'Account Deleted Successfully!') {
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.setBool('isLoggedIn', false);
-                                      Navigator.of(context).pushReplacement(
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) =>
-                                              LoginRegister(),
-                                          transitionDuration: Duration(milliseconds: 500),
-                                          transitionsBuilder:
-                                              (context, animation, secondaryAnimation, child) {
-                                            animation = CurvedAnimation(
-                                                parent: animation, curve: Curves.easeInOut);
-                                            return SlideTransition(
-                                              position: Tween(
-                                                      begin: Offset(0.0, 1.0),
-                                                      end: Offset(0.0, 0.0))
-                                                  .animate(animation),
-                                              child: child,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                      Provider.of<UserPage>(context, listen: false)
-                                          .setCurrentPage(0);
-                                    } else {
-                                      _showToast('Error: $value');
-                                    }
-                                  });
-                                },
-                                child: Text(
-                                  'DELETE',
+                                content: Text(
+                                  'This account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Cancel');
+                                    },
+                                    child: Text(
+                                      'CANCEL',
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await accountUtils.deleteUser().then((value) async {
+                                        if (value == 'Account Deleted Successfully!') {
+                                          SharedPreferences prefs =
+                                              await SharedPreferences.getInstance();
+                                          prefs.setBool('isLoggedIn', false);
+                                          Navigator.of(context).pushReplacement(
+                                            PageRouteBuilder(
+                                              pageBuilder:
+                                                  (context, animation, secondaryAnimation) =>
+                                                      LoginRegister(),
+                                              transitionDuration: Duration(milliseconds: 500),
+                                              transitionsBuilder:
+                                                  (context, animation, secondaryAnimation, child) {
+                                                animation = CurvedAnimation(
+                                                    parent: animation, curve: Curves.easeInOut);
+                                                return SlideTransition(
+                                                  position: Tween(
+                                                          begin: Offset(0.0, 1.0),
+                                                          end: Offset(0.0, 0.0))
+                                                      .animate(animation),
+                                                  child: child,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                          Provider.of<UserPage>(context, listen: false)
+                                              .setCurrentPage(0);
+                                        } else {
+                                          _showToast('Error: $value');
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      'DELETE',
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
-                      );
-                    },
-                  ),
-                  Divider(
-                    color: Colors.grey[800],
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                  ListTile(
-                    title: Text(
-                      'Logout',
-                      style: GoogleFonts.poppins(fontSize: 18),
-                    ),
-                    leading: Icon(
-                      Icons.exit_to_app,
-                      color: Colors.grey[800],
-                    ),
-                    onTap: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      prefs.setBool('isLoggedIn', false);
-                      Navigator.of(context).pushReplacement(
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation, secondaryAnimation) => LoginRegister(),
-                          transitionDuration: Duration(milliseconds: 500),
-                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                            animation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
-                            return SlideTransition(
-                              position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
-                                  .animate(animation),
-                              child: child,
-                            );
-                          },
+                      ),
+                      Divider(
+                        color: Colors.grey[800],
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Logout',
+                          style: GoogleFonts.poppins(fontSize: 18),
                         ),
-                      );
-                      Provider.of<UserPage>(context, listen: false).setCurrentPage(0);
-                    },
+                        leading: Icon(
+                          Icons.exit_to_app,
+                          color: Colors.grey[800],
+                        ),
+                        onTap: () async {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('isLoggedIn', false);
+                          Navigator.of(context).pushReplacement(
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) =>
+                                  LoginRegister(),
+                              transitionDuration: Duration(milliseconds: 500),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                animation =
+                                    CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+                                return SlideTransition(
+                                  position: Tween(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+                                      .animate(animation),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                          Provider.of<UserPage>(context, listen: false).setCurrentPage(0);
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
           ],
         ),

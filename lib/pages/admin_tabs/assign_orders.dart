@@ -192,6 +192,9 @@ class _AssignOrdersState extends State<AssignOrders> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   );
           },

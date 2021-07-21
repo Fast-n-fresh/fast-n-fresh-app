@@ -74,6 +74,10 @@ List<Widget> tabs = [
     color: Colors.grey[200],
   ),
   Icon(
+    Icons.delivery_dining,
+    color: Colors.grey[200],
+  ),
+  Icon(
     Icons.settings,
     color: Colors.grey[200],
   ),

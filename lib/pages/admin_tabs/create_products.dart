@@ -88,253 +88,301 @@ class _CreateProductsState extends State<CreateProducts> {
             top: screenHeight * 0.040,
             bottom: screenHeight * 0.00,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Add New Items',
-                  style: GoogleFonts.poppins(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Create new category',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                buildTextField(context, 'Category Name', Icons.category, categoryNameController,
-                    categoryNameValidate, TextInputAction.next, screenWidth),
-                buildTextField(context, 'Category Image URL', Icons.image, categoryImgController,
-                    categoryImgValidate, TextInputAction.done, screenWidth),
-                Container(
-                  width: screenWidth,
-                  height: 60,
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  child: isCategoryLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ),
-                        )
-                      : TextButton(
-                          onPressed: () async {
-                            String categoryName;
-                            String categoryUrl;
-
-                            setState(() {
-                              isCategoryLoading = true;
-                              categoryName = categoryNameController.text;
-                              categoryUrl = categoryImgController.text;
-
-                              categoryName.isEmpty
-                                  ? categoryNameValidate = true
-                                  : categoryNameValidate = false;
-                              categoryUrl.isEmpty
-                                  ? categoryImgValidate = true
-                                  : categoryImgValidate = false;
-                            });
-
-                            if (categoryName.isEmpty || categoryUrl.isEmpty) {
-                              setState(() {
-                                isCategoryLoading = false;
-                              });
-                            } else {
-                              ProductCategory category = ProductCategory(
-                                name: categoryName,
-                                imageUrl: categoryUrl,
-                              );
-                              await orderUtils.createCategory(category).then((value) async {
-                                setState(() {
-                                  isCategoryLoading = false;
-                                });
-                                if (orderUtils.categoryCreation ==
-                                    'Category Created Successfully!') {
-                                  setState(() {
-                                    categoryNameController.text = "";
-                                    categoryImgController.text = "";
-                                  });
-                                  _showToast("Category Created Successfully!");
-                                } else {
-                                  _showToast(orderUtils.categoryCreation);
-                                }
-                              });
-                            }
-                          },
-                          child: Text(
-                            'Create',
-                            style: GoogleFonts.raleway(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              letterSpacing: 1.25,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+          child: Column(
+            children: [
+              Container(
+                child: Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Add New Items',
+                          style: GoogleFonts.poppins(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Create new product',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                buildTextField(context, 'Product Name', Icons.shopping_cart, productNameController,
-                    productNameValidate, TextInputAction.next, screenWidth),
-                buildTextField(context, 'Product Image URL', Icons.image, productImgController,
-                    productImgValidate, TextInputAction.next, screenWidth),
-                buildTextField(context, 'Product Units', Icons.looks_one, productUnitController,
-                    productUnitValidate, TextInputAction.next, screenWidth),
-                buildTextField(context, 'Product Price', Icons.sell, productPriceController,
-                    productPriceValidate, TextInputAction.next, screenWidth),
-                buildTextField(context, 'Product Description', Icons.text_snippet_outlined,
-                    productDescController, productDescValidate, TextInputAction.next, screenWidth),
-                buildTextField(
-                    context,
-                    'Product Category',
-                    Icons.category,
-                    productCategoryController,
-                    productCategoryValidate,
-                    TextInputAction.done,
-                    screenWidth),
-                Container(
-                  width: screenWidth,
-                  height: 60,
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  child: isProductLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          ),
-                        )
-                      : TextButton(
-                          onPressed: () async {
-                            String productName;
-                            String productUrl;
-                            String productUnit;
-                            int productPrice;
-                            String productPriceText;
-                            String productDesc;
-                            String productCategory;
-
-                            setState(() {
-                              isProductLoading = true;
-                              productName = productNameController.text;
-                              productUrl = productImgController.text;
-                              productUnit = productUnitController.text;
-                              productPriceText = productPriceController.text;
-                              productDesc = productDescController.text;
-                              productCategory = productCategoryController.text;
-                              if (productPriceText.isEmpty) {
-                                productPrice = 0;
-                              } else {
-                                productPrice = int.parse(productPriceText);
-                              }
-
-                              if (productDesc.isEmpty) {
-                                productDesc = "Description not available!";
-                                productDescController.text = "Description not available!";
-                              }
-
-                              productName.isEmpty
-                                  ? productNameValidate = true
-                                  : productNameValidate = false;
-                              productUrl.isEmpty
-                                  ? productImgValidate = true
-                                  : productImgValidate = false;
-                              productUnit.isEmpty
-                                  ? productUnitValidate = true
-                                  : productUnitValidate = false;
-                              productPriceText.isEmpty
-                                  ? productPriceValidate = true
-                                  : productPriceValidate = false;
-                              productCategory.isEmpty
-                                  ? productCategoryValidate = true
-                                  : productCategoryValidate = false;
-                            });
-
-                            if (productName.isEmpty ||
-                                productUrl.isEmpty ||
-                                productUnit.isEmpty ||
-                                productPriceText.isEmpty ||
-                                productCategory.isEmpty) {
-                              setState(() {
-                                isProductLoading = false;
-                              });
-                            } else {
-                              Product product = Product(
-                                name: productName,
-                                imageUrl: productUrl,
-                                unit: productUnit,
-                                price: productPrice,
-                                category: productCategory,
-                                description: productDesc,
-                              );
-                              await orderUtils.createProduct(product).then((value) async {
-                                setState(() {
-                                  isProductLoading = false;
-                                });
-                                if (orderUtils.productCreation == 'Product Created Successfully!') {
-                                  _showToast("Product Created Successfully!");
-                                  setState(() {
-                                    productNameController.text = "";
-                                    productImgController.text = "";
-                                    productUnitController.text = "";
-                                    productDescController.text = "";
-                                    productCategoryController.text = "";
-                                    productPriceController.text = "";
-                                  });
-                                } else {
-                                  _showToast(orderUtils.productCreation);
-                                }
-                              });
-                            }
-                          },
-                          child: Text(
-                            'Create',
-                            style: GoogleFonts.raleway(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              letterSpacing: 1.25,
-                            ),
-                          ),
-                          style: TextButton.styleFrom(
-                            backgroundColor: Theme.of(context).colorScheme.primaryVariant,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Create new category',
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        buildTextField(
+                            context,
+                            'Category Name',
+                            Icons.category,
+                            categoryNameController,
+                            categoryNameValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(
+                            context,
+                            'Category Image URL',
+                            Icons.image,
+                            categoryImgController,
+                            categoryImgValidate,
+                            TextInputAction.done,
+                            screenWidth),
+                        Container(
+                          width: screenWidth,
+                          height: 60,
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          child: isCategoryLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: () async {
+                                    String categoryName;
+                                    String categoryUrl;
+
+                                    setState(() {
+                                      isCategoryLoading = true;
+                                      categoryName = categoryNameController.text;
+                                      categoryUrl = categoryImgController.text;
+
+                                      categoryName.isEmpty
+                                          ? categoryNameValidate = true
+                                          : categoryNameValidate = false;
+                                      categoryUrl.isEmpty
+                                          ? categoryImgValidate = true
+                                          : categoryImgValidate = false;
+                                    });
+
+                                    if (categoryName.isEmpty || categoryUrl.isEmpty) {
+                                      setState(() {
+                                        isCategoryLoading = false;
+                                      });
+                                    } else {
+                                      ProductCategory category = ProductCategory(
+                                        name: categoryName,
+                                        imageUrl: categoryUrl,
+                                      );
+                                      await orderUtils.createCategory(category).then((value) async {
+                                        setState(() {
+                                          isCategoryLoading = false;
+                                        });
+                                        if (orderUtils.categoryCreation ==
+                                            'Category Created Successfully!') {
+                                          setState(() {
+                                            categoryNameController.text = "";
+                                            categoryImgController.text = "";
+                                          });
+                                          _showToast("Category Created Successfully!");
+                                        } else {
+                                          _showToast(orderUtils.categoryCreation);
+                                        }
+                                      });
+                                    }
+                                  },
+                                  child: Text(
+                                    'Create',
+                                    style: GoogleFonts.raleway(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      letterSpacing: 1.25,
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Create new product',
+                          style: GoogleFonts.poppins(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        buildTextField(
+                            context,
+                            'Product Name',
+                            Icons.shopping_cart,
+                            productNameController,
+                            productNameValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(
+                            context,
+                            'Product Image URL',
+                            Icons.image,
+                            productImgController,
+                            productImgValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(
+                            context,
+                            'Product Units',
+                            Icons.looks_one,
+                            productUnitController,
+                            productUnitValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(context, 'Product Price', Icons.sell, productPriceController,
+                            productPriceValidate, TextInputAction.next, screenWidth),
+                        buildTextField(
+                            context,
+                            'Product Description',
+                            Icons.text_snippet_outlined,
+                            productDescController,
+                            productDescValidate,
+                            TextInputAction.next,
+                            screenWidth),
+                        buildTextField(
+                            context,
+                            'Product Category',
+                            Icons.category,
+                            productCategoryController,
+                            productCategoryValidate,
+                            TextInputAction.done,
+                            screenWidth),
+                        Container(
+                          width: screenWidth,
+                          height: 60,
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          child: isProductLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                                  ),
+                                )
+                              : TextButton(
+                                  onPressed: () async {
+                                    String productName;
+                                    String productUrl;
+                                    String productUnit;
+                                    int productPrice;
+                                    String productPriceText;
+                                    String productDesc;
+                                    String productCategory;
+
+                                    setState(() {
+                                      isProductLoading = true;
+                                      productName = productNameController.text;
+                                      productUrl = productImgController.text;
+                                      productUnit = productUnitController.text;
+                                      productPriceText = productPriceController.text;
+                                      productDesc = productDescController.text;
+                                      productCategory = productCategoryController.text;
+                                      if (productPriceText.isEmpty) {
+                                        productPrice = 0;
+                                      } else {
+                                        productPrice = int.parse(productPriceText);
+                                      }
+
+                                      if (productDesc.isEmpty) {
+                                        productDesc = "Description not available!";
+                                        productDescController.text = "Description not available!";
+                                      }
+
+                                      productName.isEmpty
+                                          ? productNameValidate = true
+                                          : productNameValidate = false;
+                                      productUrl.isEmpty
+                                          ? productImgValidate = true
+                                          : productImgValidate = false;
+                                      productUnit.isEmpty
+                                          ? productUnitValidate = true
+                                          : productUnitValidate = false;
+                                      productPriceText.isEmpty
+                                          ? productPriceValidate = true
+                                          : productPriceValidate = false;
+                                      productCategory.isEmpty
+                                          ? productCategoryValidate = true
+                                          : productCategoryValidate = false;
+                                    });
+
+                                    if (productName.isEmpty ||
+                                        productUrl.isEmpty ||
+                                        productUnit.isEmpty ||
+                                        productPriceText.isEmpty ||
+                                        productCategory.isEmpty) {
+                                      setState(() {
+                                        isProductLoading = false;
+                                      });
+                                    } else {
+                                      Product product = Product(
+                                        name: productName,
+                                        imageUrl: productUrl,
+                                        unit: productUnit,
+                                        price: productPrice,
+                                        category: productCategory,
+                                        description: productDesc,
+                                      );
+                                      await orderUtils.createProduct(product).then((value) async {
+                                        setState(() {
+                                          isProductLoading = false;
+                                        });
+                                        if (orderUtils.productCreation ==
+                                            'Product Created Successfully!') {
+                                          _showToast("Product Created Successfully!");
+                                          setState(() {
+                                            productNameController.text = "";
+                                            productImgController.text = "";
+                                            productUnitController.text = "";
+                                            productDescController.text = "";
+                                            productCategoryController.text = "";
+                                            productPriceController.text = "";
+                                          });
+                                        } else {
+                                          _showToast(orderUtils.productCreation);
+                                        }
+                                      });
+                                    }
+                                  },
+                                  child: Text(
+                                    'Create',
+                                    style: GoogleFonts.raleway(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      letterSpacing: 1.25,
+                                    ),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Theme.of(context).colorScheme.primaryVariant,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
           ),
         ),
       ),

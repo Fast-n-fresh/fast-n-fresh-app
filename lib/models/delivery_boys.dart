@@ -1,15 +1,15 @@
 class DeliveryBoyList {
   String message;
-  List<DeliveryBoy> deliveryBoyList;
+  List<DeliveryBoy> deliveryBoys;
 
-  DeliveryBoyList({this.message, this.deliveryBoyList});
+  DeliveryBoyList({this.message, this.deliveryBoys});
 
   DeliveryBoyList.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     if (json['deliveryBoyList'] != null) {
-      deliveryBoyList = [];
+      deliveryBoys = [];
       json['deliveryBoyList'].forEach((v) {
-        deliveryBoyList.add(new DeliveryBoy.fromJson(v));
+        deliveryBoys.add(new DeliveryBoy.fromJson(v));
       });
     }
   }
@@ -17,8 +17,8 @@ class DeliveryBoyList {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['message'] = this.message;
-    if (this.deliveryBoyList != null) {
-      data['deliveryBoyList'] = this.deliveryBoyList.map((v) => v.toJson()).toList();
+    if (this.deliveryBoys != null) {
+      data['deliveryBoyList'] = this.deliveryBoys.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/delivery_boys.dart';
+import 'package:natures_delicacies/models/delivery_status_list.dart';
 import 'package:natures_delicacies/models/feedback.dart';
 import 'package:natures_delicacies/models/order.dart';
 import 'package:natures_delicacies/models/pending_orders.dart';
@@ -19,6 +20,7 @@ class OrderUtils {
   String fetchDeliveryBoys;
   String fetchPendingOrders;
   String fetchFeedbacks;
+  String fetchDeliveryStatus;
 
   Future<ProductCategory> createCategory(ProductCategory category) async {
     final prefs = await SharedPreferences.getInstance();
@@ -103,11 +105,8 @@ class OrderUtils {
     var headers = {'Authorization': 'Bearer $userToken', 'Content-Type': 'application/json'};
 
     return await http
-        .post(
-      Uri.https(BASE_URL, USER_ORDERS_URL),
-      body: jsonEncode(order.toJson()),
-      headers: headers,
-    )
+        .post(Uri.https(BASE_URL, USER_ORDERS_URL),
+            body: jsonEncode(order.toJson()), headers: headers)
         .then((http.Response response) async {
       if (response.statusCode == 200) {
         orderCreation = 'Order Created Successfully!';
@@ -123,21 +122,17 @@ class OrderUtils {
     String userToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $userToken'};
 
-    List<PrevOrders> orders = [];
+    PreviousOrders previousOrders;
 
     final response = await http.get(Uri.https(BASE_URL, USER_ORDERS_URL), headers: headers);
 
-    var extract = json.decode(response.body);
-    var ordersJson = extract['prevOrders'];
     if (response.statusCode == 200) {
       ordersFetched = 'Orders Fetched Successfully!';
-      for (Map i in ordersJson) {
-        orders.add(PrevOrders.fromJson(i));
-      }
+      previousOrders = new PreviousOrders.fromJson(jsonDecode(response.body));
     } else {
       throw new Exception('Couldn\'t fetch orders');
     }
-    return orders;
+    return previousOrders.prevOrders;
   }
 
   Future<List<DeliveryBoy>> getDeliveryBoys() async {
@@ -145,21 +140,17 @@ class OrderUtils {
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken'};
 
-    List<DeliveryBoy> deliveryBoys = [];
+    DeliveryBoyList deliveryBoyList;
 
     final response = await http.get(Uri.https(BASE_URL, GET_DELIVERY_BOYS_URL), headers: headers);
 
-    var extract = json.decode(response.body);
-    var deliveryBoysJson = extract['deliveryBoyList'];
     if (response.statusCode == 200) {
       fetchDeliveryBoys = 'Delivery Boys Fetched Successfully!';
-      for (Map i in deliveryBoysJson) {
-        deliveryBoys.add(DeliveryBoy.fromJson(i));
-      }
+      deliveryBoyList = new DeliveryBoyList.fromJson(jsonDecode(response.body));
     } else {
       throw new Exception('Couldn\'t get delivery boys');
     }
-    return deliveryBoys;
+    return deliveryBoyList.deliveryBoys;
   }
 
   Future assignOrder(String orderId, String deliveryBoyName) async {
@@ -225,21 +216,17 @@ class OrderUtils {
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken'};
 
-    List<PendingOrders> pendingOrders = [];
+    PendingOrdersList pendingOrdersList;
 
     final response = await http.get(Uri.https(BASE_URL, ADMIN_ORDERS_URL), headers: headers);
 
-    var extract = json.decode(response.body);
-    var pendingOrdersJson = extract['pendingOrders'];
     if (response.statusCode == 200) {
       fetchPendingOrders = 'Orders Fetched Successfully!';
-      for (Map i in pendingOrdersJson) {
-        pendingOrders.add(PendingOrders.fromJson(i));
-      }
+      pendingOrdersList = new PendingOrdersList.fromJson(jsonDecode(response.body));
     } else {
       throw new Exception('Couldn\'t get pending orders');
     }
-    return pendingOrders;
+    return pendingOrdersList.pendingOrders;
   }
 
   Future<List<Feedbacks>> getAdminFeedbacks() async {
@@ -247,20 +234,36 @@ class OrderUtils {
     String adminToken = prefs.getString('token');
     var headers = {'Authorization': 'Bearer $adminToken'};
 
-    List<Feedbacks> feedbacks = [];
+    FeedbackList feedbackList;
 
     final response = await http.get(Uri.https(BASE_URL, ADMIN_FEEDBACKS_URL), headers: headers);
 
-    var extract = json.decode(response.body);
-    var feedbacksJson = extract['feedbacks'];
     if (response.statusCode == 200) {
       fetchFeedbacks = 'Feedbacks Fetched Successfully!';
-      for (Map i in feedbacksJson) {
-        feedbacks.add(Feedbacks.fromJson(i));
-      }
+      feedbackList = new FeedbackList.fromJson(jsonDecode(response.body));
     } else {
       throw new Exception('Couldn\'t get feedbacks');
     }
-    return feedbacks;
+    return feedbackList.feedbacks;
+  }
+
+  Future<List<PendingDeliveryStatus>> getDeliveryStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $adminToken'};
+
+    final response =
+        await http.get(Uri.https(BASE_URL, ADMIN_DELIVERY_STATUS_URL), headers: headers);
+
+    DeliveryStatusList deliveryStatusList;
+
+    if (response.statusCode == 200) {
+      fetchDeliveryStatus = 'Delivery Status Fetched Successfully!';
+      deliveryStatusList = DeliveryStatusList.fromJson(json.decode(response.body));
+    } else {
+      throw new Exception('Couldn\'t get delivery status');
+    }
+
+    return deliveryStatusList.deliveryStatus;
   }
 }

@@ -178,6 +178,9 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   );
           },
