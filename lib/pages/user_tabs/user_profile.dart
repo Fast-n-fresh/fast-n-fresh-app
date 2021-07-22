@@ -149,72 +149,69 @@ class _UserProfileState extends State<UserProfile> {
                           showDialog(
                             context: context,
                             barrierDismissible: true,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(
-                                  'Are you sure?',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                'Are you sure?',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              content: Text(
+                                'This account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context, 'Cancel');
+                                  },
+                                  child: Text(
+                                    'CANCEL',
                                   ),
                                 ),
-                                content: Text(
-                                  'This account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    color: Colors.grey[600],
+                                TextButton(
+                                  onPressed: () async {
+                                    await accountUtils.deleteUser().then((value) async {
+                                      if (value == 'Account Deleted Successfully!') {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences.getInstance();
+                                        prefs.setBool('isLoggedIn', false);
+                                        Navigator.of(context).pushReplacement(
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                                LoginRegister(),
+                                            transitionDuration: Duration(milliseconds: 500),
+                                            transitionsBuilder:
+                                                (context, animation, secondaryAnimation, child) {
+                                              animation = CurvedAnimation(
+                                                  parent: animation, curve: Curves.easeInOut);
+                                              return SlideTransition(
+                                                position: Tween(
+                                                        begin: Offset(0.0, 1.0),
+                                                        end: Offset(0.0, 0.0))
+                                                    .animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                          ),
+                                        );
+                                        Provider.of<UserPage>(context, listen: false)
+                                            .setCurrentPage(0);
+                                      } else {
+                                        _showToast('Error: $value');
+                                      }
+                                    });
+                                  },
+                                  child: Text(
+                                    'DELETE',
                                   ),
                                 ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context, 'Cancel');
-                                    },
-                                    child: Text(
-                                      'CANCEL',
-                                    ),
-                                  ),
-                                  TextButton(
-                                    onPressed: () async {
-                                      await accountUtils.deleteUser().then((value) async {
-                                        if (value == 'Account Deleted Successfully!') {
-                                          SharedPreferences prefs =
-                                              await SharedPreferences.getInstance();
-                                          prefs.setBool('isLoggedIn', false);
-                                          Navigator.of(context).pushReplacement(
-                                            PageRouteBuilder(
-                                              pageBuilder:
-                                                  (context, animation, secondaryAnimation) =>
-                                                      LoginRegister(),
-                                              transitionDuration: Duration(milliseconds: 500),
-                                              transitionsBuilder:
-                                                  (context, animation, secondaryAnimation, child) {
-                                                animation = CurvedAnimation(
-                                                    parent: animation, curve: Curves.easeInOut);
-                                                return SlideTransition(
-                                                  position: Tween(
-                                                          begin: Offset(0.0, 1.0),
-                                                          end: Offset(0.0, 0.0))
-                                                      .animate(animation),
-                                                  child: child,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                          Provider.of<UserPage>(context, listen: false)
-                                              .setCurrentPage(0);
-                                        } else {
-                                          _showToast('Error: $value');
-                                        }
-                                      });
-                                    },
-                                    child: Text(
-                                      'DELETE',
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
+                              ],
+                            ),
                           );
                         },
                       ),

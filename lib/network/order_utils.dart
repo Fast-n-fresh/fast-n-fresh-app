@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
+import 'package:natures_delicacies/models/assigned_orders_list.dart';
 import 'package:natures_delicacies/models/delivery_boys.dart';
 import 'package:natures_delicacies/models/delivery_status_list.dart';
 import 'package:natures_delicacies/models/feedback.dart';
@@ -21,6 +22,7 @@ class OrderUtils {
   String fetchPendingOrders;
   String fetchFeedbacks;
   String fetchDeliveryStatus;
+  String fetchAssignedOrders;
 
   Future<ProductCategory> createCategory(ProductCategory category) async {
     final prefs = await SharedPreferences.getInstance();
@@ -264,5 +266,48 @@ class OrderUtils {
       throw new Exception('Couldn\'t get delivery status');
     }
     return deliveryStatusList.deliveryStatus;
+  }
+
+  Future<List<Orders>> getAssignedOrders() async {
+    final prefs = await SharedPreferences.getInstance();
+    String deliveryBoyToken = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $deliveryBoyToken'};
+
+    AssignedOrdersList assignedOrdersList;
+
+    final response = await http.get(Uri.https(BASE_URL, ASSIGNED_ORDERS_URL), headers: headers);
+
+    if (response.statusCode == 200) {
+      fetchAssignedOrders = 'Assigned Orders Fetched Successfully!';
+      assignedOrdersList = new AssignedOrdersList.fromJson(jsonDecode(response.body));
+    } else {
+      throw new Exception('Couldn\'t get assigned orders');
+    }
+    return assignedOrdersList.orders;
+  }
+
+  Future updateDeliveryStatus(String orderId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String deliveryBoyToken = prefs.getString('token');
+    var headers = {'Authorization': 'Bearer $deliveryBoyToken', 'Content-Type': 'application/json'};
+    var body = jsonEncode({
+      "orderId": orderId,
+    });
+
+    String message;
+
+    final response = await http.patch(
+      Uri.https(BASE_URL, UPDATE_DELIVERY_STATUS_URL),
+      headers: headers,
+      body: body,
+    );
+
+    if (response.statusCode == 200) {
+      message = "Status Updated Successfully!";
+    } else {
+      message = jsonDecode(response.body)['e'];
+    }
+
+    return message;
   }
 }
