@@ -1,7 +1,7 @@
 # Fast n' Fresh - Mobile App
 
 <p align="center">
-  <img src="/lib/images/logo.png" align="center" width="150" hspace="10" vspace="10">
+  <img src="/lib/images/logo.png" align="center" width="200" hspace="10" vspace="10">
 </p>
 <p align="center">
   Fast n' fresh is a Mobile E-Commerce Grocery Delivery Application.<br/>
@@ -42,8 +42,6 @@ These are the prerequisites that you will need to run this app for your own.
 - Delivery Status - Pending, Placed, Delivered
 - Two step delivery status updates - By Admin and by Delivery Boy
 
-## Screenshots
-
 ## Built with
 
 - [Flutter](https://flutter.dev/) - The framework
@@ -58,10 +56,55 @@ These are the prerequisites that you will need to run this app for your own.
 - [Curved Navigation Bar](https://pub.dev/packages/curved_navigation_bar) - For the beautiful bottom navigation bar
 - [Shared Preferences](https://pub.dev/packages/shared_preferences) - For caching some data
 - [Google Fonts](https://pub.dev/packages/google_fonts) - For the fonts
+- [Email Validator](https://pub.dev/packages/email_validator) - For email validations
 
 ## Developers
 
 - [**Rohin Bhat**](https://github.com/RohinBhat)
 - [**Burhanuddin Merchant**](https://github.com/BurhanuddinMerchant)
+
+## Screenshots
+
+### User
+
+|Login|User Profile|
+|---|---|
+|<img src="/mockups/login.png" height="750"/>|<img src="/mockups/user-profile.png" height="750"/>|
+
+|Products 1|Products 2|
+|---|---|
+|<img src="/mockups/products-1.png" height="750"/>|<img src="/mockups/products-2.png" height="750"/>|
+
+|My Cart (Empty)|My Cart|
+|---|---|
+|<img src="/mockups/my-cart-empty.png" height="750"/>|<img src="/mockups/my-cart.png" height="750"/>|
+
+|My Orders (Empty)|My Orders|
+|---|---|
+|<img src="/mockups/my-orders-empty.png" height="750"/>|<img src="/mockups/my-orders.png" height="750"/>|
+
+### Admin
+
+|Create Entities|Assign Orders|
+|---|---|
+|<img src="/mockups/create-entities.png" height="750"/>|<img src="/mockups/assign-orders.png" height="750"/>|
+
+|Feedbacks|Delivery Status|
+|---|---|
+|<img src="/mockups/feedbacks.png" height="750"/>|<img src="/mockups/delivery-status.png" height="750"/>|
+
+|Admin Profile|
+|---|
+|<img src="/mockups/admin-profile.png" height="750"/>|
+
+### Delivery Boy
+
+|Assigned Orders|Delivery Status|
+|---|---|
+|<img src="/mockups/assigned-orders.png" height="750"/>|<img src="/mockups/update-delivery-status.png" height="750"/>|
+
+|Delivery Boy Profile|
+|---|
+|<img src="/mockups/delivery-boy-profile.png" height="750"/>|
 
 # <p align="center"> Made with :heart: in Flutter </p>
