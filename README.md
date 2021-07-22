@@ -107,4 +107,4 @@ These are the prerequisites that you will need to run this app for your own.
 |---|
 |<img src="/mockups/delivery-boy-profile.png" height="750"/>|
 
-# <p align="center"> Made with :heart: in Flutter </p>
+# <p align="center"> Happy Coding 😃: </p>
