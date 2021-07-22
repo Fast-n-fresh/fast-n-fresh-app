@@ -28,20 +28,14 @@ dependencies:
   shared_preferences: ^2.0.5
   http: ^0.13.1
   intl: ^0.17.0
-  toast: ^0.1.5
   email_validator: '^1.0.6'
   animations: ^2.0.0
   google_fonts: ^2.0.0
   curved_navigation_bar: ^0.3.7
-  flutter_statusbarcolor: ^0.2.3
   provider: ^5.0.0
   razorpay_flutter: ^1.2.7
   shimmer: ^2.0.0
   fluttertoast: ^8.0.7
-  cached_network_image: ^3.0.0
-  marquee: ^2.1.0
-  scrollable_text_view: ^0.0.2
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

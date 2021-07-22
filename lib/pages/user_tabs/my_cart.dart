@@ -95,6 +95,7 @@ class _MyCartState extends State<MyCart> {
     await orderUtils.placeOrder(order).then((value) async {
       if (orderUtils.orderCreation == 'Order Created Successfully!') {
         _showToast('Payment Successful, Order Created Successfully!');
+        Provider.of<Cart>(context, listen: false).removeAll();
         Provider.of<UserPage>(context, listen: false).setCurrentPage(1);
       } else {
         _showToast('Error placing order, ${orderUtils.orderCreation}');

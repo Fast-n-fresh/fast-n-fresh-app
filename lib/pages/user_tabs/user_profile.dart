@@ -110,21 +110,11 @@ class _UserProfileState extends State<UserProfile> {
                     children: [
                       ListTile(
                         title: Text(
-                          'Update Password',
+                          'Update Profile',
                           style: GoogleFonts.poppins(fontSize: 18),
                         ),
                         leading: Icon(
-                          Icons.lock,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Update Location',
-                          style: GoogleFonts.poppins(fontSize: 18),
-                        ),
-                        leading: Icon(
-                          Icons.location_on,
+                          Icons.person,
                           color: Colors.grey[800],
                         ),
                       ),

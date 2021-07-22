@@ -96,6 +96,9 @@ class _UserFeedbackState extends State<UserFeedback> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 20,
