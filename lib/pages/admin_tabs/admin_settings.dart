@@ -2,12 +2,9 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/admin_page.dart';
 import 'package:natures_delicacies/models/admin_profile.dart';
-import 'package:natures_delicacies/models/delivery_boy_page.dart';
 import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/network/order_utils.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_register.dart';
@@ -540,8 +537,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                                               SharedPreferences prefs =
                                                   await SharedPreferences.getInstance();
                                               prefs.setBool('isDeliveryBoyLoggedIn', false);
-                                              Provider.of<DeliveryBoyPage>(context, listen: false)
-                                                  .setCurrentPage(0);
                                               _showToast('Account Deleted!');
                                               Navigator.pop(context);
                                             } else {
@@ -627,8 +622,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                                                 },
                                               ),
                                             );
-                                            Provider.of<AdminPage>(context, listen: false)
-                                                .setCurrentPage(0);
                                           } else {
                                             _showToast('Error: $value');
                                           }

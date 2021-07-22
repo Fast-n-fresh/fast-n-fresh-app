@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/models/user_profile_model.dart';
 import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/pages/login_register.dart';
@@ -189,8 +188,6 @@ class _UserProfileState extends State<UserProfile> {
                                             },
                                           ),
                                         );
-                                        Provider.of<UserPage>(context, listen: false)
-                                            .setCurrentPage(0);
                                       } else {
                                         _showToast('Error: $value');
                                       }
@@ -222,7 +219,6 @@ class _UserProfileState extends State<UserProfile> {
                         onTap: () async {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setBool('isLoggedIn', false);
-                          _showToast('Account Deleted!');
                           Navigator.of(context).pushReplacement(
                             PageRouteBuilder(
                               pageBuilder: (context, animation, secondaryAnimation) =>
@@ -239,7 +235,6 @@ class _UserProfileState extends State<UserProfile> {
                               },
                             ),
                           );
-                          Provider.of<UserPage>(context, listen: false).setCurrentPage(0);
                         },
                       ),
                       SizedBox(

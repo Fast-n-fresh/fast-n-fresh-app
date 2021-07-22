@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:natures_delicacies/models/admin_login.dart';
+import 'package:natures_delicacies/models/admin_page.dart';
 import 'package:natures_delicacies/models/delivery_boy_login.dart';
+import 'package:natures_delicacies/models/delivery_boy_page.dart';
 import 'package:natures_delicacies/models/user_login.dart';
+import 'package:natures_delicacies/models/user_page.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/pages/admin_panel.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'delivery_boy_panel.dart';
@@ -870,7 +874,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-
+                                              Provider.of<UserPage>(context, listen: false)
+                                                  .setCurrentPage(0);
                                               Navigator.of(context).pushReplacement(
                                                 PageRouteBuilder(
                                                   pageBuilder:
@@ -929,7 +934,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-
+                                              Provider.of<AdminPage>(context, listen: false)
+                                                  .setCurrentPage(0);
                                               Navigator.of(context).pushReplacement(
                                                 PageRouteBuilder(
                                                   pageBuilder:
@@ -985,7 +991,8 @@ class _LoginRegisterState extends State<LoginRegister> {
                                               setState(() {
                                                 isLoginLoading = false;
                                               });
-
+                                              Provider.of<DeliveryBoyPage>(context, listen: false)
+                                                  .setCurrentPage(0);
                                               Navigator.of(context).pushReplacement(
                                                 PageRouteBuilder(
                                                   pageBuilder:

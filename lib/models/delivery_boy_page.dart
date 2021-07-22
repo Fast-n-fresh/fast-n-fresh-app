@@ -9,7 +9,7 @@ class DeliveryBoyPage extends ChangeNotifier {
   List<Widget> pages = [
     AssignedOrders(),
     DeliveryStatus(),
-    DeliveryboySettings(),
+    DeliveryBoySettings(),
   ];
 
   void setCurrentPage(int index) {

@@ -6,14 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_register.dart';
 
-class DeliveryboySettings extends StatefulWidget {
-  const DeliveryboySettings({Key key}) : super(key: key);
+class DeliveryBoySettings extends StatefulWidget {
+  const DeliveryBoySettings({Key key}) : super(key: key);
 
   @override
-  _DeliveryboySettingsState createState() => _DeliveryboySettingsState();
+  _DeliveryBoySettingsState createState() => _DeliveryBoySettingsState();
 }
 
-class _DeliveryboySettingsState extends State<DeliveryboySettings> {
+class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
   AccountUtils accountUtils = new AccountUtils();
   DeliveryBoy deliveryBoyProfile;
 
