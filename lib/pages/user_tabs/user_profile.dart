@@ -232,6 +232,7 @@ class _UserProfileState extends State<UserProfile> {
                         onTap: () async {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setBool('isLoggedIn', false);
+                          _showToast('Account Deleted!');
                           Navigator.of(context).pushReplacement(
                             PageRouteBuilder(
                               pageBuilder: (context, animation, secondaryAnimation) =>

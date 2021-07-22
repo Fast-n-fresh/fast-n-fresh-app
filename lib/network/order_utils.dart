@@ -310,4 +310,52 @@ class OrderUtils {
 
     return message;
   }
+
+  Future deleteProduct(String productId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+    };
+
+    final response = await http.delete(
+      Uri.https(BASE_URL, PRODUCT_DELETE_URL + productId),
+      headers: headers,
+    );
+
+    var extract = json.decode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Product Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future deleteCategory(String categoryId) async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+    };
+
+    final response = await http.delete(
+      Uri.https(BASE_URL, PRODUCT_DELETE_URL + categoryId),
+      headers: headers,
+    );
+
+    var extract = json.decode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Category Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
 }

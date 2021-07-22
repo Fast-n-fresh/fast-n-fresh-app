@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:natures_delicacies/consts/constants.dart';
 import 'package:natures_delicacies/models/admin_login.dart';
+import 'package:natures_delicacies/models/admin_profile.dart';
 import 'package:natures_delicacies/models/delivery_boy_login.dart';
+import 'package:natures_delicacies/models/delivery_boy_profile.dart';
 import 'package:natures_delicacies/models/delivery_boy_register.dart';
 import 'package:natures_delicacies/models/user_login.dart';
 import 'package:natures_delicacies/models/user_register.dart';
@@ -197,12 +199,49 @@ class AccountUtils {
         deliveryBoyEmail = extract['deliveryBoy']['email'].toString();
         deliveryBoyPhone = extract['deliveryBoy']['phoneNumber'].toString();
         extract['deliveryBoy']['pendingOrders'].forEach((order) => deliveryBoyPending.add(order));
-
-        final prefs = await SharedPreferences.getInstance();
       }
 
       return UserRegister.fromJson(json.decode(response.body));
     });
+  }
+
+  Future<DeliveryBoy> getDeliveryBoyProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    String deliveryBoyToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $deliveryBoyToken',
+    };
+
+    DeliveryBoyProfile deliveryBoyProfile;
+
+    final response =
+        await http.get(Uri.https(BASE_URL, DELIVERY_BOY_PROFILE_URL), headers: headers);
+
+    if (response.statusCode == 200) {
+      deliveryBoyProfile = DeliveryBoyProfile.fromJson(jsonDecode(response.body));
+    } else {
+      throw new Exception('Couldn\'t fetch profile');
+    }
+    return deliveryBoyProfile.deliveryBoy;
+  }
+
+  Future<Admin> getAdminProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+    };
+
+    AdminProfile adminProfile;
+
+    final response = await http.get(Uri.https(BASE_URL, ADMIN_PROFILE_URL), headers: headers);
+
+    if (response.statusCode == 200) {
+      adminProfile = AdminProfile.fromJson(jsonDecode(response.body));
+    } else {
+      throw new Exception('Couldn\'t fetch profile');
+    }
+    return adminProfile.admin;
   }
 
   Future deleteUser() async {
@@ -215,6 +254,59 @@ class AccountUtils {
     final response = await http.delete(
       Uri.https(BASE_URL, USER_DELETE_URL),
       headers: headers,
+    );
+
+    var extract = json.decode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future deleteAdmin() async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+    };
+
+    final response = await http.delete(
+      Uri.https(BASE_URL, ADMIN_DELETE_URL),
+      headers: headers,
+    );
+
+    var extract = json.decode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future deleteDeliveryBoy(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+      'Content-Type': 'application/json',
+    };
+    var body = jsonEncode({
+      "email": email,
+    });
+
+    final response = await http.delete(
+      Uri.https(BASE_URL, DELIVERY_BOY_DELETE_URL),
+      headers: headers,
+      body: body,
     );
 
     var extract = json.decode(response.body);
