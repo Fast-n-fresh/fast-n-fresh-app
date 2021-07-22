@@ -114,7 +114,7 @@ class _AdminSettingsState extends State<AdminSettings> {
                   ),
                 );
               case ConnectionState.done:
-                print('fetched orders');
+                print('fetched profile');
             }
             return Column(
               children: [
@@ -191,7 +191,118 @@ class _AdminSettingsState extends State<AdminSettings> {
                               Icons.shopping_cart,
                               color: Theme.of(context).colorScheme.error,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'Are you sure?',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    child: SingleChildScrollView(
+                                      physics: ScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'The selected product and all details related to it will be permanently deleted. \nAre you sure you want to delete this product?',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 16,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: screenWidth,
+                                            height: 60,
+                                            margin: EdgeInsets.symmetric(horizontal: 40),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Theme.of(context).colorScheme.onSurface,
+                                              ),
+                                              borderRadius: BorderRadius.circular(50),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Center(
+                                                child: TextField(
+                                                  textInputAction: TextInputAction.done,
+                                                  textCapitalization: TextCapitalization.none,
+                                                  style: GoogleFonts.montserrat(),
+                                                  controller: productController,
+                                                  decoration: InputDecoration(
+                                                    errorText: validateProduct
+                                                        ? 'Field can\'t be empty'
+                                                        : null,
+                                                    errorStyle: GoogleFonts.montserrat(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    hintText: 'Product ID',
+                                                    hintStyle: GoogleFonts.montserrat(
+                                                      color:
+                                                          Theme.of(context).colorScheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context, 'Cancel');
+                                      },
+                                      child: Text(
+                                        'CANCEL',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        String productId;
+
+                                        setState(() {
+                                          productId = productController.text;
+
+                                          productId.isEmpty
+                                              ? validateProduct = true
+                                              : validateProduct = false;
+                                        });
+
+                                        if (productId.isNotEmpty) {
+                                          await orderUtils
+                                              .deleteProduct(productId)
+                                              .then((value) async {
+                                            if (value == 'Product Deleted Successfully!') {
+                                              _showToast('Product Deleted!');
+                                              Navigator.pop(context);
+                                            } else {
+                                              _showToast('Error: $value');
+                                            }
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        'DELETE',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
                             title: Text(
@@ -205,7 +316,118 @@ class _AdminSettingsState extends State<AdminSettings> {
                               Icons.category,
                               color: Theme.of(context).colorScheme.error,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'Are you sure?',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    child: SingleChildScrollView(
+                                      physics: ScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'The selected category and all details related to it will be permanently deleted. \nAre you sure you want to delete this category?',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 16,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: screenWidth,
+                                            height: 60,
+                                            margin: EdgeInsets.symmetric(horizontal: 40),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Theme.of(context).colorScheme.onSurface,
+                                              ),
+                                              borderRadius: BorderRadius.circular(50),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Center(
+                                                child: TextField(
+                                                  textInputAction: TextInputAction.done,
+                                                  textCapitalization: TextCapitalization.none,
+                                                  style: GoogleFonts.montserrat(),
+                                                  controller: categoryController,
+                                                  decoration: InputDecoration(
+                                                    errorText: validateCategory
+                                                        ? 'Field can\'t be empty'
+                                                        : null,
+                                                    errorStyle: GoogleFonts.montserrat(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    hintText: 'Category ID',
+                                                    hintStyle: GoogleFonts.montserrat(
+                                                      color:
+                                                          Theme.of(context).colorScheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context, 'Cancel');
+                                      },
+                                      child: Text(
+                                        'CANCEL',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        String categoryId;
+
+                                        setState(() {
+                                          categoryId = categoryController.text;
+
+                                          categoryId.isEmpty
+                                              ? validateCategory = true
+                                              : validateCategory = false;
+                                        });
+
+                                        if (categoryId.isNotEmpty) {
+                                          await orderUtils
+                                              .deleteCategory(categoryId)
+                                              .then((value) async {
+                                            if (value == 'Category Deleted Successfully!') {
+                                              _showToast('Category Deleted!');
+                                              Navigator.pop(context);
+                                            } else {
+                                              _showToast('Error: $value');
+                                            }
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        'DELETE',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                           ListTile(
                             title: Text(
@@ -232,56 +454,61 @@ class _AdminSettingsState extends State<AdminSettings> {
                                     ),
                                   ),
                                   content: Container(
-                                    height: 200,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'The selected account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
-                                          style: GoogleFonts.montserrat(
-                                            fontSize: 16,
-                                            color: Colors.grey[600],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          width: screenWidth,
-                                          height: 60,
-                                          margin: EdgeInsets.symmetric(horizontal: 40),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border.all(
-                                              color: Theme.of(context).colorScheme.onSurface,
+                                    child: SingleChildScrollView(
+                                      physics: ScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'The selected account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
+                                            style: GoogleFonts.montserrat(
+                                              fontSize: 16,
+                                              color: Colors.grey[600],
                                             ),
-                                            borderRadius: BorderRadius.circular(50),
                                           ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 20),
-                                            child: Center(
-                                              child: TextField(
-                                                textInputAction: TextInputAction.done,
-                                                textCapitalization: TextCapitalization.words,
-                                                style: GoogleFonts.montserrat(),
-                                                controller: deliveryBoyController,
-                                                decoration: InputDecoration(
-                                                  errorText: validateDeliveryBoyEmail
-                                                      ? 'Field can\'t be empty'
-                                                      : null,
-                                                  errorStyle: GoogleFonts.montserrat(
-                                                    color: Theme.of(context).colorScheme.error,
-                                                  ),
-                                                  border: InputBorder.none,
-                                                  hintText: 'Email',
-                                                  hintStyle: GoogleFonts.montserrat(
-                                                    color: Theme.of(context).colorScheme.onSurface,
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: screenWidth,
+                                            height: 60,
+                                            margin: EdgeInsets.symmetric(horizontal: 40),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Theme.of(context).colorScheme.onSurface,
+                                              ),
+                                              borderRadius: BorderRadius.circular(50),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Center(
+                                                child: TextField(
+                                                  textInputAction: TextInputAction.done,
+                                                  textCapitalization: TextCapitalization.words,
+                                                  style: GoogleFonts.montserrat(),
+                                                  controller: deliveryBoyController,
+                                                  decoration: InputDecoration(
+                                                    errorText: validateDeliveryBoyEmail
+                                                        ? 'Field can\'t be empty'
+                                                        : null,
+                                                    errorStyle: GoogleFonts.montserrat(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    hintText: 'Email',
+                                                    hintStyle: GoogleFonts.montserrat(
+                                                      color:
+                                                          Theme.of(context).colorScheme.onSurface,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   actions: [

@@ -343,7 +343,7 @@ class OrderUtils {
     };
 
     final response = await http.delete(
-      Uri.https(BASE_URL, PRODUCT_DELETE_URL + categoryId),
+      Uri.https(BASE_URL, CATEGORY_DELETE_URL + categoryId),
       headers: headers,
     );
 

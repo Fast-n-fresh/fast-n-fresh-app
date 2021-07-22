@@ -56,7 +56,7 @@ class _DeliveryboySettingsState extends State<DeliveryboySettings> {
                   ),
                 );
               case ConnectionState.done:
-                print('fetched orders');
+                print('fetched profile');
             }
             return Column(
               children: [
