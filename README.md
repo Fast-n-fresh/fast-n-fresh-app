@@ -67,43 +67,43 @@ These are the prerequisites that you will need to run this app for your own.
 
 ### User
 
-|Login|User Profile|
+|**Login**|**User Profile**|
 |---|---|
 |<img src="/mockups/login.png" height="750"/>|<img src="/mockups/user-profile.png" height="750"/>|
 
-|Products 1|Products 2|
+|**Products 1**|**Products 2**|
 |---|---|
 |<img src="/mockups/products-1.png" height="750"/>|<img src="/mockups/products-2.png" height="750"/>|
 
-|My Cart (Empty)|My Cart|
+|**My Cart (Empty)**|**My Cart**|
 |---|---|
 |<img src="/mockups/my-cart-empty.png" height="750"/>|<img src="/mockups/my-cart.png" height="750"/>|
 
-|My Orders (Empty)|My Orders|
+|**My Orders (Empty)**|**My Orders**|
 |---|---|
 |<img src="/mockups/my-orders-empty.png" height="750"/>|<img src="/mockups/my-orders.png" height="750"/>|
 
 ### Admin
 
-|Create Entities|Assign Orders|
+|**Create Entities**|**Assign Orders**|
 |---|---|
 |<img src="/mockups/create-entities.png" height="750"/>|<img src="/mockups/assign-orders.png" height="750"/>|
 
-|Feedbacks|Delivery Status|
+|**Feedbacks**|**Delivery Status**|
 |---|---|
 |<img src="/mockups/feedbacks.png" height="750"/>|<img src="/mockups/delivery-status.png" height="750"/>|
 
-|Admin Profile|
+|**Admin Profile**|
 |---|
 |<img src="/mockups/admin-profile.png" height="750"/>|
 
 ### Delivery Boy
 
-|Assigned Orders|Delivery Status|
+|**Assigned Orders**|**Delivery Status**|
 |---|---|
 |<img src="/mockups/assigned-orders.png" height="750"/>|<img src="/mockups/update-delivery-status.png" height="750"/>|
 
-|Delivery Boy Profile|
+|**Delivery Boy Profile**|
 |---|
 |<img src="/mockups/delivery-boy-profile.png" height="750"/>|
 
