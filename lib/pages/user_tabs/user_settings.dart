@@ -2,54 +2,51 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:natures_delicacies/models/delivery_boy_page.dart';
-import 'package:natures_delicacies/models/delivery_boy_profile.dart';
+import 'package:natures_delicacies/models/user_page.dart';
+import 'package:natures_delicacies/models/user_profile.dart';
 import 'package:natures_delicacies/network/account_utils.dart';
+import 'package:natures_delicacies/pages/login_register.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../login_register.dart';
-
-class DeliveryBoySettings extends StatefulWidget {
-  const DeliveryBoySettings({Key key}) : super(key: key);
-
+class UserSettings extends StatefulWidget {
   @override
-  _DeliveryBoySettingsState createState() => _DeliveryBoySettingsState();
+  _UserSettingsState createState() => _UserSettingsState();
 }
 
-class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
+class _UserSettingsState extends State<UserSettings> {
   AccountUtils accountUtils = new AccountUtils();
-  DeliveryBoy deliveryBoyProfile;
-
-  final AsyncMemoizer _profileMemoizer = AsyncMemoizer();
 
   FToast fToast;
 
-  TextEditingController deliveryBoyNameController = new TextEditingController();
-  TextEditingController deliveryBoyEmailController = new TextEditingController();
-  TextEditingController deliveryBoyPhoneController = new TextEditingController();
+  User userProfile;
 
-  bool validateDeliveryBoyName = false;
-  bool validateDeliveryBoyEmail = false;
-  bool validateDeliveryBoyPhone = false;
+  final AsyncMemoizer _profileMemoizer = AsyncMemoizer();
 
-  Future getProfile() async {
-    return this._profileMemoizer.runOnce(() async {
-      await accountUtils.getDeliveryBoyProfile().then((value) {
-        deliveryBoyProfile = value;
+  TextEditingController userNameController = new TextEditingController();
+  TextEditingController userEmailController = new TextEditingController();
+  TextEditingController userUsernameController = new TextEditingController();
 
-        deliveryBoyNameController.text = deliveryBoyProfile.name;
-        deliveryBoyEmailController.text = deliveryBoyProfile.email;
-        deliveryBoyPhoneController.text = deliveryBoyProfile.phoneNumber;
-      });
-    });
-  }
+  bool validateUserName = false;
+  bool validateUserEmail = false;
+  bool validateUserUsername = false;
 
   @override
   void initState() {
     super.initState();
     fToast = FToast();
     fToast.init(context);
+  }
+
+  Future getProfile() async {
+    return this._profileMemoizer.runOnce(() async {
+      await accountUtils.getUserProfile().then((value) {
+        userProfile = value;
+        userNameController.text = userProfile.name;
+        userEmailController.text = userProfile.email;
+        userUsernameController.text = userProfile.username;
+      });
+    });
   }
 
   _showToast(String message) {
@@ -119,7 +116,7 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                         child: CircleAvatar(
                           radius: 80,
                           backgroundImage: NetworkImage(
-                            "https://ui-avatars.com/api/?size=200&name=${deliveryBoyProfile.name}&background=FF5252&format=png&color=FFFFFF",
+                            "https://ui-avatars.com/api/?size=200&name=${userProfile.name}&background=FF5252&format=png&color=FFFFFF",
                           ),
                           onBackgroundImageError: (exception, stackTrace) =>
                               AssetImage('./lib/images/avatar.png'),
@@ -130,14 +127,14 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                         height: 10,
                       ),
                       Text(
-                        '${deliveryBoyProfile.name}',
+                        userProfile.name,
                         style: GoogleFonts.poppins(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '${deliveryBoyProfile.email}',
+                        userProfile.username,
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: FontWeight.normal,
@@ -217,9 +214,9 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                                   textInputAction: TextInputAction.next,
                                                   textCapitalization: TextCapitalization.words,
                                                   style: GoogleFonts.montserrat(),
-                                                  controller: deliveryBoyNameController,
+                                                  controller: userNameController,
                                                   decoration: InputDecoration(
-                                                    errorText: validateDeliveryBoyName
+                                                    errorText: validateUserName
                                                         ? 'Field can\'t be empty'
                                                         : null,
                                                     errorStyle: GoogleFonts.montserrat(
@@ -256,9 +253,9 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                                   textInputAction: TextInputAction.next,
                                                   textCapitalization: TextCapitalization.none,
                                                   style: GoogleFonts.montserrat(),
-                                                  controller: deliveryBoyEmailController,
+                                                  controller: userEmailController,
                                                   decoration: InputDecoration(
-                                                    errorText: validateDeliveryBoyEmail
+                                                    errorText: validateUserEmail
                                                         ? 'Field can\'t be empty'
                                                         : null,
                                                     errorStyle: GoogleFonts.montserrat(
@@ -295,16 +292,16 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                                   textInputAction: TextInputAction.done,
                                                   textCapitalization: TextCapitalization.none,
                                                   style: GoogleFonts.montserrat(),
-                                                  controller: deliveryBoyPhoneController,
+                                                  controller: userUsernameController,
                                                   decoration: InputDecoration(
-                                                    errorText: validateDeliveryBoyPhone
+                                                    errorText: validateUserUsername
                                                         ? 'Field can\'t be empty'
                                                         : null,
                                                     errorStyle: GoogleFonts.montserrat(
                                                       color: Theme.of(context).colorScheme.error,
                                                     ),
                                                     border: InputBorder.none,
-                                                    hintText: 'Phone No.',
+                                                    hintText: 'Email',
                                                     hintStyle: GoogleFonts.montserrat(
                                                       color:
                                                           Theme.of(context).colorScheme.onSurface,
@@ -331,31 +328,31 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                       onPressed: () async {
                                         String email;
                                         String name;
-                                        String phone;
+                                        String username;
 
                                         setState(() {
-                                          name = deliveryBoyNameController.text;
-                                          email = deliveryBoyEmailController.text;
-                                          phone = deliveryBoyPhoneController.text;
+                                          name = userNameController.text;
+                                          email = userEmailController.text;
+                                          username = userUsernameController.text;
 
                                           name.isEmpty
-                                              ? validateDeliveryBoyName = true
-                                              : validateDeliveryBoyName = false;
+                                              ? validateUserName = true
+                                              : validateUserName = false;
 
                                           email.isEmpty
-                                              ? validateDeliveryBoyEmail = true
-                                              : validateDeliveryBoyEmail = false;
+                                              ? validateUserEmail = true
+                                              : validateUserEmail = false;
 
-                                          phone.isEmpty
-                                              ? validateDeliveryBoyPhone = true
-                                              : validateDeliveryBoyPhone = false;
+                                          username.isEmpty
+                                              ? validateUserUsername = true
+                                              : validateUserUsername = false;
                                         });
 
                                         if (email.isNotEmpty &&
                                             name.isNotEmpty &&
-                                            phone.isNotEmpty) {
+                                            username.isNotEmpty) {
                                           await accountUtils
-                                              .updateDeliveryBoy(name, email, phone)
+                                              .updateUser(name, email, username)
                                               .then((value) async {
                                             if (value == 'Account Updated Successfully!') {
                                               _showToast('Profile Updated!');
@@ -364,12 +361,98 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                               _showToast('Error: $value');
                                             }
                                           });
-                                          Provider.of<DeliveryBoyPage>(context, listen: false)
+                                          Provider.of<UserPage>(context, listen: false)
                                               .setCurrentPage(0);
                                         }
                                       },
                                       child: Text(
                                         'UPDATE',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          Divider(
+                            color: Colors.grey[800],
+                            indent: 20,
+                            endIndent: 20,
+                          ),
+                          ListTile(
+                            title: Text(
+                              'Delete Account',
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            ),
+                            leading: Icon(
+                              Icons.delete,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'Are you sure?',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'This account and all details related to it will be permanently deleted. \nAre you sure you want to delete this account?',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context, 'Cancel');
+                                      },
+                                      child: Text(
+                                        'CANCEL',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await accountUtils.deleteUser().then((value) async {
+                                          if (value == 'Account Deleted Successfully!') {
+                                            SharedPreferences prefs =
+                                                await SharedPreferences.getInstance();
+                                            prefs.setBool('isLoggedIn', false);
+                                            Navigator.of(context).pushReplacement(
+                                              PageRouteBuilder(
+                                                pageBuilder:
+                                                    (context, animation, secondaryAnimation) =>
+                                                        LoginRegister(),
+                                                transitionDuration: Duration(milliseconds: 500),
+                                                transitionsBuilder: (context, animation,
+                                                    secondaryAnimation, child) {
+                                                  animation = CurvedAnimation(
+                                                      parent: animation, curve: Curves.easeInOut);
+                                                  return SlideTransition(
+                                                    position: Tween(
+                                                            begin: Offset(0.0, 1.0),
+                                                            end: Offset(0.0, 0.0))
+                                                        .animate(animation),
+                                                    child: child,
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          } else {
+                                            _showToast('Error: $value');
+                                          }
+                                        });
+                                      },
+                                      child: Text(
+                                        'DELETE',
                                       ),
                                     ),
                                   ],
@@ -393,7 +476,7 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                             ),
                             onTap: () async {
                               SharedPreferences prefs = await SharedPreferences.getInstance();
-                              prefs.setBool('isDeliveryBoyLoggedIn', false);
+                              prefs.setBool('isLoggedIn', false);
                               Navigator.of(context).pushReplacement(
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation, secondaryAnimation) =>
@@ -413,6 +496,9 @@ class _DeliveryBoySettingsState extends State<DeliveryBoySettings> {
                                 ),
                               );
                             },
+                          ),
+                          SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),

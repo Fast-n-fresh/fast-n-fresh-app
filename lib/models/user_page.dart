@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:natures_delicacies/pages/user_tabs/home_page.dart';
 import 'package:natures_delicacies/pages/user_tabs/my_cart.dart';
 import 'package:natures_delicacies/pages/user_tabs/orders.dart';
-import 'package:natures_delicacies/pages/user_tabs/user_profile.dart';
+import 'package:natures_delicacies/pages/user_tabs/user_settings.dart';
 
 class UserPage extends ChangeNotifier {
   int currentIndex = 0;
@@ -11,7 +11,7 @@ class UserPage extends ChangeNotifier {
     HomePage(),
     Orders(),
     MyCart(),
-    UserProfile(),
+    UserSettings(),
   ];
 
   void setCurrentPage(int index) {

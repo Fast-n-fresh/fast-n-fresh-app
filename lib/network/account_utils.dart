@@ -8,6 +8,7 @@ import 'package:natures_delicacies/models/delivery_boy_login.dart';
 import 'package:natures_delicacies/models/delivery_boy_profile.dart';
 import 'package:natures_delicacies/models/delivery_boy_register.dart';
 import 'package:natures_delicacies/models/user_login.dart';
+import 'package:natures_delicacies/models/user_profile.dart';
 import 'package:natures_delicacies/models/user_register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,7 +49,7 @@ class AccountUtils {
         signUpError = 'no error';
       }
 
-      var extract = json.decode(response.body);
+      var extract = jsonDecode(response.body);
       if (response.statusCode == 401) {
         signUpError = extract['e']['message'].toString();
         if (signUpError == null || signUpError == 'null') {
@@ -70,7 +71,7 @@ class AccountUtils {
         prefs.setString('username', username);
       }
 
-      return UserRegister.fromJson(json.decode(response.body));
+      return UserRegister.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -88,7 +89,7 @@ class AccountUtils {
         print('signed in successfully');
         signInError = 'no error';
 
-        var extract = json.decode(response.body);
+        var extract = jsonDecode(response.body);
 
         name = extract['user']['name'].toString();
         email = extract['user']['email'].toString();
@@ -108,7 +109,7 @@ class AccountUtils {
         prefs.setString('token', userToken);
       }
 
-      return UserLogin.fromJson(json.decode(response.body));
+      return UserLogin.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -126,7 +127,7 @@ class AccountUtils {
         print('signed in successfully');
         signInError = 'no error';
 
-        var extract = json.decode(response.body);
+        var extract = jsonDecode(response.body);
         adminToken = extract['token'].toString();
 
         final prefs = await SharedPreferences.getInstance();
@@ -134,7 +135,7 @@ class AccountUtils {
         prefs.setString('token', adminToken);
       }
 
-      return AdminLogin.fromJson(json.decode(response.body));
+      return AdminLogin.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -152,7 +153,7 @@ class AccountUtils {
         print('signed in successfully');
         signInError = 'no error';
 
-        var extract = json.decode(response.body);
+        var extract = jsonDecode(response.body);
         deliveryBoyToken = extract['token'].toString();
 
         final prefs = await SharedPreferences.getInstance();
@@ -160,7 +161,7 @@ class AccountUtils {
         prefs.setString('token', deliveryBoyToken);
       }
 
-      return DeliveryBoyLogin.fromJson(json.decode(response.body));
+      return DeliveryBoyLogin.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -188,7 +189,7 @@ class AccountUtils {
         signUpError = 'no error';
       }
 
-      var extract = json.decode(response.body);
+      var extract = jsonDecode(response.body);
       if (response.statusCode == 401) {
         signUpError = extract['e']['message'].toString();
         if (signUpError == null || signUpError == 'null') {
@@ -201,7 +202,7 @@ class AccountUtils {
         extract['deliveryBoy']['pendingOrders'].forEach((order) => deliveryBoyPending.add(order));
       }
 
-      return UserRegister.fromJson(json.decode(response.body));
+      return UserRegister.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -244,6 +245,25 @@ class AccountUtils {
     return adminProfile.admin;
   }
 
+  Future<User> getUserProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    String userToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $userToken',
+    };
+
+    UserProfile userProfile;
+
+    final response = await http.get(Uri.https(BASE_URL, USER_PROFILE_URL), headers: headers);
+
+    if (response.statusCode == 200) {
+      userProfile = UserProfile.fromJson(jsonDecode(response.body));
+    } else {
+      throw new Exception('Couldn\'t fetch profile');
+    }
+    return userProfile.user;
+  }
+
   Future deleteUser() async {
     final prefs = await SharedPreferences.getInstance();
     String userToken = prefs.getString('token');
@@ -256,7 +276,7 @@ class AccountUtils {
       headers: headers,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
 
     String message;
     if (response.statusCode == 200) {
@@ -280,7 +300,7 @@ class AccountUtils {
       headers: headers,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
 
     String message;
     if (response.statusCode == 200) {
@@ -309,11 +329,103 @@ class AccountUtils {
       body: body,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
 
     String message;
     if (response.statusCode == 200) {
       message = 'Account Deleted Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future updateAdmin(String name, String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    String adminToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $adminToken',
+      'Content-Type': 'application/json',
+    };
+    var body = jsonEncode({
+      "name": name,
+      "email": email,
+    });
+
+    final response = await http.patch(
+      Uri.https(BASE_URL, ADMIN_UPDATE_PROFILE_URL),
+      headers: headers,
+      body: body,
+    );
+
+    var extract = jsonDecode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Updated Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future updateUser(String name, String email, String username) async {
+    final prefs = await SharedPreferences.getInstance();
+    String userToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $userToken',
+      'Content-Type': 'application/json',
+    };
+    var body = jsonEncode({
+      "name": name,
+      "email": email,
+      "username": username,
+    });
+
+    final response = await http.patch(
+      Uri.https(BASE_URL, USER_UPDATE_PROFILE_URL),
+      headers: headers,
+      body: body,
+    );
+
+    var extract = jsonDecode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Updated Successfully!';
+    } else {
+      message = extract['e'];
+    }
+
+    return message;
+  }
+
+  Future updateDeliveryBoy(String name, String email, String phone) async {
+    final prefs = await SharedPreferences.getInstance();
+    String deliveryBoyToken = prefs.getString('token');
+    var headers = {
+      'Authorization': 'Bearer $deliveryBoyToken',
+      'Content-Type': 'application/json',
+    };
+    var body = jsonEncode({
+      "name": name,
+      "email": email,
+      "phoneNumber": phone,
+    });
+
+    final response = await http.patch(
+      Uri.https(BASE_URL, DELIVERY_BOY_UPDATE_PROFILE_URL),
+      headers: headers,
+      body: body,
+    );
+
+    var extract = jsonDecode(response.body);
+
+    String message;
+    if (response.statusCode == 200) {
+      message = 'Account Updated Successfully!';
     } else {
       message = extract['e'];
     }

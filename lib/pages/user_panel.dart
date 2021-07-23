@@ -16,6 +16,7 @@ class _UserPanelState extends State<UserPanel> {
   String fname;
   String lname;
   String username;
+  String email;
 
   SharedPreferences prefs;
 
@@ -29,6 +30,8 @@ class _UserPanelState extends State<UserPanel> {
     Provider.of<UserProfileModel>(context, listen: false).setLastName(lname);
     username = prefs.getString('username');
     Provider.of<UserProfileModel>(context, listen: false).setUsername(username);
+    email = prefs.getString('email');
+    Provider.of<UserProfileModel>(context, listen: false).setEmail(email);
   }
 
   @override

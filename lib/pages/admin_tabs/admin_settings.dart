@@ -2,9 +2,11 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:natures_delicacies/models/admin_page.dart';
 import 'package:natures_delicacies/models/admin_profile.dart';
 import 'package:natures_delicacies/network/account_utils.dart';
 import 'package:natures_delicacies/network/order_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../login_register.dart';
@@ -21,6 +23,8 @@ class _AdminSettingsState extends State<AdminSettings> {
   OrderUtils orderUtils = new OrderUtils();
   FToast fToast;
 
+  bool toggleRebuild;
+
   final AsyncMemoizer _profileMemoizer = AsyncMemoizer();
 
   Admin adminProfile;
@@ -28,10 +32,14 @@ class _AdminSettingsState extends State<AdminSettings> {
   TextEditingController deliveryBoyController = new TextEditingController();
   TextEditingController productController = new TextEditingController();
   TextEditingController categoryController = new TextEditingController();
+  TextEditingController adminNameController = new TextEditingController();
+  TextEditingController adminEmailController = new TextEditingController();
 
   bool validateDeliveryBoyEmail = false;
   bool validateProduct = false;
   bool validateCategory = false;
+  bool validateAdminName = false;
+  bool validateAdminEmail = false;
 
   @override
   void dispose() {
@@ -72,6 +80,8 @@ class _AdminSettingsState extends State<AdminSettings> {
     return this._profileMemoizer.runOnce(() async {
       await accountUtils.getAdminProfile().then((value) {
         adminProfile = value;
+        adminNameController.text = adminProfile.name;
+        adminEmailController.text = adminProfile.email;
       });
     });
   }
@@ -170,6 +180,169 @@ class _AdminSettingsState extends State<AdminSettings> {
                               Icons.person,
                               color: Colors.grey[800],
                             ),
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'Update Profile',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    child: SingleChildScrollView(
+                                      physics: ScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Enter new details',
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 16,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: screenWidth,
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Theme.of(context).colorScheme.onSurface,
+                                              ),
+                                              borderRadius: BorderRadius.circular(50),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Center(
+                                                child: TextField(
+                                                  textInputAction: TextInputAction.next,
+                                                  textCapitalization: TextCapitalization.words,
+                                                  style: GoogleFonts.montserrat(),
+                                                  controller: adminNameController,
+                                                  decoration: InputDecoration(
+                                                    errorText: validateAdminName
+                                                        ? 'Field can\'t be empty'
+                                                        : null,
+                                                    errorStyle: GoogleFonts.montserrat(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    hintText: 'Name',
+                                                    hintStyle: GoogleFonts.montserrat(
+                                                      color:
+                                                          Theme.of(context).colorScheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: screenWidth,
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                color: Theme.of(context).colorScheme.onSurface,
+                                              ),
+                                              borderRadius: BorderRadius.circular(50),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 20),
+                                              child: Center(
+                                                child: TextField(
+                                                  textInputAction: TextInputAction.done,
+                                                  textCapitalization: TextCapitalization.none,
+                                                  style: GoogleFonts.montserrat(),
+                                                  controller: adminEmailController,
+                                                  decoration: InputDecoration(
+                                                    errorText: validateAdminEmail
+                                                        ? 'Field can\'t be empty'
+                                                        : null,
+                                                    errorStyle: GoogleFonts.montserrat(
+                                                      color: Theme.of(context).colorScheme.error,
+                                                    ),
+                                                    border: InputBorder.none,
+                                                    hintText: 'Email',
+                                                    hintStyle: GoogleFonts.montserrat(
+                                                      color:
+                                                          Theme.of(context).colorScheme.onSurface,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context, 'Cancel');
+                                      },
+                                      child: Text(
+                                        'CANCEL',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        String email;
+                                        String name;
+
+                                        setState(() {
+                                          name = adminNameController.text;
+                                          email = adminEmailController.text;
+
+                                          name.isEmpty
+                                              ? validateAdminName = true
+                                              : validateAdminName = false;
+
+                                          email.isEmpty
+                                              ? validateAdminEmail = true
+                                              : validateAdminEmail = false;
+                                        });
+
+                                        if (email.isNotEmpty && name.isNotEmpty) {
+                                          await accountUtils
+                                              .updateAdmin(name, email)
+                                              .then((value) async {
+                                            if (value == 'Account Updated Successfully!') {
+                                              _showToast('Profile Updated!');
+                                              Navigator.pop(context);
+                                            } else {
+                                              _showToast('Error: $value');
+                                            }
+                                          });
+                                          Provider.of<AdminPage>(context, listen: false)
+                                              .setCurrentPage(0);
+                                        }
+                                      },
+                                      child: Text(
+                                        'UPDATE',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                           Divider(
                             color: Colors.grey[800],
@@ -220,7 +393,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                                           Container(
                                             width: screenWidth,
                                             height: 60,
-                                            margin: EdgeInsets.symmetric(horizontal: 40),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               border: Border.all(
@@ -345,7 +517,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                                           Container(
                                             width: screenWidth,
                                             height: 60,
-                                            margin: EdgeInsets.symmetric(horizontal: 40),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               border: Border.all(
@@ -470,7 +641,6 @@ class _AdminSettingsState extends State<AdminSettings> {
                                           Container(
                                             width: screenWidth,
                                             height: 60,
-                                            margin: EdgeInsets.symmetric(horizontal: 40),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               border: Border.all(

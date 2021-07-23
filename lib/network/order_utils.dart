@@ -37,11 +37,11 @@ class OrderUtils {
     )
         .then((http.Response response) async {
       if (response.statusCode == 400) {
-        categoryCreation = json.decode(response.body)['error'];
+        categoryCreation = jsonDecode(response.body)['error'];
       } else {
         categoryCreation = 'Category Created Successfully!';
       }
-      return ProductCategory.fromJson(json.decode(response.body));
+      return ProductCategory.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -60,9 +60,9 @@ class OrderUtils {
       if (response.statusCode == 200) {
         productCreation = 'Product Created Successfully!';
       } else {
-        productCreation = json.decode(response.body)['error'];
+        productCreation = jsonDecode(response.body)['error'];
       }
-      return Product.fromJson(json.decode(response.body));
+      return Product.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -72,7 +72,7 @@ class OrderUtils {
       Uri.https(BASE_URL, USER_GET_CATEGORIES_URL),
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
     var categoriesJson = extract['categoryList'];
     if (response.statusCode == 200) {
       for (Map i in categoriesJson) {
@@ -89,7 +89,7 @@ class OrderUtils {
     final response = await http.get(
       Uri.https(BASE_URL, USER_GET_PRODUCTS_URL + category),
     );
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
     var productsJson = extract['products'];
     if (response.statusCode == 200) {
       for (Map i in productsJson) {
@@ -113,9 +113,9 @@ class OrderUtils {
       if (response.statusCode == 200) {
         orderCreation = 'Order Created Successfully!';
       } else {
-        orderCreation = json.decode(response.body)['error'];
+        orderCreation = jsonDecode(response.body)['error'];
       }
-      return Order.fromJson(json.decode(response.body));
+      return Order.fromJson(jsonDecode(response.body));
     });
   }
 
@@ -174,7 +174,7 @@ class OrderUtils {
       body: body,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
     if (response.statusCode == 200) {
       toastMessage = extract['message'];
     } else {
@@ -204,7 +204,7 @@ class OrderUtils {
       body: body,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
     if (response.statusCode == 200) {
       toastMessage = extract['message'];
     } else {
@@ -323,7 +323,7 @@ class OrderUtils {
       headers: headers,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
 
     String message;
     if (response.statusCode == 200) {
@@ -347,7 +347,7 @@ class OrderUtils {
       headers: headers,
     );
 
-    var extract = json.decode(response.body);
+    var extract = jsonDecode(response.body);
 
     String message;
     if (response.statusCode == 200) {

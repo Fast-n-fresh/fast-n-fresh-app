@@ -5,6 +5,7 @@ class UserProfileModel extends ChangeNotifier {
   String lname;
   String name;
   String username;
+  String email;
 
   void setFirstName(String fname) {
     this.fname = fname;
@@ -23,6 +24,11 @@ class UserProfileModel extends ChangeNotifier {
 
   void setUsername(String username) {
     this.username = username;
+    notifyListeners();
+  }
+
+  void setEmail(String email) {
+    this.email = email;
     notifyListeners();
   }
 }
