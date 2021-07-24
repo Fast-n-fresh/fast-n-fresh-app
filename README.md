@@ -1,7 +1,7 @@
 # Fast n' Fresh - Mobile App
 
 <p align="center">
-  <img src="/lib/images/logo.png" align="center" width="200" hspace="10" vspace="10">
+  <img src="/lib/images/logo.png" align="center" width="400" hspace="10" vspace="10">
 </p>
 <p align="center">
   Fast n' fresh is a Mobile E-Commerce Grocery Delivery Application.<br/>
