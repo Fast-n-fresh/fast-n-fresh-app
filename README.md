@@ -60,8 +60,8 @@ These are the prerequisites that you will need to run this app for your own.
 
 ## Developers
 
-- [**Rohin Bhat**](https://github.com/RohinBhat)
-- [**Burhanuddin Merchant**](https://github.com/BurhanuddinMerchant)
+- **Rohin Bhat** - 🟢 [Github](https://github.com/RohinBhat) 🟡 [LinkedIn](https://www.linkedin.com/in/rohin-bhat-a2a9a5192/)
+- **Burhanuddin Merchant** - 🟢 [Github](https://github.com/BurhanuddinMerchant) 🟡 [LinkedIn](https://www.linkedin.com/in/burhanuddin-merchant-89b14a198/)
 
 ## Screenshots
 
