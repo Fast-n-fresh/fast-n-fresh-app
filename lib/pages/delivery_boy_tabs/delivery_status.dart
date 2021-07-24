@@ -218,7 +218,13 @@ class _DeliveryStatusState extends State<DeliveryStatus> {
                                           Text(
                                             DateFormat('EEE, MMMM dd, yyyy, hh:mm a').format(
                                               DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                                                  .parse(assignedOrders[index].timeStamp),
+                                                  .parse(assignedOrders[index].timeStamp)
+                                                  .add(
+                                                    Duration(
+                                                      hours: 5,
+                                                      minutes: 30,
+                                                    ),
+                                                  ),
                                             ),
                                             style: GoogleFonts.montserrat(
                                               fontSize: 20,

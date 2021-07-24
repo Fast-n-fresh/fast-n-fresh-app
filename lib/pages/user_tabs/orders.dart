@@ -152,7 +152,13 @@ class _OrdersState extends State<Orders> {
                                           Text(
                                             DateFormat('EEE, MMMM dd, yyyy, hh:mm a').format(
                                               DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                                                  .parse(previousOrders[index].timeStamp),
+                                                  .parse(previousOrders[index].timeStamp)
+                                                  .add(
+                                                    Duration(
+                                                      hours: 5,
+                                                      minutes: 30,
+                                                    ),
+                                                  ),
                                             ),
                                             style: GoogleFonts.montserrat(
                                               fontSize: 20,

@@ -120,7 +120,13 @@ class _AdminFeedbacksState extends State<AdminFeedbacks> {
                                         Text(
                                           DateFormat('EEE, MMMM dd, yyyy, hh:mm a').format(
                                             DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                                                .parse(feedbacks[index].timeStamp),
+                                                .parse(feedbacks[index].timeStamp)
+                                                .add(
+                                                  Duration(
+                                                    hours: 5,
+                                                    minutes: 30,
+                                                  ),
+                                                ),
                                           ),
                                           style: GoogleFonts.montserrat(
                                             fontSize: 20,

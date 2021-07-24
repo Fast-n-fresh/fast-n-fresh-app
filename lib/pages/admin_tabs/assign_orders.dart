@@ -144,7 +144,13 @@ class _AssignOrdersState extends State<AssignOrders> {
                                         Text(
                                           DateFormat('EEE, MMMM dd, yyyy, hh:mm a').format(
                                             DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                                                .parse(pendingOrders[index].timeStamp),
+                                                .parse(pendingOrders[index].timeStamp)
+                                                .add(
+                                                  Duration(
+                                                    hours: 5,
+                                                    minutes: 30,
+                                                  ),
+                                                ),
                                           ),
                                           style: GoogleFonts.montserrat(
                                             fontSize: 20,

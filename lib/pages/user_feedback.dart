@@ -99,180 +99,177 @@ class _UserFeedbackState extends State<UserFeedback> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Expanded(
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Feedbacks',
-                          style: GoogleFonts.poppins(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Feedbacks',
+                        style: GoogleFonts.poppins(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        'Rating: ${_rating.toStringAsFixed(1)}',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Slider(
+                        min: 0,
+                        max: 5,
+                        label: _rating.toString(),
+                        value: _rating,
+                        onChanged: (double value) {
+                          setState(() {
+                            _rating = value;
+                          });
+                        },
+                      ),
+                      Container(
+                        width: screenWidth,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          'Rating: ${_rating.toStringAsFixed(1)}',
+                        child: TextField(
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
+                          textAlign: TextAlign.start,
+                          controller: _nameController,
                           style: GoogleFonts.montserrat(
                             fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[800],
+                          ),
+                          decoration: InputDecoration(
+                            errorText: validName ? null : 'Field can\'t be empty',
+                            errorStyle: GoogleFonts.montserrat(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            hintText: 'Delivery Boy Name',
+                            border: InputBorder.none,
                           ),
                         ),
-                        SizedBox(
-                          height: 30,
+                      ),
+                      Container(
+                        width: screenWidth,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 10,
                         ),
-                        Slider(
-                          min: 0,
-                          max: 5,
-                          label: _rating.toString(),
-                          value: _rating,
-                          onChanged: (double value) {
-                            setState(() {
-                              _rating = value;
-                            });
-                          },
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 5,
                         ),
-                        Container(
-                          width: screenWidth,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: TextField(
+                          textInputAction: TextInputAction.newline,
+                          keyboardType: TextInputType.multiline,
+                          textAlign: TextAlign.start,
+                          controller: _messageController,
+                          maxLines: null,
+                          textCapitalization: TextCapitalization.sentences,
+                          style: GoogleFonts.montserrat(
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[800],
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.onSurface,
+                          decoration: InputDecoration(
+                            errorText: validMessage ? null : 'Field can\'t be empty',
+                            errorStyle: GoogleFonts.montserrat(
+                              color: Theme.of(context).colorScheme.error,
                             ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: TextField(
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.name,
-                            textAlign: TextAlign.start,
-                            controller: _nameController,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[800],
-                            ),
-                            decoration: InputDecoration(
-                              errorText: validName ? null : 'Field can\'t be empty',
-                              errorStyle: GoogleFonts.montserrat(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                              hintText: 'Delivery Boy Name',
-                              border: InputBorder.none,
-                            ),
+                            hintText: 'Message',
+                            border: InputBorder.none,
                           ),
                         ),
-                        Container(
-                          width: screenWidth,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 10,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: TextField(
-                            textInputAction: TextInputAction.newline,
-                            keyboardType: TextInputType.multiline,
-                            textAlign: TextAlign.start,
-                            controller: _messageController,
-                            maxLines: null,
-                            textCapitalization: TextCapitalization.sentences,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[800],
-                            ),
-                            decoration: InputDecoration(
-                              errorText: validMessage ? null : 'Field can\'t be empty',
-                              errorStyle: GoogleFonts.montserrat(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
-                              hintText: 'Message',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: screenWidth,
-                          height: 60,
-                          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                          child: _isLoading
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: Theme.of(context).colorScheme.secondary,
-                                  ),
-                                )
-                              : TextButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      _isLoading = true;
-                                    });
+                      ),
+                      Container(
+                        width: screenWidth,
+                        height: 60,
+                        margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                        child: _isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              )
+                            : TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
 
-                                    if (_messageController.text.isEmpty ||
-                                        _nameController.text.isEmpty) {
+                                  if (_messageController.text.isEmpty ||
+                                      _nameController.text.isEmpty) {
+                                    setState(() {
+                                      _isLoading = false;
+
+                                      validMessage = _messageController.text.isEmpty ? false : true;
+                                      validName = _nameController.text.isEmpty ? false : true;
+                                    });
+                                  } else {
+                                    await orderUtils
+                                        .sendFeedback(
+                                      _messageController.text,
+                                      double.parse(_rating.toStringAsFixed(1)),
+                                      _nameController.text,
+                                    )
+                                        .then((value) {
                                       setState(() {
                                         _isLoading = false;
-
-                                        validMessage =
-                                            _messageController.text.isEmpty ? false : true;
-                                        validName = _nameController.text.isEmpty ? false : true;
                                       });
-                                    } else {
-                                      await orderUtils
-                                          .sendFeedback(
-                                        _messageController.text,
-                                        double.parse(_rating.toStringAsFixed(1)),
-                                        _nameController.text,
-                                      )
-                                          .then((value) {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
-                                        _showToast(value);
-                                        Navigator.pop(context);
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    'Submit',
-                                    style: GoogleFonts.raleway(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      letterSpacing: 1.25,
-                                    ),
-                                  ),
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: Theme.of(context).buttonColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
+                                      _showToast(value);
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  'Submit',
+                                  style: GoogleFonts.raleway(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    letterSpacing: 1.25,
                                   ),
                                 ),
-                        )
-                      ],
-                    ),
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Theme.of(context).buttonColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ],
                   ),
                 ),
               ),
