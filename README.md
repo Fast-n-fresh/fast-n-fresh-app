@@ -52,7 +52,7 @@ These are the prerequisites that you will need to run this app for your own.
 - [Provider](https://pub.dev/packages/provider) - For State Management
 - [Razorpay](https://pub.dev/packages/razorpay_flutter) - For Payments
 - [Shimmer](https://pub.dev/packages/shimmer) - For placeholders
-- [Flutter Toast](https://pub.dev/packages/fluttertoast) - For creating toasts
+- [Flutter Toast](https://pub.dev/packages/fluttertoast) - For creating toast messages
 - [Curved Navigation Bar](https://pub.dev/packages/curved_navigation_bar) - For the beautiful bottom navigation bar
 - [Shared Preferences](https://pub.dev/packages/shared_preferences) - For caching some data
 - [Google Fonts](https://pub.dev/packages/google_fonts) - For the fonts
