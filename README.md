@@ -4,8 +4,8 @@
   <img src="/lib/images/logo.png" align="center" width="400" hspace="10" vspace="10">
 </p>
 <p align="center">
-  Fast n' fresh is a Mobile E-Commerce Grocery Delivery Application.<br/>
-  It has separate logins for the User, the Admin and the Delivery Boy.<br/>
+  Fast n' fresh is an E-Commerce Grocery Delivery Mobile Application.<br/>
+  It has separate login for the User, the Admin and the Delivery Boy.<br/>
   Unlike many other similar apps Fast n' fresh is free and open source.<br/>
   The backend is created in NodeJS and is temporarily hosted on Heroku.
 </p>
